@@ -1,5 +1,8 @@
+import 'package:app_tours/utils/ColorsTheme.dart';
+import 'package:app_tours/widgets/itemCard.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/brandico_icons.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:fluttericon/fontelico_icons.dart';
 import 'package:fluttericon/maki_icons.dart';
@@ -16,21 +19,19 @@ class _VirtualTourPageState extends State<VirtualTourPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: Center(
-        child: Padding(
-          padding: EdgeInsets.all(8),
-          child: Column(
-            children: [
-              Text(
-                'Tours Virtuales',
-                style: TextStyle(
-                  fontSize: 24,
-                ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Tours Virtuales',
+              style: TextStyle(
+                fontSize: 24,
               ),
-              Expanded(child: gridTours())
-            ],
-          ),
+            ),
+            gridTours()
+          ],
         ),
       ),
     );
@@ -38,7 +39,11 @@ class _VirtualTourPageState extends State<VirtualTourPage> {
 
   Widget gridTours() {
     return GridView.count(
-        crossAxisCount: 3,
+        shrinkWrap: true,
+        crossAxisCount: 2,
+        crossAxisSpacing: 20,
+        mainAxisSpacing: 20,
+        padding: EdgeInsets.all(20),
         children: List.generate(toursLista.length, (index) {
           return Center(
             child: SelectCard(
@@ -50,16 +55,30 @@ class _VirtualTourPageState extends State<VirtualTourPage> {
 }
 
 class TourDisponiblesApp {
-  const TourDisponiblesApp({required this.title, required this.icon});
+  const TourDisponiblesApp(
+      {required this.title, required this.icon, required this.routeName});
   final String title;
   final IconData icon;
+  final String routeName;
 }
 
 List<TourDisponiblesApp> toursLista = const <TourDisponiblesApp>[
-  TourDisponiblesApp(title: 'Casa', icon: ModernPictograms.home),
-  TourDisponiblesApp(title: 'Restaurante', icon: Maki.restaurant),
-  TourDisponiblesApp(title: 'Comercial', icon: FontAwesome.building),
-  TourDisponiblesApp(title: 'Otro', icon: FontAwesome.plus)
+  TourDisponiblesApp(
+      title: 'Casa',
+      icon: ModernPictograms.home,
+      routeName: '/toursDisponibles/casa'),
+  TourDisponiblesApp(
+      title: 'Restaurante',
+      icon: FontAwesome5.utensils,
+      routeName: '/toursDisponibles/restaurante'),
+  TourDisponiblesApp(
+      title: 'Comercial',
+      icon: FontAwesome5.hotel,
+      routeName: '/toursDisponibles/comercial'),
+  TourDisponiblesApp(
+      title: 'Otro',
+      icon: FontAwesome5.boxes,
+      routeName: '/toursDisponibles/otro')
 ];
 
 class SelectCard extends StatelessWidget {
@@ -70,19 +89,8 @@ class SelectCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //final TextStyle textStyle = Theme.of(context).textTheme.display1;
-    final TextStyle textStyle = TextStyle();
-
-    return Card(
-        color: Colors.orange,
-        child: Center(
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                    child: Icon(tourDisponibleApp.icon,
-                        size: 50.0, color: textStyle.color)),
-                Text(tourDisponibleApp.title, style: textStyle),
-              ]),
-        ));
+    final TextStyle textStyle = TextStyle(fontSize: 20);
+    return itemCard(context, tourDisponibleApp.icon, tourDisponibleApp.title,
+        60, tourDisponibleApp.routeName);
   }
 }

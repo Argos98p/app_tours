@@ -1,3 +1,6 @@
+import 'package:app_tours/pages/Profile.dart';
+import 'package:app_tours/pages/MyTours.dart';
+import 'package:app_tours/pages/VirtualToursPage.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -13,14 +16,35 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> _pages = [
+      homeWidget(),
+      ToursPage(),
+      VirtualTourPage(),
+      ProfilePage()
+    ];
+
     return Scaffold(
       appBar: appBarSpace(),
-      body: homeWidget(),
-      bottomNavigationBar: bottomBar(),
+      body: _pages[selectedpage],
+      bottomNavigationBar: ConvexAppBar(
+        backgroundColor: Color.fromARGB(255, 66, 66, 66),
+        items: [
+          TabItem(icon: Icons.home, title: ''),
+          TabItem(icon: Icons.apps, title: ''),
+          TabItem(icon: Icons.add, title: ''),
+          TabItem(icon: Icons.person, title: ''),
+        ],
+        initialActiveIndex: selectedpage,
+        onTap: (int index) {
+          setState(() {
+            selectedpage = index;
+          });
+        },
+      ),
     );
   }
 
-  Widget bottomBar() {
+  Widget bottomBar(int selectedpage) {
     return ConvexAppBar(
       backgroundColor: Color.fromARGB(255, 66, 66, 66),
       items: [
@@ -53,7 +77,7 @@ class _HomeState extends State<Home> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: new Image.asset(
-                    'images/home.gif',
+                    'assets/images/home.gif',
                     fit: BoxFit.cover,
                   ),
                 ),
