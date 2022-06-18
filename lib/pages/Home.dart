@@ -24,6 +24,7 @@ class _HomeState extends State<Home> {
     ];
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: appBarSpace(),
       body: _pages[selectedpage],
       bottomNavigationBar: ConvexAppBar(

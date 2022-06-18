@@ -1,5 +1,6 @@
 import 'package:app_tours/pages/Home.dart';
 import 'package:app_tours/pages/ScenesInTour.dart';
+import 'package:app_tours/pages/TourInformationPage.dart';
 import 'package:app_tours/pages/VirtualToursPage.dart';
 import 'package:app_tours/utils/AppTheme.dart';
 import 'package:flutter/material.dart';
@@ -31,12 +32,15 @@ class MyApp extends StatelessWidget {
           case '/toursDisponibles':
             builder = (BuildContext context) => VirtualTourPage();
             break;
+          case '/toursDisponibles/informationTour':
+            builder=(BuildContext context) => TourInformationPage();
+            break;
           case '/toursDisponibles/casa':
             builder = (BuildContext context) => ScenesInTour(
                   typeTour: 'casa',
                 );
             break;
-          case '/toursDisponibles/resturant':
+          case '/toursDisponibles/restaurant':
             builder = (BuildContext context) => ScenesInTour(
                   typeTour: 'restaurant',
                 );

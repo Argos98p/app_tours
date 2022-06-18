@@ -1,3 +1,4 @@
+import 'package:app_tours/models/TourAvaliable.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:app_tours/widgets/itemCard.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class _VirtualTourPageState extends State<VirtualTourPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -44,53 +46,28 @@ class _VirtualTourPageState extends State<VirtualTourPage> {
         crossAxisSpacing: 20,
         mainAxisSpacing: 20,
         padding: EdgeInsets.all(20),
-        children: List.generate(toursLista.length, (index) {
+        children: List.generate(toursAvaliables.length, (index) {
           return Center(
             child: SelectCard(
-              tourDisponibleApp: toursLista[index],
+
+              tourDisponibleApp: toursAvaliables.values.toList()[index],
             ),
           );
         }));
   }
 }
 
-class TourDisponiblesApp {
-  const TourDisponiblesApp(
-      {required this.title, required this.icon, required this.routeName});
-  final String title;
-  final IconData icon;
-  final String routeName;
-}
-
-List<TourDisponiblesApp> toursLista = const <TourDisponiblesApp>[
-  TourDisponiblesApp(
-      title: 'Casa',
-      icon: ModernPictograms.home,
-      routeName: '/toursDisponibles/casa'),
-  TourDisponiblesApp(
-      title: 'Restaurante',
-      icon: FontAwesome5.utensils,
-      routeName: '/toursDisponibles/restaurante'),
-  TourDisponiblesApp(
-      title: 'Comercial',
-      icon: FontAwesome5.hotel,
-      routeName: '/toursDisponibles/comercial'),
-  TourDisponiblesApp(
-      title: 'Otro',
-      icon: FontAwesome5.boxes,
-      routeName: '/toursDisponibles/otro')
-];
 
 class SelectCard extends StatelessWidget {
   const SelectCard({Key? key, required this.tourDisponibleApp})
       : super(key: key);
-  final TourDisponiblesApp tourDisponibleApp;
+  final TourAvaliable tourDisponibleApp;
 
   @override
   Widget build(BuildContext context) {
+
     //final TextStyle textStyle = Theme.of(context).textTheme.display1;
     final TextStyle textStyle = TextStyle(fontSize: 20);
-    return itemCard(context, tourDisponibleApp.icon, tourDisponibleApp.title,
-        60, tourDisponibleApp.routeName);
+    return itemCard(context, tourDisponibleApp, '/toursDisponibles/informationTour');
   }
 }

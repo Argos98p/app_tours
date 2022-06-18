@@ -1,4 +1,5 @@
-import 'package:app_tours/models/scenesTourModel.dart';
+import 'package:app_tours/models/ScenesTourModel.dart';
+import 'package:app_tours/models/TourAvaliable.dart';
 import 'package:app_tours/widgets/itemCard.dart';
 import 'package:app_tours/widgets/itemCardScene.dart';
 import 'package:flutter/material.dart';
@@ -19,17 +20,17 @@ class _ScenesInTourState extends State<ScenesInTour> {
   Widget build(BuildContext context) {
     switch (widget.typeTour) {
       case 'casa':
-        scenes = houseScenes;
+        scenes = toursAvaliables['casa']!.scenes;
         break;
       case 'restaurante':
-        scenes = restaurantScenes;
+        scenes = toursAvaliables['restaurante']!.scenes;
         break;
       case 'comercial':
-        scenes = commercerScenes;
+        scenes = toursAvaliables['comercial']!.scenes;
         break;
 
       case 'otro':
-        scenes = otherScenes;
+        scenes = toursAvaliables['otro']!.scenes;
         break;
     }
 
