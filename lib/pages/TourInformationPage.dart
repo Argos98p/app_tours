@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 
 class TourInformationPage extends StatefulWidget {
   const TourInformationPage({Key? key}) : super(key: key);
@@ -104,3 +104,4 @@ class _FormTourInfoState extends State<_FormTourInfo> {
     );
   }
 }
+*/

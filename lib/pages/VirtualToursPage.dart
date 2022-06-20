@@ -51,6 +51,7 @@ class _VirtualTourPageState extends State<VirtualTourPage> {
             child: SelectCard(
 
               tourDisponibleApp: toursAvaliables.values.toList()[index],
+              type_slug: toursAvaliables.keys.toList()[index],
             ),
           );
         }));
@@ -59,15 +60,16 @@ class _VirtualTourPageState extends State<VirtualTourPage> {
 
 
 class SelectCard extends StatelessWidget {
-  const SelectCard({Key? key, required this.tourDisponibleApp})
+  const SelectCard({Key? key, required this.tourDisponibleApp,required this.type_slug})
       : super(key: key);
   final TourAvaliable tourDisponibleApp;
+  final String type_slug;
 
   @override
   Widget build(BuildContext context) {
 
     //final TextStyle textStyle = Theme.of(context).textTheme.display1;
     final TextStyle textStyle = TextStyle(fontSize: 20);
-    return itemCard(context, tourDisponibleApp, '/toursDisponibles/informationTour');
+    return itemCard(context, tourDisponibleApp, '/toursDisponibles/informationTour',type_slug);
   }
 }

@@ -14,6 +14,7 @@ Widget makeInput({required InputsTour inputTour, fieldController}) {
     children: [
       TextFormField(
         onSaved: (value){
+
           formData[inputTour.slug]=value!;
 
           },
@@ -36,7 +37,7 @@ Widget makeInput({required InputsTour inputTour, fieldController}) {
   );
 }
 
-Widget itemCard(BuildContext context, TourAvaliable tour, String route) {
+Widget itemCard(BuildContext context, TourAvaliable tour, String route, String type_slug) {
   //formData={};
   return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -45,6 +46,7 @@ Widget itemCard(BuildContext context, TourAvaliable tour, String route) {
         onTap: () {
           //print('tap');
           //Navigator.of(context).pushNamed(route);
+          formData={};
           showDialog(
             barrierDismissible: false,
               context: context,
@@ -111,7 +113,9 @@ Widget itemCard(BuildContext context, TourAvaliable tour, String route) {
                                                 _formKey.currentState?.save(
 
                                                 );
-                                                print(formData.toString());
+
+
+                                                Navigator.pushNamed(context, '/toursDisponibles/${type_slug}',arguments:formData);
                                                 }
                                               },
                                               child: Text("Continuar"))

@@ -27,18 +27,18 @@ TourAvaliable tourCasa = TourAvaliable(
     icon: ModernPictograms.home,
     title: 'Casa',
     scenes: <ScenesInTourModel>[
-      const ScenesInTourModel(icon: Icons.door_sliding_outlined, title: 'Fachada'),
-      const ScenesInTourModel(icon: Icons.door_back_door, title: 'Entrada'),
-      const ScenesInTourModel(icon: Icons.crop_portrait_outlined, title: 'Pasillo'),
-      const ScenesInTourModel(icon: FontAwesome.cc_paypal, title: 'Sala'),
-      const ScenesInTourModel(icon: Icons.table_bar_rounded, title: 'Comedor'),
-      const ScenesInTourModel(icon: Icons.kitchen, title: 'Cocina'),
-      const ScenesInTourModel(icon: Icons.bathtub_rounded, title: 'Baño'),
-      const ScenesInTourModel(icon: Icons.stairs, title: 'Escaleras'),
-      const ScenesInTourModel(icon: Icons.bed_outlined, title: 'Dormitorio'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Jardin'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Balcon'),
-      const ScenesInTourModel(icon: Icons.dashboard, title: 'Otros'),
+      const ScenesInTourModel(icon: Icons.door_sliding_outlined, title: 'Fachada',slug: 'fachada'),
+      const ScenesInTourModel(icon: Icons.door_back_door, title: 'Entrada',slug: 'entrada'),
+      const ScenesInTourModel(icon: Icons.crop_portrait_outlined, title: 'Pasillo',slug: 'pasillo'),
+      const ScenesInTourModel(icon: FontAwesome.cc_paypal, title: 'Sala',slug: 'sala'),
+      const ScenesInTourModel(icon: Icons.table_bar_rounded, title: 'Comedor',slug: 'comedor'),
+      const ScenesInTourModel(icon: Icons.kitchen, title: 'Cocina',slug: 'cocina'),
+      const ScenesInTourModel(icon: Icons.bathtub_rounded, title: 'Baño',slug: 'banio'),
+      const ScenesInTourModel(icon: Icons.stairs, title: 'Escaleras',slug: 'escaleras'),
+      const ScenesInTourModel(icon: Icons.bed_outlined, title: 'Dormitorio',slug: 'dormitorio'),
+      const ScenesInTourModel(icon: Icons.add, title: 'Jardin',slug: 'jardin'),
+      const ScenesInTourModel(icon: Icons.add, title: 'Balcon',slug: 'balcon'),
+      const ScenesInTourModel(icon: Icons.dashboard, title: 'Otros',slug: 'otros'),
     ],
     inputs: <String,InputsTour>{
       'titulo':InputsTour(icon: Icons.threesixty_outlined, label: 'Titulo',slug: 'titulo'),
@@ -52,8 +52,8 @@ TourAvaliable tourRestaurante = TourAvaliable(
     icon: FontAwesome5.utensils,
     title: 'Restaurante',
     scenes: [
-      const ScenesInTourModel(icon: Icons.add, title: 'Restaurant'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Restaurant')
+      const ScenesInTourModel(icon: Icons.add, title: 'Restaurant',slug: '-'),
+      const ScenesInTourModel(icon: Icons.add, title: 'Restaurant',slug: '-')
     ],
     inputs: {
       'titulo':InputsTour(icon: Icons.threesixty_outlined, label: 'Titulo',slug: 'titulo'),
@@ -64,8 +64,8 @@ TourAvaliable tourComercio = TourAvaliable(
     icon: FontAwesome5.building,
     title: 'Comercio',
     scenes: [
-      const ScenesInTourModel(icon: Icons.add, title: 'Commerce'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Commerce')
+      const ScenesInTourModel(icon: Icons.add, title: 'Commerce', slug: '-'),
+      const ScenesInTourModel(icon: Icons.add, title: 'Commerce', slug: '-')
     ],
     inputs: {
       'titulo':InputsTour(icon: Icons.threesixty_outlined, label: 'Titulo',slug: 'titulo'),
@@ -76,8 +76,8 @@ TourAvaliable tourOtro = TourAvaliable(
     icon: Icons.dashboard,
     title: 'Otro',
     scenes: [
-      const ScenesInTourModel(icon: Icons.add, title: 'Otro'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Otro')
+      const ScenesInTourModel(icon: Icons.add, title: 'Otro',slug: 'otro'),
+      const ScenesInTourModel(icon: Icons.add, title: 'Otro',slug: 'otro')
     ],
     inputs: {
      'titulo':InputsTour(icon: Icons.threesixty_outlined, label: 'Titulo',slug: 'titulo'),

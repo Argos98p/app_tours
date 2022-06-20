@@ -37,6 +37,10 @@ dependencies:
   convex_bottom_bar: ^3.0.0
   fluttericon: ^2.0.0
   slugify: ^2.0.0
+  image_picker: ^0.8.5+3
+  fluttertoast: ^8.0.9
+  provider: ^6.0.3
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:

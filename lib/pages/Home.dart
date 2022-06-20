@@ -5,7 +5,8 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  int index;
+  Home({Key? key,required this.index}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -14,6 +15,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int selectedpage = 0;
 
+  @override
+  void initState(){
+    super.initState();
+    selectedpage=widget.index;
+  }
   @override
   Widget build(BuildContext context) {
     List<Widget> _pages = [
