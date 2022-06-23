@@ -1,5 +1,5 @@
-import 'package:app_tours/models/InputsTour.dart';
-import 'package:app_tours/models/TourAvaliable.dart';
+import 'package:app_tours/initalConfigurations/InputsTour.dart';
+import 'package:app_tours/initalConfigurations/TourAvaliable.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:flutter/material.dart';
 
@@ -114,7 +114,7 @@ Widget itemCard(BuildContext context, TourAvaliable tour, String route, String t
 
                                                 );
 
-
+                                                print('slug:'+type_slug);
                                                 Navigator.pushNamed(context, '/toursDisponibles/${type_slug}',arguments:formData);
                                                 }
                                               },

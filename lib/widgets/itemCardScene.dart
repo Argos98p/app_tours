@@ -1,4 +1,4 @@
-import 'package:app_tours/models/ScenesTourModel.dart';
+import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +16,7 @@ class ItemCardScene extends StatefulWidget {
 }
 
 class _ItemCardScenesState extends State<ItemCardScene> {
+  int numScenes=0;
 
   @override
   Widget build(BuildContext context){
@@ -31,23 +32,53 @@ class _ItemCardScenesState extends State<ItemCardScene> {
             //List<XFile>? imageFileList = await Navigator.pushNamed(context, '/toursDisponibles/agregarEscena',arguments:widget.scene) as List<XFile>;
             //print(imageFileList);
           },
-          child: Center(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  /*Expanded(*/
-                  Icon(widget.scene.icon, size: 38, color: colorsApp['iconColor']),
-                  /*),*/
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                      child:
-                          Text(widget.scene.title, style: TextStyle(fontSize: 16))),
-                ]),
+          child: Stack(
+            children:[
+              Positioned(
+                right: 0,
+                top: 0,
+                child:numScenesButton(numScenes),
+
+              ),
+              Center(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    /*Expanded(*/
+                    Icon(widget.scene.icon, size: 38, color: colorsApp['iconColor']),
+                    /*),*/
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        child:
+                            Text(widget.scene.title, style: TextStyle(fontSize: 16))),
+                  ]),
+            ),]
           ),
         ));
   }
 
+  Widget numScenesButton(int n){
+    if(n>0){
+      return  Container(
+          width: 20,
+          height: 20,
+          decoration: new BoxDecoration(
+            color: Colors.green,
+            shape: BoxShape.circle,
+          ),
+          child: Center(child: Text(numScenes.toString())));
+    }else{
+      return Container(
+          width: 20,
+          height: 20,
+          decoration: new BoxDecoration(
+            color: colorsApp['secondaryColor'],
+            shape: BoxShape.circle,
+          ),
+          child: Center(child: Text(numScenes.toString())));
+    }
+  }
   Future _navigateAddImageAndReturn(BuildContext context, ScenesInTourModel scene) async {
     //TourProvider watch = context.watch<TourProvider>();
 
@@ -55,6 +86,11 @@ class _ItemCardScenesState extends State<ItemCardScene> {
 
     if(imageFileList != null){
       imageFileList as List<XFile>;
+      numScenes=imageFileList.length;
+      setState(() {
+
+      });
+      //print(numScenes);
     }
       //context.read<TourProvider>().setListScenes(slug_scene: scene.slug, images: imageFileList);
 

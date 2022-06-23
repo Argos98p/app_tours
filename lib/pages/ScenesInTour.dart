@@ -1,7 +1,8 @@
-import 'package:app_tours/models/ScenesTourModel.dart';
+import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
 import 'package:app_tours/models/Tour.dart';
-import 'package:app_tours/models/TourAvaliable.dart';
+import 'package:app_tours/initalConfigurations/TourAvaliable.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
+import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:app_tours/utils/SharedPreferences.dart';
 import 'package:app_tours/widgets/itemCard.dart';
 import 'package:app_tours/widgets/itemCardScene.dart';
@@ -34,10 +35,17 @@ class _ScenesInTourState extends State<ScenesInTour> {
 
 
   List<ScenesInTourModel> scenes = [];
+// Initial Selected Value
+  String dropdownvalue = 'Piso 1';
 
-
-
-
+  // List of items in our dropdown menu
+  var items = [
+    'Piso 1',
+    'Piso 2',
+    'Piso 3',
+    'Piso 4',
+    'Piso 5',
+  ];
   @override
   Widget build(BuildContext context) {
     TourProvider watch = context.watch<TourProvider>();
@@ -51,11 +59,11 @@ class _ScenesInTourState extends State<ScenesInTour> {
       case 'casa':
         scenes = toursAvaliables['casa']!.scenes;
         break;
-      case 'restaurante':
-        scenes = toursAvaliables['restaurante']!.scenes;
+      case 'restaurant':
+        scenes = toursAvaliables['restaurant']!.scenes;
         break;
-      case 'comercial':
-        scenes = toursAvaliables['comercial']!.scenes;
+      case 'comercio':
+        scenes = toursAvaliables['comercio']!.scenes;
         break;
 
       case 'otro':
@@ -71,12 +79,53 @@ class _ScenesInTourState extends State<ScenesInTour> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
-              child: Text(
-                'Tours Virtuales',
-                style: TextStyle(
-                  fontSize: 24,
-                ),
+              padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+
+                  Text(
+                    'Tours Virtuales',
+                    style: TextStyle(
+                      fontSize: 24,
+                    ),
+                  ),
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                        color:colorsApp['primaryColor'], //background color of dropdown button
+                        //border: Border.all(color: Colors.black38, width:3), //border of dropdown button
+                        borderRadius: BorderRadius.circular(30), //border raiuds of dropdown button
+
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(left:15, right:10),
+                      child: DropdownButton(
+                        underline: Container(),
+
+                        // Initial Value
+                        value: dropdownvalue,
+
+                        // Down Arrow Icon
+                        icon: const Icon(Icons.keyboard_arrow_down),
+
+                        // Array list of items
+                        items: items.map((String items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Text(items),
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownvalue = newValue!;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             Expanded(child: gridScenes(scenes)),
@@ -108,7 +157,9 @@ class _ScenesInTourState extends State<ScenesInTour> {
                       //sharedPref.remove('nuevo_tour');
                       sharedPref.save("nuevo_tour", context.read<TourProvider>().newTour.toMap());
                       Fluttertoast.showToast(msg: 'Tour creado');
+                      context.read<TourProvider>().cancelTour();
                       Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+
                     },
                     child: Text("Crear"))
               ],

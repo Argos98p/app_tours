@@ -1,4 +1,4 @@
-import 'package:app_tours/models/TourAvaliable.dart';
+import 'package:app_tours/initalConfigurations/TourAvaliable.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:app_tours/widgets/itemCard.dart';
 import 'package:flutter/material.dart';

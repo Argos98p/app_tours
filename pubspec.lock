@@ -90,6 +90,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_cube:
+    dependency: transitive
+    description:
+      name: flutter_cube
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -155,7 +162,7 @@ packages:
       name: image_picker_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.5+1"
+    version: "0.8.4+13"
   image_picker_for_web:
     dependency: transitive
     description:
@@ -212,6 +219,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
+  motion_sensors:
+    dependency: transitive
+    description:
+      name: motion_sensors
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   nested:
     dependency: transitive
     description:
@@ -219,6 +233,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  panorama:
+    dependency: "direct main"
+    description:
+      name: panorama
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.1"
   path:
     dependency: transitive
     description:

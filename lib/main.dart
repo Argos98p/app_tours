@@ -1,4 +1,4 @@
-import 'package:app_tours/models/ScenesTourModel.dart';
+import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
 import 'package:app_tours/pages/AddImagePage.dart';
 import 'package:app_tours/pages/Home.dart';
 import 'package:app_tours/pages/ScenesInTour.dart';

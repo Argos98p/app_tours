@@ -30,8 +30,8 @@ class _ToursPageState extends State<ToursPage> {
       body: Center(
         child: Column(
           children: [
-            Expanded(
-                child: FutureBuilder(
+            
+                FutureBuilder(
               future: getTours(),
               builder: (BuildContext context,AsyncSnapshot<List<dynamic>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -39,25 +39,38 @@ class _ToursPageState extends State<ToursPage> {
                 } else if (snapshot.connectionState == ConnectionState.done) {
                   print(snapshot.data);
                   List aux = snapshot.data!;
-                  return ListView.builder( itemCount:aux.length ,itemBuilder: (BuildContext context, int index){
-                    return Card(
-                      child: ListTile(
-                        onTap: (){},
-                          leading: Icon(Icons.threesixty),
-                          trailing:
-                          ElevatedButton.icon(style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.redAccent)),onPressed: (){
-                            sharedPref.remove('nuevo_tour', index);
-                            setState(() {
+                  return Expanded(
+                    child: ListView.builder( itemCount:aux.length ,itemBuilder: (BuildContext context, int index){
+                      return Card(
+                        child: ListTile(
+                          onTap: (){},
+                            leading: Icon(Icons.threesixty),
+                            trailing:
+                            MaterialButton(
+                              onPressed: () {
+                                sharedPref.remove('nuevo_tour', index);
+                                setState(() {
 
-                            });
-                          }, icon: Icon(Icons.remove), label: Text(''),),
+                                });
+                              },
+                              color: Colors.redAccent,
+                              textColor: Colors.white,
+                              child: Icon(
+                                Icons.delete,
+                                size: 20,
+                              ),
+                              padding: EdgeInsets.all(1),
+                              shape: CircleBorder(),
+                            ),
 
-                          subtitle:Text(aux[index]['type'],
-                            style: TextStyle(color: Colors.green, fontSize: 15),
-                          ),
-                          title: Text(aux[index]['title'])),
-                    );
-                  });
+
+                            subtitle:Text(aux[index]['type'],
+                              style: TextStyle(color: Colors.green, fontSize: 15),
+                            ),
+                            title: Text(aux[index]['title'])),
+                      );
+                    }),
+                  );
                 } else {
                   return Text('State: ${snapshot.connectionState}');
                 }
@@ -78,7 +91,7 @@ class _ToursPageState extends State<ToursPage> {
                           ),
                           title: Text("List item $index"));
                     })*/
-                )
+                
           ],
         ),
       ),
@@ -87,7 +100,9 @@ class _ToursPageState extends State<ToursPage> {
 
   Future<List<dynamic>> getTours() async {
     var tour = await sharedPref.read("nuevo_tour");
-
+    if(tour == null){
+      return [];
+    }
     return tour;
   }
 }
