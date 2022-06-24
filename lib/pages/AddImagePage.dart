@@ -1,17 +1,15 @@
 import 'dart:io';
-
-import 'package:app_tours/models/Scene.dart';
 import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
 import 'package:app_tours/pages/viewer360Page.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:panorama/panorama.dart';
 import 'package:provider/provider.dart';
 
 class AddImagePage extends StatefulWidget {
-  ScenesInTourModel scene;
-  AddImagePage({Key? key, required this.scene}) : super(key: key);
+  ScenesInTourModel sceneInTour;
+  List<XFile> imageList;
+  AddImagePage({Key? key, required this.sceneInTour, required this.imageList}) : super(key: key);
 
   @override
   State<AddImagePage> createState() => _AddImagePageState();
@@ -23,7 +21,9 @@ class _AddImagePageState extends State<AddImagePage> {
 
   @override
   Widget build(BuildContext context) {
+    imageFileList=widget.imageList;
     try {
+      /*
       var aux = context
           .read<TourProvider>()
           .newTour
@@ -31,15 +31,15 @@ class _AddImagePageState extends State<AddImagePage> {
           .imageList;
 
       imageFileList = aux;
-      setState(() {});
+      setState(() {});*/
     } catch (e) {
       //List<XFile> listaImagenes=[];
-      Scene scene = Scene(imageList: imageFileList!);
+      /*Scene scene = Scene(imageList: imageFileList!);
       var aux = context
           .read<TourProvider>()
           .newTour
           .scenes![widget.scene.slug] = scene;
-      setState(() {});
+      setState(() {});*/
     }
 
     TourProvider watch = context.watch<TourProvider>();
@@ -53,7 +53,7 @@ class _AddImagePageState extends State<AddImagePage> {
                 height: 10,
               ),
               Text(
-                'Agregar fotos de ' + widget.scene.title,
+                'Agregar fotos de ' + widget.sceneInTour.title,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(
@@ -164,7 +164,6 @@ class _AddImagePageState extends State<AddImagePage> {
     if (selectedImages != null) {
       imageFileList!.addAll(selectedImages);
     }
-
     setState(() {});
   }
 }

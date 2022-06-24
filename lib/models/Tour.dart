@@ -1,15 +1,27 @@
-import 'dart:convert';
+import 'package:app_tours/models/Floor.dart';
 
-import 'package:app_tours/models/Scene.dart';
 
 class Tour {
   String? title;
   String? type;
   Map <String,String>? infoTour;
-  Map<String,Scene>? scenes;
+  //Map<String,Scene>? scenes;
+  //Map<String, Floor> floors;
+ Map<String,Floor>? floors;
 
-  Tour({this.title, this.infoTour, this.scenes, required this.type});
+  Tour({this.title, this.infoTour, required this.type, Map<String,Floor>? floors}) : floors=floors ??
+      {
+        'default':Floor(slug: 'default',scenes: {},name: 'default'),
+        'pb':Floor(slug: 'pb',scenes: {},name: 'pb')
+      };
+/*
+  List<String> floorsNames (){
+    List<String> nombres=[];
+    floors!.forEach((element) {nombres.add(element.name!); });
+    return nombres;
+  }*/
 
+/*
   Map<String,dynamic> toMap(){
     final Map<String,dynamic> data=  Map<String, dynamic>();
     data['title']=infoTour!['titulo'];
@@ -39,7 +51,7 @@ class Tour {
     return data;
   }
 
-
+*/
 
 }
 

@@ -1,14 +1,14 @@
-import 'package:app_tours/models/Scene.dart';
+
 import 'package:app_tours/models/Tour.dart';
 import 'package:flutter/foundation.dart';
-import 'package:image_picker/image_picker.dart';
+
 
 class TourProvider with ChangeNotifier{
-  Tour _newTour = Tour(infoTour: {},scenes: {},title: '' ,type: '');
+  Tour _newTour = Tour(infoTour: {},title: '' ,type: '');
   Tour get newTour => _newTour;
 
   Future<void> cancelTour() async{
-    _newTour = Tour(title: '',infoTour: {},scenes:{},type: '');
+    _newTour = Tour(infoTour: {},title: '' ,type: '');
   }
 
 
@@ -23,8 +23,15 @@ class TourProvider with ChangeNotifier{
   Future<void> setType({required String typeTour} ) async{
     _newTour.type=typeTour;
   }
+  /*
+  Future<void> addFloor({required Floor newfloor})async{
+    _newTour.floors!.add(newfloor);
+  }*/
+
+
+/*
   Future<void> setListScenes({required String slug_scene,required List<XFile> images}) async{
     Scene escena = Scene(imageList:images);
     _newTour.scenes![slug_scene]=escena;
-  }
+  }*/
 }

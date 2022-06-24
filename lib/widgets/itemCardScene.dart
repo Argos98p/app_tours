@@ -1,4 +1,6 @@
 import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
+import 'package:app_tours/models/Floor.dart';
+import 'package:app_tours/models/Scene.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:flutter/material.dart';
@@ -6,9 +8,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class ItemCardScene extends StatefulWidget {
-  ScenesInTourModel scene;
+  ScenesInTourModel sceneInTour;
+  Floor floor;
 
-  ItemCardScene({Key? key, required this.scene})
+
+  ItemCardScene({Key? key, required this.sceneInTour, required this.floor
+  })
       : super(key: key);
 
   @override
@@ -16,10 +21,31 @@ class ItemCardScene extends StatefulWidget {
 }
 
 class _ItemCardScenesState extends State<ItemCardScene> {
-  int numScenes=0;
+
+
+
+
+  @override
+  void initState() {
+
+  //print(scene.slug);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context){
+    Scene scene = Scene(imageList: [],
+        name: widget.sceneInTour.title,
+        slug: widget.sceneInTour.slug);
+
+    if(context.read<TourProvider>().newTour.floors![widget.floor.slug]!.scenes![widget.sceneInTour.slug]==null){
+      print('Las esceneas todavia no estan creadas');
+      context.read<TourProvider>().newTour.floors![widget.floor.slug]!.scenes![widget.sceneInTour.slug]=scene;
+
+    }else{
+      scene=context.read<TourProvider>().newTour.floors![widget.floor.slug]!.scenes![widget.sceneInTour.slug]!;
+      print('las escenas estan creadas');
+    }
 
     return Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -27,31 +53,36 @@ class _ItemCardScenesState extends State<ItemCardScene> {
         child: InkWell(
           onTap: () {
 
-            _navigateAddImageAndReturn(context,widget.scene);
-
+            _navigateAddImageAndReturn(context,widget.sceneInTour,scene,widget.floor);
+            //Navigator.pushNamed(context, '/toursDisponibles/agregarEscena',arguments:[widget.sceneInTour,widget.floor]) ;
             //List<XFile>? imageFileList = await Navigator.pushNamed(context, '/toursDisponibles/agregarEscena',arguments:widget.scene) as List<XFile>;
             //print(imageFileList);
+            setState(() {
+
+            });
           },
           child: Stack(
             children:[
               Positioned(
                 right: 0,
                 top: 0,
-                child:numScenesButton(numScenes),
+                child:numScenesButton(scene.imageList.length),
 
               ),
               Center(
               child: Column(
+
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     /*Expanded(*/
-                    Icon(widget.scene.icon, size: 38, color: colorsApp['iconColor']),
+                    Text(widget.floor.name!),
+                    Icon(widget.sceneInTour.icon, size: 38, color: colorsApp['iconColor']),
                     /*),*/
                     Padding(
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child:
-                            Text(widget.scene.title, style: TextStyle(fontSize: 16))),
+                            Text(widget.sceneInTour.title, style: TextStyle(fontSize: 16))),
                   ]),
             ),]
           ),
@@ -59,7 +90,11 @@ class _ItemCardScenesState extends State<ItemCardScene> {
   }
 
   Widget numScenesButton(int n){
+    print('numero de escenas en '+widget.floor.slug! +'en la escena '+widget.sceneInTour.slug+' es :'+n.toString());
     if(n>0){
+      setState(() {
+
+      });
       return  Container(
           width: 20,
           height: 20,
@@ -67,8 +102,11 @@ class _ItemCardScenesState extends State<ItemCardScene> {
             color: Colors.green,
             shape: BoxShape.circle,
           ),
-          child: Center(child: Text(numScenes.toString())));
+          child: Center(child: Text(n.toString())));
     }else{
+      setState(() {
+
+      });
       return Container(
           width: 20,
           height: 20,
@@ -76,24 +114,27 @@ class _ItemCardScenesState extends State<ItemCardScene> {
             color: colorsApp['secondaryColor'],
             shape: BoxShape.circle,
           ),
-          child: Center(child: Text(numScenes.toString())));
+          child: Center(child: Text(n.toString())));
+
     }
   }
-  Future _navigateAddImageAndReturn(BuildContext context, ScenesInTourModel scene) async {
+  Future _navigateAddImageAndReturn(BuildContext context, ScenesInTourModel sceneInTour, Scene scene, Floor floor) async {
     //TourProvider watch = context.watch<TourProvider>();
 
-    var imageFileList = await Navigator.pushNamed(context, '/toursDisponibles/agregarEscena',arguments:widget.scene) ;
+    var imageFileList = await Navigator.pushNamed(context, '/toursDisponibles/agregarEscena',arguments:{"sceneTour":widget.sceneInTour, 'imageList':scene.imageList}) ;
 
     if(imageFileList != null){
-      imageFileList as List<XFile>;
-      numScenes=imageFileList.length;
-      setState(() {
 
+      imageFileList as List<XFile>;
+
+      //numScenes=imageFileList.length;
+      scene.imageList=imageFileList;
+      context.read<TourProvider>().newTour.floors![floor.slug]!.scenes![sceneInTour.slug]=scene;
+      setState(() {
+        print(imageFileList.length.toString());
       });
       //print(numScenes);
     }
-      //context.read<TourProvider>().setListScenes(slug_scene: scene.slug, images: imageFileList);
-
 
   }
 }

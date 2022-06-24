@@ -1,11 +1,12 @@
 import 'package:image_picker/image_picker.dart';
 
 class Scene {
-  //String name;
+  String name;
+  String slug;
   //List<String> imagesPath;
   List<XFile> imageList;
 
-  Scene({ required this.imageList});
+  Scene({ required this.imageList, required this.name, required this.slug});
 
   List<String> getPath (){
     List<String> paths=[];

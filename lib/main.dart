@@ -5,6 +5,7 @@ import 'package:app_tours/pages/ScenesInTour.dart';
 import 'package:app_tours/pages/VirtualToursPage.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -67,7 +68,8 @@ class MyApp extends StatelessWidget {
                     );
                 break;
               case '/toursDisponibles/agregarEscena':
-                builder = (BuildContext context) => AddImagePage(scene: settings.arguments as ScenesInTourModel);
+                Map<String,dynamic> aux= settings.arguments as Map<String,dynamic>;
+                builder = (BuildContext context) => AddImagePage(sceneInTour: aux['sceneTour'] as ScenesInTourModel, imageList: aux['imageList'] as List<XFile>);
                 break;
               default:
                 builder = (BuildContext context) => ScenesInTour(
