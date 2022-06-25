@@ -1,5 +1,8 @@
+
 import 'dart:io';
+
 import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
+import 'package:app_tours/models/Scene.dart';
 import 'package:app_tours/pages/viewer360Page.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +10,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class AddImagePage extends StatefulWidget {
-  ScenesInTourModel sceneInTour;
+  String sceneName;
   List<XFile> imageList;
-  AddImagePage({Key? key, required this.sceneInTour, required this.imageList}) : super(key: key);
+  AddImagePage({Key? key, required this.sceneName, required this.imageList}) : super(key: key);
 
   @override
   State<AddImagePage> createState() => _AddImagePageState();
@@ -22,26 +25,6 @@ class _AddImagePageState extends State<AddImagePage> {
   @override
   Widget build(BuildContext context) {
     imageFileList=widget.imageList;
-    try {
-      /*
-      var aux = context
-          .read<TourProvider>()
-          .newTour
-          .scenes![widget.scene.slug]!
-          .imageList;
-
-      imageFileList = aux;
-      setState(() {});*/
-    } catch (e) {
-      //List<XFile> listaImagenes=[];
-      /*Scene scene = Scene(imageList: imageFileList!);
-      var aux = context
-          .read<TourProvider>()
-          .newTour
-          .scenes![widget.scene.slug] = scene;
-      setState(() {});*/
-    }
-
     TourProvider watch = context.watch<TourProvider>();
     return Scaffold(
         appBar: AppBar(),
@@ -53,7 +36,7 @@ class _AddImagePageState extends State<AddImagePage> {
                 height: 10,
               ),
               Text(
-                'Agregar fotos de ' + widget.sceneInTour.title,
+                'Agregar fotos de ' + widget.sceneName,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(

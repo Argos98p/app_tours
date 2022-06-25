@@ -1,6 +1,7 @@
 import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
 import 'package:app_tours/models/Floor.dart';
 import 'package:app_tours/initalConfigurations/TourAvaliable.dart';
+import 'package:basic_utils/basic_utils.dart';
 import 'package:app_tours/pages/FloorScenesPage.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
@@ -25,6 +26,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
   TextEditingController floorNameController = TextEditingController();
   String floorName = '';
   String floorNameSlug = '';
+  final FocusNode dropDownFocus = FocusNode();
   @override
   void initState() {
     super.initState();
@@ -83,7 +85,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Tours Virtuales',
+                      'Escenas '+ StringUtils.capitalize(widget.typeTour),
                       style: TextStyle(
                         fontSize: 24,
                       ),
@@ -99,6 +101,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 15, right: 10),
                         child: DropdownButton<String>(
+                          focusNode: dropDownFocus,
                           underline: Container(),
                           // Initial Value
                           value: pisoSelec,
@@ -157,24 +160,28 @@ class _ScenesInTourState extends State<ScenesInTour> {
                                                               },
                                                               child: Text("Cerrar")),
                                                           ElevatedButton(onPressed: (){
-                                                              floorName=floorNameController.text;
-                                                              floorNameSlug=slugify(floorName,delimiter: '_');
-                                                              floorNameController.text='';
-                                                              print(floorName+'   '+floorNameSlug);
 
-                                                              Floor nuevoFloor = Floor(slug: floorNameSlug,scenes: {},name: floorName);
-                                                              var aux = FloorScenesPage(
-                                                                floor: nuevoFloor,
-                                                                scenes: scenes,
-                                                              );
-                                                              floorScafold[floorNameSlug] = aux;
 
                                                               setState(() {
-                                                                context.read<TourProvider>().newTour.floors![floorName]=nuevoFloor;
-                                                              });
+                                                                floorName=floorNameController.text;
+                                                                floorNameSlug=slugify(floorName,delimiter: '_');
+                                                                floorNameController.text='';
+                                                                print(floorName+'   '+floorNameSlug);
 
+                                                                Floor nuevoFloor = Floor(slug: floorNameSlug,scenes: {},others:{
+                                                                },name: floorName);
+                                                                var aux = FloorScenesPage(
+                                                                  floor: nuevoFloor,
+                                                                  scenes: scenes,
+                                                                );
+                                                                floorScafold[floorNameSlug] = aux;
+                                                                context.read<TourProvider>().newTour.floors![floorNameSlug]=nuevoFloor;
+                                                              });
+                                                              dropDownFocus.unfocus();
                                                               Fluttertoast.showToast(msg: 'Nuevo piso creado');
                                                               Navigator.of(context).pop();
+                                                              //pisoSelec = floorNameSlug;
+
                                                           }, child: Text('Crear')),
 
                                                         ],
@@ -220,7 +227,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton(
+                  /*ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         elevation: 5,
                         primary: Colors.transparent,
@@ -238,7 +245,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
                       child: Text("Cancelar")),
                   SizedBox(
                     width: 10,
-                  ),
+                  ),*/
                   ElevatedButton(
                       onPressed: () {
                         //print(context.read<TourProvider>().newTour.toMap());

@@ -5,14 +5,12 @@ class Tour {
   String? title;
   String? type;
   Map <String,String>? infoTour;
-  //Map<String,Scene>? scenes;
-  //Map<String, Floor> floors;
  Map<String,Floor>? floors;
 
   Tour({this.title, this.infoTour, required this.type, Map<String,Floor>? floors}) : floors=floors ??
       {
-        'default':Floor(slug: 'default',scenes: {},name: 'default'),
-        'pb':Floor(slug: 'pb',scenes: {},name: 'pb')
+        'default':Floor(slug: 'default',scenes: {},others:{},name: 'default'),
+
       };
 /*
   List<String> floorsNames (){

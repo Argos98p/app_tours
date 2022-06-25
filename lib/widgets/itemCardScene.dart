@@ -1,6 +1,7 @@
 import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
 import 'package:app_tours/models/Floor.dart';
 import 'package:app_tours/models/Scene.dart';
+import 'package:app_tours/pages/ScenesInOthers.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +12,7 @@ class ItemCardScene extends StatefulWidget {
   ScenesInTourModel sceneInTour;
   Floor floor;
 
-
-  ItemCardScene({Key? key, required this.sceneInTour, required this.floor
-  })
+  ItemCardScene({Key? key, required this.sceneInTour, required this.floor})
       : super(key: key);
 
   @override
@@ -21,30 +20,38 @@ class ItemCardScene extends StatefulWidget {
 }
 
 class _ItemCardScenesState extends State<ItemCardScene> {
-
-
-
-
   @override
   void initState() {
-
-  //print(scene.slug);
+    //print(scene.slug);
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context){
-    Scene scene = Scene(imageList: [],
+  Widget build(BuildContext context) {
+    Scene scene = Scene(
+        imageList: [],
         name: widget.sceneInTour.title,
         slug: widget.sceneInTour.slug);
 
-    if(context.read<TourProvider>().newTour.floors![widget.floor.slug]!.scenes![widget.sceneInTour.slug]==null){
-      print('Las esceneas todavia no estan creadas');
-      context.read<TourProvider>().newTour.floors![widget.floor.slug]!.scenes![widget.sceneInTour.slug]=scene;
-
-    }else{
-      scene=context.read<TourProvider>().newTour.floors![widget.floor.slug]!.scenes![widget.sceneInTour.slug]!;
-      print('las escenas estan creadas');
+    if (context
+            .read<TourProvider>()
+            .newTour
+            .floors![widget.floor.slug]!
+            .scenes![widget.sceneInTour.slug] ==
+        null) {
+      //print('Las esceneas todavia no estan creadas');
+      context
+          .read<TourProvider>()
+          .newTour
+          .floors![widget.floor.slug]!
+          .scenes![widget.sceneInTour.slug] = scene;
+    } else {
+      scene = context
+          .read<TourProvider>()
+          .newTour
+          .floors![widget.floor.slug]!
+          .scenes![widget.sceneInTour.slug]!;
+      //print('las escenas estan creadas');
     }
 
     return Card(
@@ -52,50 +59,53 @@ class _ItemCardScenesState extends State<ItemCardScene> {
         color: colorsApp['primaryColor'],
         child: InkWell(
           onTap: () {
-
-            _navigateAddImageAndReturn(context,widget.sceneInTour,scene,widget.floor);
-            //Navigator.pushNamed(context, '/toursDisponibles/agregarEscena',arguments:[widget.sceneInTour,widget.floor]) ;
-            //List<XFile>? imageFileList = await Navigator.pushNamed(context, '/toursDisponibles/agregarEscena',arguments:widget.scene) as List<XFile>;
-            //print(imageFileList);
-            setState(() {
-
-            });
+            if (widget.sceneInTour.slug == 'otros') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      OthersScenes(floorSlug: widget.floor.slug!),
+                ),
+              );
+            } else {
+              _navigateAddImageAndReturn(
+                  context, widget.sceneInTour, scene, widget.floor);
+              setState(() {});
+            }
           },
-          child: Stack(
-            children:[
-              Positioned(
-                right: 0,
-                top: 0,
-                child:numScenesButton(scene.imageList.length),
-
-              ),
-              Center(
+          child: Stack(children: [
+            Positioned(
+              right: 0,
+              top: 0,
+              child: widget.sceneInTour.slug == 'otros'
+                  ? numScenesButton(widget.floor.others!.length)
+                  : numScenesButton(scene.imageList.length),
+            ),
+            Center(
               child: Column(
-
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     /*Expanded(*/
-                    Text(widget.floor.name!),
-                    Icon(widget.sceneInTour.icon, size: 38, color: colorsApp['iconColor']),
+
+                    Icon(widget.sceneInTour.icon,
+                        size: 38, color: colorsApp['iconColor']),
                     /*),*/
                     Padding(
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                        child:
-                            Text(widget.sceneInTour.title, style: TextStyle(fontSize: 16))),
+                        child: Text(widget.sceneInTour.title,
+                            style: TextStyle(fontSize: 16))),
                   ]),
-            ),]
-          ),
+            ),
+          ]),
         ));
   }
 
-  Widget numScenesButton(int n){
-    print('numero de escenas en '+widget.floor.slug! +'en la escena '+widget.sceneInTour.slug+' es :'+n.toString());
-    if(n>0){
-      setState(() {
-
-      });
-      return  Container(
+  Widget numScenesButton(int n) {
+    //print('numero de escenas en '+widget.floor.slug! +'en la escena '+widget.sceneInTour.slug+' es :'+n.toString());
+    if (n > 0) {
+      setState(() {});
+      return Container(
           width: 20,
           height: 20,
           decoration: new BoxDecoration(
@@ -103,10 +113,8 @@ class _ItemCardScenesState extends State<ItemCardScene> {
             shape: BoxShape.circle,
           ),
           child: Center(child: Text(n.toString())));
-    }else{
-      setState(() {
-
-      });
+    } else {
+      setState(() {});
       return Container(
           width: 20,
           height: 20,
@@ -115,26 +123,30 @@ class _ItemCardScenesState extends State<ItemCardScene> {
             shape: BoxShape.circle,
           ),
           child: Center(child: Text(n.toString())));
-
     }
   }
-  Future _navigateAddImageAndReturn(BuildContext context, ScenesInTourModel sceneInTour, Scene scene, Floor floor) async {
+
+  Future _navigateAddImageAndReturn(BuildContext context,
+      ScenesInTourModel sceneInTour, Scene scene, Floor floor) async {
     //TourProvider watch = context.watch<TourProvider>();
-
-    var imageFileList = await Navigator.pushNamed(context, '/toursDisponibles/agregarEscena',arguments:{"sceneTour":widget.sceneInTour, 'imageList':scene.imageList}) ;
-
-    if(imageFileList != null){
-
+    var imageFileList = await Navigator.pushNamed(
+        context, '/toursDisponibles/agregarEscena', arguments: {
+      "sceneName": widget.sceneInTour.title,
+      'imageList': scene.imageList
+    });
+    if (imageFileList != null) {
       imageFileList as List<XFile>;
-
       //numScenes=imageFileList.length;
-      scene.imageList=imageFileList;
-      context.read<TourProvider>().newTour.floors![floor.slug]!.scenes![sceneInTour.slug]=scene;
+      scene.imageList = imageFileList;
+      context
+          .read<TourProvider>()
+          .newTour
+          .floors![floor.slug]!
+          .scenes![sceneInTour.slug] = scene;
       setState(() {
         print(imageFileList.length.toString());
       });
       //print(numScenes);
     }
-
   }
 }

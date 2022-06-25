@@ -132,12 +132,12 @@ class _HomeState extends State<Home> {
     return AppBar(
       title: Text('Virtual Space '),
       actions: <Widget>[
-        IconButton(
+        /*IconButton(
           icon: Icon(Icons.home_outlined),
           onPressed: () {
             // do something
           },
-        ),
+        ),*/
         IconButton(
           icon: Icon(Icons.menu),
           onPressed: () {},

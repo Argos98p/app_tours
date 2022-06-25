@@ -24,10 +24,10 @@ class _FloorScenesPageState extends State<FloorScenesPage> {
         mainAxisSpacing: 5,
         padding: EdgeInsets.all(10),
         children: List.generate(widget.scenes.length, (index) {
-          Scene newScene = Scene(
+          /*Scene newScene = Scene(
               imageList: [],
               name: widget.scenes[index].title,
-              slug: widget.scenes[index].slug);
+              slug: widget.scenes[index].slug);*/
           //newTour.floors![widget.index].scenes!.add(newScene);
           return Center(
               child: ItemCardScene(

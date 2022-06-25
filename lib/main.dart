@@ -1,6 +1,8 @@
 import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
+import 'package:app_tours/models/Scene.dart';
 import 'package:app_tours/pages/AddImagePage.dart';
 import 'package:app_tours/pages/Home.dart';
+import 'package:app_tours/pages/OtherTourPage.dart';
 import 'package:app_tours/pages/ScenesInTour.dart';
 import 'package:app_tours/pages/VirtualToursPage.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
@@ -62,14 +64,14 @@ class MyApp extends StatelessWidget {
                     );
                 break;
               case '/toursDisponibles/otro':
-                builder = (BuildContext context) => ScenesInTour(
+                builder = (BuildContext context) => OtherTour(
                       typeTour: 'otro',
                   infoTour: settings.arguments! as Map<String,String>,
                     );
                 break;
               case '/toursDisponibles/agregarEscena':
                 Map<String,dynamic> aux= settings.arguments as Map<String,dynamic>;
-                builder = (BuildContext context) => AddImagePage(sceneInTour: aux['sceneTour'] as ScenesInTourModel, imageList: aux['imageList'] as List<XFile>);
+                builder = (BuildContext context) => AddImagePage(sceneName: aux['sceneName'] as String, imageList: aux['imageList'] as List<XFile>);
                 break;
               default:
                 builder = (BuildContext context) => ScenesInTour(

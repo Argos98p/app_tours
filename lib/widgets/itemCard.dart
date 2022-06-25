@@ -1,7 +1,9 @@
 import 'package:app_tours/initalConfigurations/InputsTour.dart';
 import 'package:app_tours/initalConfigurations/TourAvaliable.dart';
+import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 final TextStyle textStyle = TextStyle();
 final _formKey = GlobalKey<FormState>();
@@ -101,6 +103,7 @@ Widget itemCard(BuildContext context, TourAvaliable tour, String route, String t
                                               ),),
                                               onPressed: () {
                                               Navigator.of(context).pop();
+                                              context.read<TourProvider>().cancelTour();
                                               },
                                               child: Text("Cerrar")),
                                           SizedBox(

@@ -5,6 +5,7 @@ class Floor{
   String? slug;
   //Map <String,Scene> scenes;
   Map<String,Scene>? scenes;
-  Floor({this.scenes, this.slug, this.name});
+  Map<String,Scene>? others;
+  Floor({this.scenes, this.slug, this.name, this.others});
 
 }
