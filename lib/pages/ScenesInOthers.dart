@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:slugify/slugify.dart';
 
 class OthersScenes extends StatefulWidget {
+
   String floorSlug;
 
   OthersScenes({Key? key, required this.floorSlug}) : super(key: key);
