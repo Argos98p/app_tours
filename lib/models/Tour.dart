@@ -52,6 +52,18 @@ class Tour {
         });
         data['floors'][floorKey]['scenes'][sceneKey] = imagePaths;
       });
+
+      await Future.forEach(floors![floorKey]!.others!.keys, (sceneKey) async {
+        List<String> imagePaths = [];
+        await Future.forEach(floors![floorKey]!.others![sceneKey]!.imageList,
+                (XFile element) async {
+              String newPath = await saveImage(element);
+              print(newPath);
+              imagePaths.add(newPath);
+            });
+        data['floors'][floorKey]['others'][sceneKey] = imagePaths;
+      });
+
     });
 
     print(data.toString());

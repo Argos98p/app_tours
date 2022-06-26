@@ -10,12 +10,18 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:slugify/slugify.dart';
 
-
 class OtherTour extends StatefulWidget {
-
   String typeTour;
-  Map<String,String> infoTour;
-  OtherTour({Key? key,required this.typeTour, required this.infoTour}) : super(key: key);
+  Map<String, String> infoTour;
+  bool updateTour;
+  int indexTour;
+  OtherTour(
+      {Key? key,
+      required this.typeTour,
+      required this.infoTour,
+      required this.indexTour,
+      required this.updateTour})
+      : super(key: key);
 
   @override
   State<OtherTour> createState() => _OtherTourState();
@@ -23,26 +29,25 @@ class OtherTour extends StatefulWidget {
 
 class _OtherTourState extends State<OtherTour> {
   late String pisoSelec;
-  TextEditingController newSceneController= TextEditingController();
+  TextEditingController newSceneController = TextEditingController();
   SharedPref sharedPref = SharedPref();
   @override
-  void initState(){
+  void initState() {
     super.initState();
     pisoSelec = 'default';
   }
 
   @override
   Widget build(BuildContext context) {
-
     context.read<TourProvider>().setInfoTour(infoTour: widget.infoTour);
     context.read<TourProvider>().setType(typeTour: widget.typeTour);
     Map<String, Floor> pisos = context.read<TourProvider>().newTour.floors!;
     //TourProvider watch = context.watch<TourProvider>();
 
     Map<String, Scene> scenes =
-    context.read<TourProvider>().newTour.floors![pisoSelec]!.scenes!;
+        context.read<TourProvider>().newTour.floors![pisoSelec]!.scenes!;
 
-    print('en el piso '+  pisoSelec +' hay '+ scenes.length.toString());
+    print('en el piso ' + pisoSelec + ' hay ' + scenes.length.toString());
 
     TextEditingController newNameSceneController = TextEditingController();
     return Scaffold(
@@ -59,7 +64,6 @@ class _OtherTourState extends State<OtherTour> {
                     'Tour Otro',
                     style: TextStyle(fontSize: 24),
                   ),
-
                   DropdownButton<String>(
                     underline: Container(),
                     // Initial Value
@@ -90,7 +94,8 @@ class _OtherTourState extends State<OtherTour> {
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 TextField(
-                                                  controller:newSceneController,
+                                                  controller:
+                                                      newSceneController,
                                                   decoration:
                                                       const InputDecoration(
                                                     border:
@@ -130,15 +135,25 @@ class _OtherTourState extends State<OtherTour> {
                                                     ElevatedButton(
                                                         onPressed: () {
                                                           setState(() {});
-                                                          try{
-                                                            context.read<TourProvider>().addFloor(nameFloor: newSceneController.text);
-                                                            Fluttertoast.showToast(msg: 'Piso creado');
-                                                            Navigator.of(context).pop();
-
-                                                          }catch(e){
-                                                            Fluttertoast.showToast(msg: 'Error '+e.toString());
+                                                          try {
+                                                            context
+                                                                .read<
+                                                                    TourProvider>()
+                                                                .addFloor(
+                                                                    nameFloor:
+                                                                        newSceneController
+                                                                            .text);
+                                                            Fluttertoast.showToast(
+                                                                msg:
+                                                                    'Piso creado');
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          } catch (e) {
+                                                            Fluttertoast.showToast(
+                                                                msg: 'Error ' +
+                                                                    e.toString());
                                                           }
-
                                                         },
                                                         child: Text('Crear')),
                                                   ],
@@ -167,7 +182,6 @@ class _OtherTourState extends State<OtherTour> {
                       }
                     },
                   )
-
                 ],
               ),
               Row(
@@ -180,36 +194,43 @@ class _OtherTourState extends State<OtherTour> {
                           builder: (BuildContext context) {
                             return Dialog(
                                 child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.all(16),
-                                      child: TextField(
-                                        controller: newNameSceneController,
-                                        decoration: const InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          labelText: 'Nombre de la escena',
-                                        ),
-                                      ),
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: TextField(
+                                    controller: newNameSceneController,
+                                    decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      labelText: 'Nombre de la escena',
                                     ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        ElevatedButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                String nameScene=newNameSceneController.text;
-                                                Scene auxScene=Scene(imageList: [], name: nameScene, slug: slugify(nameScene));
-                                                context.read<TourProvider>().addScene(scene: auxScene, floorKey: pisoSelec);
-                                                Navigator.pop(context);
-                                              });
-
-                                            },
-                                            child: Text('Crear'))
-                                      ],
-                                    )
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            String nameScene =
+                                                newNameSceneController.text;
+                                            Scene auxScene = Scene(
+                                                imageList: [],
+                                                name: nameScene,
+                                                slug: slugify(nameScene));
+                                            context
+                                                .read<TourProvider>()
+                                                .addScene(
+                                                    scene: auxScene,
+                                                    floorKey: pisoSelec);
+                                            Navigator.pop(context);
+                                          });
+                                        },
+                                        child: Text('Crear'))
                                   ],
-                                ));
+                                )
+                              ],
+                            ));
                           });
                     },
                     child: const Text(
@@ -233,34 +254,40 @@ class _OtherTourState extends State<OtherTour> {
                         color: colorsApp['primaryColor'],
                         child: InkWell(
                           onTap: () {
-
-                            _navigateAddImageAndReturn(context,scenes.keys.toList()[index],pisos[pisoSelec]!.slug!);
-                            setState(() {
-                            });
+                            _navigateAddImageAndReturn(
+                                context,
+                                scenes.keys.toList()[index],
+                                pisos[pisoSelec]!.slug!);
+                            setState(() {});
                           },
                           child: Stack(
-
                             children: [
                               Positioned(
                                 right: 0,
                                 top: 0,
-                                child:numScenesButton(scenes.values.toList()[index].imageList.length),
-
+                                child: numScenesButton(scenes.values
+                                    .toList()[index]
+                                    .imageList
+                                    .length),
                               ),
                               Center(
                                 child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       /*Expanded(*/
                                       Icon(Icons.dashboard,
-                                          size: 30, color: colorsApp['iconColor']),
+                                          size: 30,
+                                          color: colorsApp['iconColor']),
                                       /*),*/
                                       Padding(
                                           padding:
-                                          EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                              EdgeInsets.fromLTRB(0, 10, 0, 10),
                                           child: Text(
-                                              scenes.values.toList()[index].name,
+                                              scenes.values
+                                                  .toList()[index]
+                                                  .name,
                                               style: TextStyle(fontSize: 16))),
                                     ]),
                               ),
@@ -271,24 +298,32 @@ class _OtherTourState extends State<OtherTour> {
                 ),
               ),
               Row(
-               children: [
-                 ElevatedButton(
-                     onPressed: () async {
-                       //print(context.read<TourProvider>().newTour.toMap());
-                       //sharedPref.remove('nuevo_tour');
+                children: [
+                  ElevatedButton(
+                      onPressed: () async {
+                        Map<String, dynamic> tourMap =
+                            await context.read<TourProvider>().newTour.toMap();
 
-                       sharedPref.save("nuevo_tour", context.read<TourProvider>().newTour.toMap());
-                       Fluttertoast.showToast(msg: 'Tour creado');
-                       //await context.read<TourProvider>().newTour.toMap();
-                       Map<String,dynamic> tourMap = await context.read<TourProvider>().newTour.toMap();
-                       sharedPref.save("nuevo_tour", tourMap);
-                       context.read<TourProvider>().cancelTour();
+                        if (widget.updateTour) {
+                          sharedPref.update(
+                              "nuevo_tour", tourMap, widget.indexTour);
+                          context.read<TourProvider>().cancelTour();
+                          Fluttertoast.showToast(msg: 'Tour actualizado');
+                        } else {
+                          sharedPref.save("nuevo_tour", tourMap);
+                          context.read<TourProvider>().cancelTour();
+                          Fluttertoast.showToast(msg: 'Tour creado');
+                        }
 
-                       Navigator.pushNamedAndRemoveUntil(
-                           context, '/', (route) => false);
-                     },
-                     child: Text("Crear"))
-               ],
+                        context.read<TourProvider>().cancelTour();
+
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, '/', (route) => false);
+                      },
+                      child: (widget.updateTour)
+                          ? Text("Actualizar")
+                          : Text('Crear'))
+                ],
               )
             ],
           ),
@@ -297,13 +332,11 @@ class _OtherTourState extends State<OtherTour> {
     );
   }
 
-  Widget numScenesButton(int n){
+  Widget numScenesButton(int n) {
     //print('numero de escenas en '+widget.floor.slug! +'en la escena '+widget.sceneInTour.slug+' es :'+n.toString());
-    if(n>0){
-      setState(() {
-
-      });
-      return  Container(
+    if (n > 0) {
+      setState(() {});
+      return Container(
           width: 20,
           height: 20,
           decoration: new BoxDecoration(
@@ -311,10 +344,8 @@ class _OtherTourState extends State<OtherTour> {
             shape: BoxShape.circle,
           ),
           child: Center(child: Text(n.toString())));
-    }else{
-      setState(() {
-
-      });
+    } else {
+      setState(() {});
       return Container(
           width: 20,
           height: 20,
@@ -323,30 +354,36 @@ class _OtherTourState extends State<OtherTour> {
             shape: BoxShape.circle,
           ),
           child: Center(child: Text(n.toString())));
-
     }
   }
 
-  Future _navigateAddImageAndReturn(BuildContext context, String sceneKey, String floorKey) async {
+  Future _navigateAddImageAndReturn(
+      BuildContext context, String sceneKey, String floorKey) async {
     //TourProvider watch = context.watch<TourProvider>();
     var imageFileList;
-    try{
-      Scene scene= context.read<TourProvider>().newTour.floors![floorKey]!.scenes![sceneKey]!;
-      imageFileList = await Navigator.pushNamed(context, '/toursDisponibles/agregarEscena',arguments:{"sceneName":scene.name, 'imageList':scene.imageList});
-      print('esto es el tamaño de la imagelist '+scene.imageList.length.toString());
-    }
-    catch(e){
-      print('error al recuperar las escenas de "otros" '+e.toString());
+    try {
+      Scene scene = context
+          .read<TourProvider>()
+          .newTour
+          .floors![floorKey]!
+          .scenes![sceneKey]!;
+      imageFileList = await Navigator.pushNamed(
+          context, '/toursDisponibles/agregarEscena',
+          arguments: {"sceneName": scene.name, 'imageList': scene.imageList});
+      print('esto es el tamaño de la imagelist ' +
+          scene.imageList.length.toString());
+    } catch (e) {
+      print('error al recuperar las escenas de "otros" ' + e.toString());
     }
 
-    if(imageFileList != null){
+    if (imageFileList != null) {
       imageFileList as List<XFile>;
 
-      context.read<TourProvider>().addImageListSceneOther(floorKey: floorKey, sceneKey: sceneKey, imageList: imageFileList);
+      context.read<TourProvider>().addImageListSceneOther(
+          floorKey: floorKey, sceneKey: sceneKey, imageList: imageFileList);
       setState(() {
         print(imageFileList.length.toString());
       });
-
     }
   }
 }

@@ -37,7 +37,15 @@ class _OthersScenesState extends State<OthersScenes> {
 
     TextEditingController newNameSceneController = TextEditingController();
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, ),
+          onPressed: (){ Navigator.of(context).pop();
+            setState(() {
+
+            });},
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(
@@ -159,9 +167,11 @@ class _OthersScenesState extends State<OthersScenes> {
                 children: [
                   MaterialButton(
                     onPressed: () {
+                      setState(() {
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
+
                             return Dialog(
                                 child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -195,6 +205,9 @@ class _OthersScenesState extends State<OthersScenes> {
                               ],
                             ));
                           });
+
+
+                      });
                     },
                     child: const Text(
                       'Nueva escena',

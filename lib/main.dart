@@ -46,37 +46,55 @@ class MyApp extends StatelessWidget {
                 builder=(BuildContext context) => TourInformationPage();
                 break;*/
               case '/toursDisponibles/casa':
+                Map<String,dynamic> aux= settings.arguments as Map<String,dynamic>;
                 builder = (BuildContext context) => ScenesInTour(
                       typeTour: 'casa',
-                  infoTour: settings.arguments! as Map<String,String>,
+                  infoTour: aux['formData'] as Map<String,String>,
+                  updateTour: aux['case'] as bool,
+                  indexTour: aux['index'] as int,
                     );
                 break;
               case '/toursDisponibles/restaurant':
+                Map<String,dynamic> aux= settings.arguments as Map<String,dynamic>;
+
                 builder = (BuildContext context) => ScenesInTour(
                       typeTour: 'restaurant',
-                  infoTour: settings.arguments! as Map<String,String>,
+                  infoTour: aux['formData'] as Map<String,String>,
+                  updateTour: aux['case'] as bool,
+                  indexTour: aux['index'] as int,
                     );
                 break;
               case '/toursDisponibles/comercio':
+                Map<String,dynamic> aux= settings.arguments as Map<String,dynamic>;
+
                 builder = (BuildContext context) => ScenesInTour(
                       typeTour: 'comercio',
-                  infoTour: settings.arguments! as Map<String,String>,
+                  infoTour: aux['formData'] as Map<String,String>,
+                  updateTour: aux['case'] as bool,
+                  indexTour: aux['index'] as int,
                     );
                 break;
               case '/toursDisponibles/otro':
+                Map<String,dynamic> aux= settings.arguments as Map<String,dynamic>;
+
                 builder = (BuildContext context) => OtherTour(
                       typeTour: 'otro',
-                  infoTour: settings.arguments! as Map<String,String>,
+                  infoTour: aux['formData'] as Map<String,String>,
+                  updateTour: aux['case'] as bool,
+                  indexTour: aux['index'] as int,
                     );
                 break;
               case '/toursDisponibles/agregarEscena':
-                Map<String,dynamic> aux= settings.arguments as Map<String,dynamic>;
+                    Map<String,dynamic> aux= settings.arguments as Map<String,dynamic>;
                 builder = (BuildContext context) => AddImagePage(sceneName: aux['sceneName'] as String, imageList: aux['imageList'] as List<XFile>);
                 break;
               default:
+                Map<String,dynamic> aux= settings.arguments as Map<String,dynamic>;
                 builder = (BuildContext context) => ScenesInTour(
-                      typeTour: 'otro',
-                  infoTour: settings.arguments! as Map<String,String>,
+                  typeTour: 'otro',
+                  infoTour: aux['formData'] as Map<String,String>,
+                  updateTour: aux['case'] as bool,
+                  indexTour: aux['index'] as int,
                     );
             }
             return MaterialPageRoute(builder: builder, settings: settings);

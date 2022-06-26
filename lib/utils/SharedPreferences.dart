@@ -20,7 +20,21 @@ class SharedPref {
 
     if(aux != null){
       aux.add(value);
-      prefs.setString(key, json.encode(aux));
+      prefs.setString(key, jsonEncode(aux));
+    }else{
+      List aux2= [value];
+      prefs.setString(key, json.encode(aux2));
+    }
+
+  }
+
+  update(String key, value,int index) async {
+    final prefs = await SharedPreferences.getInstance();
+    var aux = await read(key);
+
+    if(aux != null){
+      aux[index]=value;
+      prefs.setString(key, jsonEncode(aux));
     }else{
       List aux2= [value];
       prefs.setString(key, json.encode(aux2));

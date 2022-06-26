@@ -118,7 +118,8 @@ Widget itemCard(BuildContext context, TourAvaliable tour, String route, String t
                                                 );
 
                                                 print('slug:'+type_slug);
-                                                Navigator.pushNamed(context, '/toursDisponibles/${type_slug}',arguments:formData);
+                                                context.read<TourProvider>().cancelTour();
+                                                Navigator.pushNamed(context, '/toursDisponibles/${type_slug}',arguments:{'formData':formData,'case':false,'index':999});
                                                 }
                                               },
                                               child: Text("Continuar"))

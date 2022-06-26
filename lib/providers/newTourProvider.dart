@@ -11,6 +11,10 @@ class TourProvider with ChangeNotifier{
   Tour _newTour = Tour(infoTour: {},title: '' ,type: '');
   Tour get newTour => _newTour;
 
+  set newTour(Tour value) {
+    _newTour = value;
+  }
+
   Future<void> cancelTour() async{
     _newTour = Tour(infoTour: {},title: '' ,type: '');
   }
