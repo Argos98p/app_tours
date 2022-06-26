@@ -1,6 +1,9 @@
+import 'package:app_tours/models/Tour.dart';
+import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/utils/SharedPreferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class ToursPage extends StatefulWidget {
   ToursPage({Key? key}) : super(key: key);
@@ -37,13 +40,17 @@ class _ToursPageState extends State<ToursPage> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator();
                 } else if (snapshot.connectionState == ConnectionState.done) {
-                  print(snapshot.data);
+                  //print(snapshot.data);
                   List aux = snapshot.data!;
                   return Expanded(
                     child: ListView.builder( itemCount:aux.length ,itemBuilder: (BuildContext context, int index){
                       return Card(
                         child: ListTile(
-                          onTap: (){},
+                          onTap: () async{
+                            Tour tourSaved= await context.read<TourProvider>().mapToTour(tourSaved: snapshot.data![index]);
+
+                            //print(snapshot.data![index]);
+                          },
                             leading: Icon(Icons.threesixty),
                             trailing:
                             MaterialButton(

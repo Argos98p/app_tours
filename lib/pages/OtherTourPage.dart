@@ -279,7 +279,9 @@ class _OtherTourState extends State<OtherTour> {
 
                        sharedPref.save("nuevo_tour", context.read<TourProvider>().newTour.toMap());
                        Fluttertoast.showToast(msg: 'Tour creado');
-                       await context.read<TourProvider>().newTour.toMap();
+                       //await context.read<TourProvider>().newTour.toMap();
+                       Map<String,dynamic> tourMap = await context.read<TourProvider>().newTour.toMap();
+                       sharedPref.save("nuevo_tour", tourMap);
                        context.read<TourProvider>().cancelTour();
 
                        Navigator.pushNamedAndRemoveUntil(
@@ -331,7 +333,7 @@ class _OtherTourState extends State<OtherTour> {
     try{
       Scene scene= context.read<TourProvider>().newTour.floors![floorKey]!.scenes![sceneKey]!;
       imageFileList = await Navigator.pushNamed(context, '/toursDisponibles/agregarEscena',arguments:{"sceneName":scene.name, 'imageList':scene.imageList});
-      print(scene.imageList.length.toString());
+      print('esto es el tamaño de la imagelist '+scene.imageList.length.toString());
     }
     catch(e){
       print('error al recuperar las escenas de "otros" '+e.toString());
@@ -339,7 +341,8 @@ class _OtherTourState extends State<OtherTour> {
 
     if(imageFileList != null){
       imageFileList as List<XFile>;
-      context.read<TourProvider>().addImageListOthers(floorKey: floorKey, sceneKey: sceneKey, imageList: imageFileList);
+
+      context.read<TourProvider>().addImageListSceneOther(floorKey: floorKey, sceneKey: sceneKey, imageList: imageFileList);
       setState(() {
         print(imageFileList.length.toString());
       });

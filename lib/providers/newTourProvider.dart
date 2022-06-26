@@ -50,17 +50,78 @@ class TourProvider with ChangeNotifier{
     _newTour.floors![floorKey]!.others![sceneKey]!.imageList=imageList;
     notifyListeners();
     }catch(e){
-      print('error al insertar las imagenes:' +e.toString());
+      print('error al insertar las imagenes:asdadfad' +e.toString());
     }
   }
   //inserta la lista de imagenes a una escena del tour 'otro'
   Future<void> addImageListSceneOther({required String floorKey, required String sceneKey, required List<XFile> imageList})async {
-    try{
+    //try{
+      print(_newTour.floors![floorKey]!.scenes![sceneKey]!.imageList);
       _newTour.floors![floorKey]!.scenes![sceneKey]!.imageList=imageList;
       notifyListeners();
-    }catch(e){
+    /*}catch(e){
       print('error al insertar las imagenes:' +e.toString());
-    }
+    }*/
   }
+  Future<Tour> mapToTour({required Map<String, dynamic> tourSaved}) async {
+    Tour auxTour = Tour(infoTour: {},title: tourSaved['title'] ,type: tourSaved['type']);
+    auxTour.floors={};
+    auxTour.infoTour={};
+
+    await Future.forEach(tourSaved['infoTour'].keys, (String element) {
+      auxTour.infoTour![element]=tourSaved['infoTour'][element];
+    });
+
+    Map<String, dynamic> floorsMap =  Map<String,dynamic>.from(tourSaved['floors']);
+    List<String> floorKeys= floorsMap.keys.toList();
+
+
+    await Future.forEach(floorKeys, (String floorKey) async {
+      Floor floor = Floor();
+      floor.slug=floorKey;
+      floor.name=floorKey;
+      floor.scenes={};
+      floor.others={};
+
+      Map<String, dynamic> scenesMap = Map<String, dynamic>.from(floorsMap[floorKey]['scenes']);
+
+      await Future.forEach(scenesMap.keys.toList(), (String sceneKey) async {
+        Scene scene = Scene(imageList: [], name: sceneKey, slug: sceneKey);
+        List<String> imagesFormScene=List<String>.from(scenesMap[sceneKey]);
+        await Future.forEach(imagesFormScene, (String imageFilePath)  {
+          XFile imageFile = XFile(imageFilePath);
+          scene.imageList.add(imageFile);
+        });
+
+        floor.scenes![sceneKey]=scene;
+      });
+
+      Map<String, dynamic> scenesOthersMap = Map<String, dynamic>.from(floorsMap[floorKey]['others']);
+
+      await Future.forEach(scenesOthersMap.keys.toList(), (String sceneKey) async {
+        Scene scene = Scene(imageList: [], name: sceneKey, slug: sceneKey);
+        List<String> imagesFormScene=List<String>.from(scenesOthersMap[sceneKey]);
+        await Future.forEach(imagesFormScene, (String imageFilePath)  {
+          XFile imageFile = XFile(imageFilePath);
+          scene.imageList.add(imageFile);
+        });
+
+        floor.others![sceneKey]=scene;
+      });
+      auxTour.floors![floorKey]=floor;
+    });
+    _newTour=auxTour;
+    notifyListeners();
+    return auxTour;
+  }
+
+  /*
+    Future<void> mapToOtherTour({required Map<String, dynamic> tourSaved}) async {
+      Floor floor = Floor();
+      floor.slug=floorKey;
+      floor.name=floorKey;
+      floor.scenes={};
+      floor.others={};
+    }*/
 
   }
