@@ -247,12 +247,15 @@ class _ScenesInTourState extends State<ScenesInTour> {
                     width: 10,
                   ),*/
                   ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         //print(context.read<TourProvider>().newTour.toMap());
                         //sharedPref.remove('nuevo_tour');
-                        // sharedPref.save("nuevo_tour", context.read<TourProvider>().newTour.toMap());
+                        Map<String,dynamic> tourMap = await context.read<TourProvider>().newTour.toMap();
+                        sharedPref.save("nuevo_tour", tourMap);
                         Fluttertoast.showToast(msg: 'Tour creado');
+
                         context.read<TourProvider>().cancelTour();
+
                         Navigator.pushNamedAndRemoveUntil(
                             context, '/', (route) => false);
                       },

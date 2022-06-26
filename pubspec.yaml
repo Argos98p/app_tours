@@ -43,6 +43,7 @@ dependencies:
   shared_preferences:
   image_picker: ^0.8.5+3
   panorama: ^0.4.1
+  path_provider: ^2.0.11
 
 dev_dependencies:
   flutter_test:

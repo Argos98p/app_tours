@@ -78,9 +78,10 @@ class _ToursPageState extends State<ToursPage> {
                 //
                 return Text('');
               },
-            )
-
-                /*ListView.builder(
+            ),
+/*
+                ListView.builder(
+                  //shrinkWrap: false,
                     itemCount: tours.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ListTile(
@@ -90,8 +91,8 @@ class _ToursPageState extends State<ToursPage> {
                             style: TextStyle(color: Colors.green, fontSize: 15),
                           ),
                           title: Text("List item $index"));
-                    })*/
-                
+                    })
+                */
           ],
         ),
       ),

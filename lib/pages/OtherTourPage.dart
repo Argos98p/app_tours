@@ -2,6 +2,7 @@ import 'package:app_tours/models/Floor.dart';
 import 'package:app_tours/models/Scene.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
+import 'package:app_tours/utils/SharedPreferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -11,6 +12,7 @@ import 'package:slugify/slugify.dart';
 
 
 class OtherTour extends StatefulWidget {
+
   String typeTour;
   Map<String,String> infoTour;
   OtherTour({Key? key,required this.typeTour, required this.infoTour}) : super(key: key);
@@ -22,7 +24,7 @@ class OtherTour extends StatefulWidget {
 class _OtherTourState extends State<OtherTour> {
   late String pisoSelec;
   TextEditingController newSceneController= TextEditingController();
-
+  SharedPref sharedPref = SharedPref();
   @override
   void initState(){
     super.initState();
@@ -268,6 +270,24 @@ class _OtherTourState extends State<OtherTour> {
                   }),
                 ),
               ),
+              Row(
+               children: [
+                 ElevatedButton(
+                     onPressed: () async {
+                       //print(context.read<TourProvider>().newTour.toMap());
+                       //sharedPref.remove('nuevo_tour');
+
+                       sharedPref.save("nuevo_tour", context.read<TourProvider>().newTour.toMap());
+                       Fluttertoast.showToast(msg: 'Tour creado');
+                       await context.read<TourProvider>().newTour.toMap();
+                       context.read<TourProvider>().cancelTour();
+
+                       Navigator.pushNamedAndRemoveUntil(
+                           context, '/', (route) => false);
+                     },
+                     child: Text("Crear"))
+               ],
+              )
             ],
           ),
         ),
