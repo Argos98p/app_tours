@@ -1,4 +1,5 @@
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
@@ -6,6 +7,7 @@ import 'package:app_tours/models/Scene.dart';
 import 'package:app_tours/pages/viewer360Page.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -144,9 +146,34 @@ class _AddImagePageState extends State<AddImagePage> {
 
   void selectImages() async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
-    if (selectedImages != null) {
-      imageFileList!.addAll(selectedImages);
+    Completer<Size> completer = Completer();
+    List<XFile> validImages=[];
+    if (selectedImages != null)  {
+      await Future.forEach(selectedImages, (XFile imageInList) async {
+        Image image = Image.file(File(imageInList.path));
+        var size= await _calculateImageDimension(image);
+        if(size.width==size.height*2){
+          validImages.add(imageInList);
+        }else{
+          Fluttertoast.showToast(msg: 'La imagen debe ser de realacion 2:1');
+        }
+      });
+      imageFileList!.addAll(validImages);
     }
     setState(() {});
+  }
+
+  Future<Size> _calculateImageDimension(Image image) {
+    Completer<Size> completer = Completer();
+    image.image.resolve(ImageConfiguration()).addListener(
+      ImageStreamListener(
+            (ImageInfo image, bool synchronousCall) {
+          var myImage = image.image;
+          Size size = Size(myImage.width.toDouble(), myImage.height.toDouble());
+          completer.complete(size);
+        },
+      ),
+    );
+    return completer.future;
   }
 }
