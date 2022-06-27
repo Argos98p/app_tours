@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:app_tours/initalConfigurations/InputsTour.dart';
 import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
 import 'package:app_tours/utils/my_flutter_app_icons.dart';
+import 'package:app_tours/widgets/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
@@ -29,17 +30,18 @@ TourAvaliable tourCasa = TourAvaliable(
     icon: ModernPictograms.home,
     title: 'Casa',
     scenes: <ScenesInTourModel>[
-      const ScenesInTourModel(icon: Icons.door_sliding_outlined, title: 'Fachada',slug: 'fachada'),
+      //const ScenesInTourModel(icon: Icons.door_sliding_outlined, title: 'Fachada',slug: 'fachada'),
+      const ScenesInTourModel(icon: FontAwesome5.building, title: 'Fachada',slug: 'fachada'),
       const ScenesInTourModel(icon: Icons.door_back_door, title: 'Entrada',slug: 'entrada'),
-      const ScenesInTourModel(icon: Icons.crop_portrait_outlined, title: 'Pasillo',slug: 'pasillo'),
+      const ScenesInTourModel(icon: UiIcons.corredor, title: 'Pasillo',slug: 'pasillo'),
       const ScenesInTourModel(icon: Icons.chair , title: 'Sala',slug: 'sala'),
       const ScenesInTourModel(icon: Icons.table_bar_rounded, title: 'Comedor',slug: 'comedor'),
       const ScenesInTourModel(icon: Icons.kitchen, title: 'Cocina',slug: 'cocina'),
       const ScenesInTourModel(icon: Icons.bathtub_rounded, title: 'Baño',slug: 'banio'),
       const ScenesInTourModel(icon: Icons.stairs, title: 'Escaleras',slug: 'escaleras'),
       const ScenesInTourModel(icon: Icons.bed_outlined, title: 'Dormitorio',slug: 'dormitorio'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Jardin',slug: 'jardin'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Balcon',slug: 'balcon'),
+      const ScenesInTourModel(icon: UiIcons.garden, title: 'Jardin',slug: 'jardin'),
+      const ScenesInTourModel(icon: UiIcons.balcon, title: 'Balcon',slug: 'balcon'),
       const ScenesInTourModel(icon: Icons.dashboard, title: 'Otros',slug: 'otros'),
     ],
     inputs: <String,InputsTour>{
@@ -54,18 +56,18 @@ TourAvaliable tourRestaurante = TourAvaliable(
     icon: FontAwesome5.utensils,
     title: 'Restaurante',
     scenes: [
-      const ScenesInTourModel(icon: Icons.add, title: 'Fachada',slug: 'fachada'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Entrada',slug: 'entrada'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Recepcion',slug: 'recepcion'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Estar',slug: 'estar'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Comedor',slug: 'comedor'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Cocina',slug: 'cocina'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Baño',slug: 'banio'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Escaleras',slug: 'escaleras'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Bar',slug: 'bar'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Caja',slug: 'caja'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Terraza',slug: 'terraza'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Otros',slug: 'otros'),
+      const ScenesInTourModel(icon:  FontAwesome5.building, title: 'Fachada',slug: 'fachada'),
+      const ScenesInTourModel(icon: FontAwesome5.door_open, title: 'Entrada',slug: 'entrada'),
+      const ScenesInTourModel(icon: UiIcons.recepcion1, title: 'Recepcion',slug: 'recepcion'),
+      const ScenesInTourModel(icon: FontAwesome5.couch, title: 'Estar',slug: 'estar'),
+      const ScenesInTourModel(icon: Icons.table_bar_rounded, title: 'Comedor',slug: 'comedor'),
+      const ScenesInTourModel(icon: Icons.kitchen, title: 'Cocina',slug: 'cocina'),
+      const ScenesInTourModel(icon: FontAwesome5.restroom, title: 'Baño',slug: 'banio'),
+      const ScenesInTourModel(icon: Icons.stairs, title: 'Escaleras',slug: 'escaleras'),
+      const ScenesInTourModel(icon: UiIcons.bar1, title: 'Bar',slug: 'bar'),
+      const ScenesInTourModel(icon: FontAwesome5.cash_register, title: 'Caja',slug: 'caja'),
+      const ScenesInTourModel(icon: UiIcons.terraza, title: 'Terraza',slug: 'terraza'),
+      const ScenesInTourModel(icon: Icons.dashboard, title: 'Otros',slug: 'otros'),
 
 
 
@@ -83,16 +85,16 @@ TourAvaliable tourComercio = TourAvaliable(
     scenes: [
       const ScenesInTourModel(icon: FontAwesome5.building, title: 'Fachada', slug: 'fachada'),
       const ScenesInTourModel(icon: FontAwesome5.door_open, title: 'Entrada', slug: 'entrada'),
-      const ScenesInTourModel(icon:MyFlutterApp.icons8_corridor_100, title: 'Pasillo', slug: 'pasillo'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Estar', slug: 'estar'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Serv. Cliente', slug: 'serv_cliente'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Exhibicion', slug: 'exhibicion'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Baño', slug: 'banio'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Escaleras', slug: 'escaleras'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Mostrador', slug: 'mostrador'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Vestidor', slug: 'vestidor'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Caja', slug: 'caja'),
-      const ScenesInTourModel(icon: Icons.add, title: 'Otros', slug: 'otros'),
+      const ScenesInTourModel(icon: UiIcons.corredor, title: 'Pasillo', slug: 'pasillo'),
+      const ScenesInTourModel(icon: FontAwesome5.couch, title: 'Estar', slug: 'estar'),
+      const ScenesInTourModel(icon: UiIcons.recepcion, title: 'Serv. Cliente', slug: 'serv_cliente'),
+      const ScenesInTourModel(icon: UiIcons.exhibicion, title: 'Exhibicion', slug: 'exhibicion'),
+      const ScenesInTourModel(icon: FontAwesome5.restroom, title: 'Baño', slug: 'banio'),
+      const ScenesInTourModel(icon: Icons.stairs, title: 'Escaleras', slug: 'escaleras'),
+      const ScenesInTourModel(icon: UiIcons.boxes, title: 'Mostrador', slug: 'mostrador'),
+      const ScenesInTourModel(icon: FontAwesome5.person_booth, title: 'Vestidor', slug: 'vestidor'),
+      const ScenesInTourModel(icon: FontAwesome5.cash_register, title: 'Caja', slug: 'caja'),
+      const ScenesInTourModel(icon: Icons.dashboard, title: 'Otros', slug: 'otros'),
 
     ],
     inputs: {

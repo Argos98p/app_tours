@@ -142,7 +142,7 @@ Widget itemCard(BuildContext context, TourAvaliable tour, String route, String t
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 /*Expanded(*/
-                Icon(tour.icon, size: 30, color: colorsApp['iconColor']),
+                Icon(tour.icon, size: 45, color: colorsApp['iconColor']),
                 /*),*/
                 Padding(
                     padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
