@@ -2,8 +2,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
-import 'package:app_tours/models/Scene.dart';
 import 'package:app_tours/pages/viewer360Page.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:flutter/material.dart';
@@ -34,18 +32,18 @@ class _AddImagePageState extends State<AddImagePage> {
           child: Column(
             children: [
               //Text('Tour id: ${_idTour}'),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Text(
                 'Agregar fotos de ' + widget.sceneName,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Text('Puede elegir multiples imagenes'),
-              SizedBox(
+              const Text('Puede elegir multiples imagenes'),
+              const SizedBox(
                 height: 10,
               ),
               Row(
@@ -53,8 +51,8 @@ class _AddImagePageState extends State<AddImagePage> {
                 children: [
                   ElevatedButton.icon(
                     onPressed: () => selectImages(),
-                    icon: Icon(Icons.image),
-                    label: Text('Galeria'),
+                    icon: const Icon(Icons.image),
+                    label: const Text('Galeria'),
                     style: OutlinedButton.styleFrom(
                         backgroundColor: Colors.transparent,
                         fixedSize: const Size(140, 45),
@@ -63,8 +61,8 @@ class _AddImagePageState extends State<AddImagePage> {
                   ),
                   ElevatedButton.icon(
                     onPressed: () => {},
-                    icon: Icon(Icons.add_a_photo),
-                    label: Text('Camara'),
+                    icon: const Icon(Icons.add_a_photo),
+                    label: const Text('Camara'),
                     style: OutlinedButton.styleFrom(
                         backgroundColor: Colors.transparent,
                         fixedSize: const Size(140, 45),
@@ -74,7 +72,7 @@ class _AddImagePageState extends State<AddImagePage> {
                 ],
               ),
 
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Expanded(
@@ -82,11 +80,11 @@ class _AddImagePageState extends State<AddImagePage> {
                 padding: const EdgeInsets.all(8.0),
                 child: GridView.builder(
                     itemCount: imageFileList!.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2),
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
-                        padding: EdgeInsets.all(3),
+                        padding: const EdgeInsets.all(3),
                         child: Stack(
                           children: [
                             InkWell(
@@ -101,7 +99,7 @@ class _AddImagePageState extends State<AddImagePage> {
                             ),
                             Center(
                               child: ElevatedButton(
-                                child: Text('ver'),
+                                child: const Text('ver'),
                                 onPressed: () {
                                   Navigator.push(context, MaterialPageRoute(builder:(context)=>Viewer360Page(pathImage: imageFileList![index].path)));
                                       
@@ -112,7 +110,7 @@ class _AddImagePageState extends State<AddImagePage> {
                               right: 0,
                               top: 0,
                               child: InkWell(
-                                child: Icon(
+                                child: const Icon(
                                   Icons.remove_circle,
                                   size: 30,
                                   color: Colors.red,
@@ -136,8 +134,8 @@ class _AddImagePageState extends State<AddImagePage> {
                     //print( context.read<TourProvider>().newTour.scenes![widget.scene.slug]!.imageList.length);
                     Navigator.pop(context, imageFileList);
                   },
-                  child: Text('agregar')),
-              SizedBox(
+                  child: const Text('agregar')),
+              const SizedBox(
                 height: 20,
               )
             ],
@@ -166,7 +164,7 @@ class _AddImagePageState extends State<AddImagePage> {
 
   Future<Size> _calculateImageDimension(Image image) {
     Completer<Size> completer = Completer();
-    image.image.resolve(ImageConfiguration()).addListener(
+    image.image.resolve(const ImageConfiguration()).addListener(
       ImageStreamListener(
             (ImageInfo image, bool synchronousCall) {
           var myImage = image.image;

@@ -1,16 +1,9 @@
 import 'package:app_tours/initalConfigurations/TourAvaliable.dart';
-import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:app_tours/widgets/itemCard.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttericon/brandico_icons.dart';
-import 'package:fluttericon/font_awesome5_icons.dart';
-import 'package:fluttericon/font_awesome_icons.dart';
-import 'package:fluttericon/fontelico_icons.dart';
-import 'package:fluttericon/maki_icons.dart';
-import 'package:fluttericon/modern_pictograms_icons.dart';
 
 class VirtualTourPage extends StatefulWidget {
-  VirtualTourPage({Key? key}) : super(key: key);
+  const VirtualTourPage({Key? key}) : super(key: key);
 
   @override
   State<VirtualTourPage> createState() => _VirtualTourPageState();
@@ -26,8 +19,8 @@ class _VirtualTourPageState extends State<VirtualTourPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              'Tours Virtuales',
+            const Text(
+              'Tour Virtual',
               style: TextStyle(
                 fontSize: 24,
               ),
@@ -45,7 +38,7 @@ class _VirtualTourPageState extends State<VirtualTourPage> {
         crossAxisCount: 2,
         crossAxisSpacing: 20,
         mainAxisSpacing: 20,
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         children: List.generate(toursAvaliables.length, (index) {
           return Center(
             child: SelectCard(
@@ -69,7 +62,7 @@ class SelectCard extends StatelessWidget {
   Widget build(BuildContext context) {
 
     //final TextStyle textStyle = Theme.of(context).textTheme.display1;
-    final TextStyle textStyle = TextStyle(fontSize: 20);
+    const TextStyle textStyle = TextStyle(fontSize: 20);
     return itemCard(context, tourDisponibleApp, '/toursDisponibles/informationTour',type_slug);
   }
 }

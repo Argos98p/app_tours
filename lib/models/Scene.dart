@@ -10,10 +10,10 @@ class Scene {
 
   List<String> getPath (){
     List<String> paths=[];
-    imageList.forEach((element) {
+    for (var element in imageList) {
       paths.add(element.path.toString());
 
-    });
+    }
     return paths;
 }
 /*

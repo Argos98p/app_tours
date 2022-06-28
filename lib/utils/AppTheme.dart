@@ -38,90 +38,89 @@ class AppTheme {
 
   static final ThemeData darkTheme = ThemeData(
     scaffoldBackgroundColor: Colors.black,
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       color: Colors.black,
       iconTheme: IconThemeData(
         color: Colors.white,
       ),
     ),
-    colorScheme: ColorScheme.light(
+    colorScheme: const ColorScheme.light(
       primary: Colors.black,
       onPrimary: Colors.black,
-      primaryVariant: Colors.black,
       secondary: Colors.red,
     ),
-    cardTheme: CardTheme(
+    cardTheme: const CardTheme(
       color: Colors.black,
     ),
-    iconTheme: IconThemeData(
+    iconTheme: const IconThemeData(
       color: Colors.white54,
     ),
     textTheme: TextTheme(
-      titleLarge: TextStyle(
+      titleLarge: const TextStyle(
         color: Colors.white,
         fontSize: 22.0,
       ),
-      titleMedium: TextStyle(
+      titleMedium: const TextStyle(
         color: Colors.white,
         fontSize: 20.0,
       ),
-      titleSmall: TextStyle(
+      titleSmall: const TextStyle(
         color: Colors.white,
         fontSize: 20.0,
       ),
-      subtitle1: TextStyle(
+      subtitle1: const TextStyle(
         color: Colors.white70,
         fontSize: 18.0,
       ),
-      subtitle2: TextStyle(
+      subtitle2: const TextStyle(
         color: Colors.white70,
         fontSize: 18.0,
       ),
-      displayLarge: TextStyle(
+      displayLarge: const TextStyle(
         color: Colors.white70,
         fontSize: 18.0,
       ),
-      displayMedium: TextStyle(
+      displayMedium: const TextStyle(
         color: Colors.white70,
         fontSize: 18.0,
       ),
-      displaySmall: TextStyle(
+      displaySmall: const TextStyle(
         color: Colors.white70,
         fontSize: 18.0,
       ),
-      headline1: TextStyle(
+      headline1: const TextStyle(
         color: Colors.white70,
         fontSize: 18.0,
       ),
-      headline2: TextStyle(
+      headline2: const TextStyle(
         color: Colors.white70,
         fontSize: 18.0,
       ),
-      headline3: TextStyle(
+      headline3: const TextStyle(
         color: Colors.white70,
         fontSize: 18.0,
       ),
-      headline4: TextStyle(
+      headline4: const TextStyle(
         color: Colors.white70,
         fontSize: 18.0,
       ),
-      headline5: TextStyle(
+      headline5: const TextStyle(
         color: Colors.white70,
         fontSize: 18.0,
       ),
-      headline6: TextStyle(
+      headline6: const TextStyle(
         color: Colors.white70,
         fontSize: 18.0,
       ),
-      headlineLarge: TextStyle(
+      headlineLarge: const TextStyle(
         color: Colors.white70,
         fontSize: 18.0,
       ),
-      headlineMedium: TextStyle(
+      headlineMedium: const TextStyle(
         color: Colors.white70,
         fontSize: 18.0,
       ),
-      headlineSmall: TextStyle(
+      headlineSmall: const TextStyle(
         color: Colors.white70,
         fontSize: 18.0,
       ),

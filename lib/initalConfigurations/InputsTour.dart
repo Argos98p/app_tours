@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:slugify/slugify.dart';
 
 
 class InputsTour{

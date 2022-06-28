@@ -30,7 +30,7 @@ class Tour {
   }*/
 
   Future<Map<String, dynamic>> toMap() async {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['title'] = infoTour!['titulo'];
     data['type'] = type;
     data['infoTour'] = infoTour;

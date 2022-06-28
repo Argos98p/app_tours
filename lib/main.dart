@@ -1,7 +1,5 @@
-import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
-import 'package:app_tours/models/Scene.dart';
 import 'package:app_tours/pages/AddImagePage.dart';
-import 'package:app_tours/pages/Home.dart';
+import 'package:app_tours/pages/LoginPage.dart';
 import 'package:app_tours/pages/OtherTourPage.dart';
 import 'package:app_tours/pages/ScenesInTour.dart';
 import 'package:app_tours/pages/VirtualToursPage.dart';
@@ -33,14 +31,14 @@ class MyApp extends StatelessWidget {
           ),
           //darkTheme: ThemeData(brightness: Brightness.dark),
           //themeMode: ThemeMode.dark,
-          home: Home(index:0),
+          home:/* Home(index:0),*/const Login(),
           debugShowCheckedModeBanner: false,
           onGenerateRoute: (RouteSettings settings) {
             WidgetBuilder builder;
 
             switch (settings.name) {
               case '/toursDisponibles':
-                builder = (BuildContext context) => VirtualTourPage();
+                builder = (BuildContext context) => const VirtualTourPage();
                 break;
              /* case '/toursDisponibles/informationTour':
                 builder=(BuildContext context) => TourInformationPage();

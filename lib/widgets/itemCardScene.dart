@@ -92,9 +92,9 @@ class _ItemCardScenesState extends State<ItemCardScene> {
                         size: 38, color: colorsApp['iconColor']),
                     /*),*/
                     Padding(
-                        padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: Text(widget.sceneInTour.title,
-                            style: TextStyle(fontSize: 16))),
+                            style: const TextStyle(fontSize: 16))),
                   ]),
             ),
           ]),
@@ -108,7 +108,7 @@ class _ItemCardScenesState extends State<ItemCardScene> {
       return Container(
           width: 20,
           height: 20,
-          decoration: new BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.green,
             shape: BoxShape.circle,
           ),
@@ -118,7 +118,7 @@ class _ItemCardScenesState extends State<ItemCardScene> {
       return Container(
           width: 20,
           height: 20,
-          decoration: new BoxDecoration(
+          decoration: BoxDecoration(
             color: colorsApp['secondaryColor'],
             shape: BoxShape.circle,
           ),

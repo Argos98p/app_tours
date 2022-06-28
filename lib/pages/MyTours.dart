@@ -2,11 +2,10 @@ import 'package:app_tours/models/Tour.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/utils/SharedPreferences.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class ToursPage extends StatefulWidget {
-  ToursPage({Key? key}) : super(key: key);
+  const ToursPage({Key? key}) : super(key: key);
 
   @override
   State<ToursPage> createState() => _ToursPageState();
@@ -38,7 +37,7 @@ class _ToursPageState extends State<ToursPage> {
               future: getTours(),
               builder: (BuildContext context,AsyncSnapshot<List<dynamic>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 } else if (snapshot.connectionState == ConnectionState.done) {
                   //print(snapshot.data);
                   List aux = snapshot.data!;
@@ -54,7 +53,7 @@ class _ToursPageState extends State<ToursPage> {
                             }
                             //print(snapshot.data![index]);
                           },
-                            leading: Icon(Icons.threesixty),
+                            leading: const Icon(Icons.threesixty),
                             trailing:
                             MaterialButton(
                               onPressed: () {
@@ -65,17 +64,17 @@ class _ToursPageState extends State<ToursPage> {
                               },
                               color: Colors.redAccent,
                               textColor: Colors.white,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.delete,
                                 size: 20,
                               ),
-                              padding: EdgeInsets.all(1),
-                              shape: CircleBorder(),
+                              padding: const EdgeInsets.all(1),
+                              shape: const CircleBorder(),
                             ),
 
 
                             subtitle:Text(aux[index]['type'],
-                              style: TextStyle(color: Colors.green, fontSize: 15),
+                              style: const TextStyle(color: Colors.green, fontSize: 15),
                             ),
                             title: Text(aux[index]['title'])),
                       );

@@ -87,13 +87,13 @@ class _ScenesInTourState extends State<ScenesInTour> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+                padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       'Escenas ' + StringUtils.capitalize(widget.typeTour),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 24,
                       ),
                     ),
@@ -106,7 +106,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
                             30), //border raiuds of dropdown button
                       ),
                       child: Padding(
-                        padding: EdgeInsets.only(left: 15, right: 10),
+                        padding: const EdgeInsets.only(left: 15, right: 10),
                         child: DropdownButton<String>(
                           focusNode: dropDownFocus,
                           underline: Container(),
@@ -120,12 +120,12 @@ class _ScenesInTourState extends State<ScenesInTour> {
                             (index) => index < pisos.keys.length
                                 ? DropdownMenuItem(
                                     child: Text(
-                                        '${pisos.keys.toList().elementAt(index)}'),
+                                        pisos.keys.toList().elementAt(index)),
                                     value:
-                                        '${pisos.keys.toList().elementAt(index)}')
+                                        pisos.keys.toList().elementAt(index))
                                 : DropdownMenuItem(
                                     child: TextButton(
-                                      child: Text('Agregar'),
+                                      child: const Text('Agregar'),
                                       onPressed: () {
                                         print('click crear');
                                         showDialog(
@@ -134,7 +134,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
                                             builder: (BuildContext context) {
                                               return Dialog(
                                                 child: Container(
-                                                  margin: EdgeInsets.all(20),
+                                                  margin: const EdgeInsets.all(20),
                                                   child: Column(
                                                     mainAxisSize:
                                                         MainAxisSize.min,
@@ -150,7 +150,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
                                                               'Nombre del piso',
                                                         ),
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 10,
                                                       ),
                                                       Row(
@@ -170,7 +170,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
                                                                     .withOpacity(
                                                                         0.1),
                                                                 side:
-                                                                    BorderSide(
+                                                                    const BorderSide(
                                                                   width: 2,
                                                                   color: Colors
                                                                       .redAccent,
@@ -181,7 +181,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
                                                                         context)
                                                                     .pop();
                                                               },
-                                                              child: Text(
+                                                              child: const Text(
                                                                   "Cerrar")),
                                                           ElevatedButton(
                                                               onPressed: () {
@@ -234,7 +234,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
                                                                     .pop();
                                                                 //pisoSelec = floorNameSlug;
                                                               },
-                                                              child: Text(
+                                                              child: const Text(
                                                                   'Crear')),
                                                         ],
                                                       )
@@ -319,11 +319,11 @@ class _ScenesInTourState extends State<ScenesInTour> {
                             context, '/', (route) => false);
                       },
                       child: (widget.updateTour)
-                          ? Text('Actualizar')
-                          : Text("Crear"))
+                          ? const Text('Actualizar')
+                          : const Text("Crear"))
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               )
             ],

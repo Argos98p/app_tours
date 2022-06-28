@@ -3,7 +3,6 @@ import 'package:app_tours/models/Scene.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:app_tours/utils/SharedPreferences.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -60,7 +59,7 @@ class _OtherTourState extends State<OtherTour> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Tour Otro',
                     style: TextStyle(fontSize: 24),
                   ),
@@ -76,11 +75,11 @@ class _OtherTourState extends State<OtherTour> {
                       (index) => index < pisos.keys.length
                           ? DropdownMenuItem(
                               child: Text(
-                                  '${pisos.keys.toList().elementAt(index)}'),
-                              value: '${pisos.keys.toList().elementAt(index)}')
+                                  pisos.keys.toList().elementAt(index)),
+                              value: pisos.keys.toList().elementAt(index))
                           : DropdownMenuItem(
                               child: TextButton(
-                                child: Text('Agregar'),
+                                child: const Text('Agregar'),
                                 onPressed: () {
                                   print('click crear');
                                   showDialog(
@@ -89,7 +88,7 @@ class _OtherTourState extends State<OtherTour> {
                                       builder: (BuildContext context) {
                                         return Dialog(
                                           child: Container(
-                                            margin: EdgeInsets.all(20),
+                                            margin: const EdgeInsets.all(20),
                                             child: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
@@ -104,7 +103,7 @@ class _OtherTourState extends State<OtherTour> {
                                                         'Nombre del piso',
                                                   ),
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 10,
                                                 ),
                                                 Row(
@@ -121,7 +120,7 @@ class _OtherTourState extends State<OtherTour> {
                                                           shadowColor: Colors
                                                               .transparent
                                                               .withOpacity(0.1),
-                                                          side: BorderSide(
+                                                          side: const BorderSide(
                                                             width: 2,
                                                             color: Colors
                                                                 .redAccent,
@@ -131,7 +130,7 @@ class _OtherTourState extends State<OtherTour> {
                                                           Navigator.of(context)
                                                               .pop();
                                                         },
-                                                        child: Text("Cerrar")),
+                                                        child: const Text("Cerrar")),
                                                     ElevatedButton(
                                                         onPressed: () {
                                                           setState(() {});
@@ -155,7 +154,7 @@ class _OtherTourState extends State<OtherTour> {
                                                                     e.toString());
                                                           }
                                                         },
-                                                        child: Text('Crear')),
+                                                        child: const Text('Crear')),
                                                   ],
                                                 )
                                               ],
@@ -197,7 +196,7 @@ class _OtherTourState extends State<OtherTour> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.all(16),
+                                  padding: const EdgeInsets.all(16),
                                   child: TextField(
                                     controller: newNameSceneController,
                                     decoration: const InputDecoration(
@@ -226,7 +225,7 @@ class _OtherTourState extends State<OtherTour> {
                                             Navigator.pop(context);
                                           });
                                         },
-                                        child: Text('Crear'))
+                                        child: const Text('Crear'))
                                   ],
                                 )
                               ],
@@ -246,7 +245,7 @@ class _OtherTourState extends State<OtherTour> {
                   crossAxisCount: 3,
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 5,
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   children: List.generate(scenes.keys.length, (index) {
                     return Card(
                         shape: RoundedRectangleBorder(
@@ -283,12 +282,12 @@ class _OtherTourState extends State<OtherTour> {
                                       /*),*/
                                       Padding(
                                           padding:
-                                              EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                              const EdgeInsets.fromLTRB(0, 10, 0, 10),
                                           child: Text(
                                               scenes.values
                                                   .toList()[index]
                                                   .name,
-                                              style: TextStyle(fontSize: 16))),
+                                              style: const TextStyle(fontSize: 16))),
                                     ]),
                               ),
                             ],
@@ -321,8 +320,8 @@ class _OtherTourState extends State<OtherTour> {
                             context, '/', (route) => false);
                       },
                       child: (widget.updateTour)
-                          ? Text("Actualizar")
-                          : Text('Crear'))
+                          ? const Text("Actualizar")
+                          : const Text('Crear'))
                 ],
               )
             ],
@@ -339,7 +338,7 @@ class _OtherTourState extends State<OtherTour> {
       return Container(
           width: 20,
           height: 20,
-          decoration: new BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.green,
             shape: BoxShape.circle,
           ),
@@ -349,7 +348,7 @@ class _OtherTourState extends State<OtherTour> {
       return Container(
           width: 20,
           height: 20,
-          decoration: new BoxDecoration(
+          decoration: BoxDecoration(
             color: colorsApp['secondaryColor'],
             shape: BoxShape.circle,
           ),
@@ -360,7 +359,7 @@ class _OtherTourState extends State<OtherTour> {
   Future _navigateAddImageAndReturn(
       BuildContext context, String sceneKey, String floorKey) async {
     //TourProvider watch = context.watch<TourProvider>();
-    var imageFileList;
+    Object? imageFileList;
     try {
       Scene scene = context
           .read<TourProvider>()
@@ -382,7 +381,7 @@ class _OtherTourState extends State<OtherTour> {
       context.read<TourProvider>().addImageListSceneOther(
           floorKey: floorKey, sceneKey: sceneKey, imageList: imageFileList);
       setState(() {
-        print(imageFileList.length.toString());
+
       });
     }
   }

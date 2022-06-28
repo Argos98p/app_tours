@@ -1,12 +1,9 @@
-import 'dart:ui';
 
 import 'package:app_tours/initalConfigurations/InputsTour.dart';
 import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
-import 'package:app_tours/utils/my_flutter_app_icons.dart';
 import 'package:app_tours/widgets/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
-import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:fluttericon/modern_pictograms_icons.dart';
 
 class TourAvaliable {

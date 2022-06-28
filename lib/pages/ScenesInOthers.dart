@@ -1,9 +1,7 @@
-import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
 import 'package:app_tours/models/Floor.dart';
 import 'package:app_tours/models/Scene.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +37,7 @@ class _OthersScenesState extends State<OthersScenes> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, ),
+          icon: const Icon(Icons.arrow_back, ),
           onPressed: (){ Navigator.of(context).pop();
             setState(() {
 
@@ -53,7 +51,7 @@ class _OthersScenesState extends State<OthersScenes> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: const [
                   Text(
                     'Escenas Otros',
                     style: TextStyle(fontSize: 24),
@@ -177,7 +175,7 @@ class _OthersScenesState extends State<OthersScenes> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.all(16),
+                                  padding: const EdgeInsets.all(16),
                                   child: TextField(
                                     controller: newNameSceneController,
                                     decoration: const InputDecoration(
@@ -199,7 +197,7 @@ class _OthersScenesState extends State<OthersScenes> {
                                           });
 
                                         },
-                                        child: Text('Crear'))
+                                        child: const Text('Crear'))
                                   ],
                                 )
                               ],
@@ -222,7 +220,7 @@ class _OthersScenesState extends State<OthersScenes> {
                   crossAxisCount: 3,
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 5,
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   children: List.generate(scenes.keys.length, (index) {
                     return Card(
                         shape: RoundedRectangleBorder(
@@ -255,10 +253,10 @@ class _OthersScenesState extends State<OthersScenes> {
                                       /*),*/
                                       Padding(
                                           padding:
-                                              EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                              const EdgeInsets.fromLTRB(0, 10, 0, 10),
                                           child: Text(
                                               scenes.values.toList()[index].name,
-                                              style: TextStyle(fontSize: 16))),
+                                              style: const TextStyle(fontSize: 16))),
                                     ]),
                               ),
                             ],
@@ -283,7 +281,7 @@ class _OthersScenesState extends State<OthersScenes> {
       return  Container(
           width: 20,
           height: 20,
-          decoration: new BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.green,
             shape: BoxShape.circle,
           ),
@@ -295,7 +293,7 @@ class _OthersScenesState extends State<OthersScenes> {
       return Container(
           width: 20,
           height: 20,
-          decoration: new BoxDecoration(
+          decoration: BoxDecoration(
             color: colorsApp['secondaryColor'],
             shape: BoxShape.circle,
           ),
@@ -306,7 +304,7 @@ class _OthersScenesState extends State<OthersScenes> {
 
   Future _navigateAddImageAndReturn(BuildContext context, String sceneKey, String floorKey) async {
     //TourProvider watch = context.watch<TourProvider>();
-    var imageFileList;
+    Object? imageFileList;
     try{
       Scene scene= context.read<TourProvider>().newTour.floors![floorKey]!.others![sceneKey]!;
       imageFileList = await Navigator.pushNamed(context, '/toursDisponibles/agregarEscena',arguments:{"sceneName":scene.name, 'imageList':scene.imageList});
@@ -320,7 +318,7 @@ class _OthersScenesState extends State<OthersScenes> {
       imageFileList as List<XFile>;
       context.read<TourProvider>().addImageListOthers(floorKey: floorKey, sceneKey: sceneKey, imageList: imageFileList);
       setState(() {
-        print(imageFileList.length.toString());
+
       });
 
     }

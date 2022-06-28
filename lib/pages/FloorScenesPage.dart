@@ -1,6 +1,5 @@
 import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
 import 'package:app_tours/models/Floor.dart';
-import 'package:app_tours/models/Scene.dart';
 import 'package:app_tours/widgets/itemCardScene.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +21,7 @@ class _FloorScenesPageState extends State<FloorScenesPage> {
         crossAxisCount: 3,
         crossAxisSpacing: 5,
         mainAxisSpacing: 5,
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         children: List.generate(widget.scenes.length, (index) {
           /*Scene newScene = Scene(
               imageList: [],
