@@ -95,6 +95,7 @@ class _AddImagePageState extends State<AddImagePage> {
                               },
                               child: Image.file(
                                 File(imageFileList![index].path),
+                                filterQuality : FilterQuality.high,
                                 fit: BoxFit.cover,
                               ),
                             ),

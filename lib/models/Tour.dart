@@ -71,11 +71,14 @@ class Tour {
   }
 
   Future<String> saveImage(XFile archivo) async {
-    final Directory directory = await getApplicationDocumentsDirectory();
-    String directoryPath = directory.path;
+    final Directory? directory = await getExternalStorageDirectory();
+    String directoryPath = directory!.path;
     final File image = File(archivo.path);
-    final String imageName = Path.basename(image.path);
-    final File newImage = await image.copy('$directoryPath/$imageName');
+    if(await File("$directoryPath/${Path.basename(image.path)}").exists()){
+      return "$directoryPath/${Path.basename(image.path)}";
+    }
+
+    final File newImage = await image.copy('$directoryPath/${Path.basename(image.path)}');
     return newImage.path;
   }
 
