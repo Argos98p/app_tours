@@ -109,6 +109,7 @@ TourAvaliable tourOtro = TourAvaliable(
       const ScenesInTourModel(icon: Icons.add, title: 'Otro',slug: 'otro')
     ],
     inputs: {
+      'tipo_aux':InputsTour(icon:Icons.eighteen_mp,label: 'tipo_aux',slug: 'tipo_aux'),
       'titulo':InputsTour(icon: Icons.threesixty_outlined, label: 'Titulo',slug: 'titulo'),
       'direccion':InputsTour(icon: Icons.location_on_outlined, label: 'Direccion',slug: 'direccion'),
       'ciudad':InputsTour(icon: Icons.my_location_rounded, label: 'Ciudad',slug: 'ciudad'),

@@ -33,11 +33,12 @@ class _OtherTourState extends State<OtherTour> {
   @override
   void initState() {
     super.initState();
-    pisoSelec = 'default';
+    pisoSelec = '';
   }
 
   @override
   Widget build(BuildContext context) {
+    pisoSelec=context.read<TourProvider>().newTour.floors!.keys.first;
     context.read<TourProvider>().setInfoTour(infoTour: widget.infoTour);
     context.read<TourProvider>().setType(typeTour: widget.typeTour);
     Map<String, Floor> pisos = context.read<TourProvider>().newTour.floors!;
@@ -59,9 +60,83 @@ class _OtherTourState extends State<OtherTour> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Tour Otro',
-                    style: TextStyle(fontSize: 24),
+                  Row(
+                    children: [
+                      Text(
+                        "Tour ${widget.infoTour['tipo_aux']!}",
+                        style:
+                            const TextStyle(fontSize: 24, color: Colors.white),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          TextEditingController newNameController = TextEditingController();
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                    child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                       TextField(
+                                        controller:newNameController,
+                                        decoration: const InputDecoration(
+                                          labelText:'Editar nombre',
+                                          prefixIcon: Icon(Icons.edit),
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 0, horizontal: 10),
+                                          border: OutlineInputBorder(),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10,),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          ElevatedButton(
+                                            child: const Text('Cerrar'),
+                                            style: ElevatedButton.styleFrom(
+                                              elevation: 5,
+                                              primary: Colors.transparent,
+                                              shadowColor: Colors.transparent
+                                                  .withOpacity(0.1),
+                                              side: const BorderSide(
+                                                width: 2,
+                                                color: Colors.redAccent,
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          ElevatedButton(
+                                              onPressed: () {
+                                               print( newNameController.text);
+                                               setState(() {
+                                                 context.read<TourProvider>().updateInfoTourInput(keyInput: 'tipo_aux', newValue: newNameController.text);
+                                                  Navigator.pop(context);
+                                                  widget.infoTour['tipo_aux']=newNameController.text;
+                                                  //newNameController.dispose();
+                                               });
+                                              },
+                                              child: const Text("Ok")),
+                                        ],
+                                      )
+
+                                    ],
+                                  ),
+                                ));
+                              });
+                        },
+                        icon: const Icon(
+                          Icons.edit,
+                          color: Colors.blueAccent,
+                        ),
+                      )
+                    ],
                   ),
                   DropdownButton<String>(
                     underline: Container(),
@@ -74,9 +149,78 @@ class _OtherTourState extends State<OtherTour> {
                       pisos.keys.length + 1,
                       (index) => index < pisos.keys.length
                           ? DropdownMenuItem(
-                              child: Text(
-                                  pisos.keys.toList().elementAt(index)),
+                              child: Row(
+                                children: [IconButton(onPressed: (){
+                                  TextEditingController newNameController = TextEditingController();
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Dialog(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(20.0),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  TextField(
+                                                    controller:newNameController,
+                                                    decoration: const InputDecoration(
+                                                      labelText:'Editar nombre de nivel',
+                                                      prefixIcon: Icon(Icons.edit),
+                                                      contentPadding: EdgeInsets.symmetric(
+                                                          vertical: 0, horizontal: 10),
+                                                      border: OutlineInputBorder(),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 10,),
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      ElevatedButton(
+                                                        child: const Text('Cerrar'),
+                                                        style: ElevatedButton.styleFrom(
+                                                          elevation: 5,
+                                                          primary: Colors.transparent,
+                                                          shadowColor: Colors.transparent
+                                                              .withOpacity(0.1),
+                                                          side: const BorderSide(
+                                                            width: 2,
+                                                            color: Colors.redAccent,
+                                                          ),
+                                                        ),
+                                                        onPressed: () {
+                                                          Navigator.pop(context);
+                                                        },
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      ElevatedButton(
+                                                          onPressed: () {
+                                                            print( newNameController.text);
+                                                            setState(() {
+                                                              pisoSelec=slugify(newNameController.text);
+                                                              context.read<TourProvider>().renameFloor(newName: newNameController.text, oldName:pisos.keys.toList().elementAt(index) );
+                                                              Fluttertoast.showToast(msg: 'Nivel renombrado');
+                                                              Navigator.pop(context);
+                                                              /*context.read<TourProvider>().updateInfoTourInput(keyInput: 'tipo_aux', newValue: newNameController.text);
+                                                              Navigator.pop(context);
+                                                              widget.infoTour['tipo_aux']=newNameController.text;*/
+                                                            });
+                                                          },
+                                                          child: const Text("Ok")),
+                                                    ],
+                                                  )
+
+                                                ],
+                                              ),
+                                            ));
+                                      });
+                                }, icon: Icon(Icons.edit)),
+                                  Text(pisos.keys.toList().elementAt(index))],
+                              )
+                          ,
                               value: pisos.keys.toList().elementAt(index))
+                          //opcion de agregar piso
                           : DropdownMenuItem(
                               child: TextButton(
                                 child: const Text('Agregar'),
@@ -120,7 +264,8 @@ class _OtherTourState extends State<OtherTour> {
                                                           shadowColor: Colors
                                                               .transparent
                                                               .withOpacity(0.1),
-                                                          side: const BorderSide(
+                                                          side:
+                                                              const BorderSide(
                                                             width: 2,
                                                             color: Colors
                                                                 .redAccent,
@@ -130,7 +275,8 @@ class _OtherTourState extends State<OtherTour> {
                                                           Navigator.of(context)
                                                               .pop();
                                                         },
-                                                        child: const Text("Cerrar")),
+                                                        child: const Text(
+                                                            "Cerrar")),
                                                     ElevatedButton(
                                                         onPressed: () {
                                                           setState(() {});
@@ -154,7 +300,8 @@ class _OtherTourState extends State<OtherTour> {
                                                                     e.toString());
                                                           }
                                                         },
-                                                        child: const Text('Crear')),
+                                                        child: const Text(
+                                                            'Crear')),
                                                   ],
                                                 )
                                               ],
@@ -281,13 +428,14 @@ class _OtherTourState extends State<OtherTour> {
                                           color: colorsApp['iconColor']),
                                       /*),*/
                                       Padding(
-                                          padding:
-                                              const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 10, 0, 10),
                                           child: Text(
                                               scenes.values
                                                   .toList()[index]
                                                   .name,
-                                              style: const TextStyle(fontSize: 16))),
+                                              style: const TextStyle(
+                                                  fontSize: 16))),
                                     ]),
                               ),
                             ],
@@ -297,6 +445,7 @@ class _OtherTourState extends State<OtherTour> {
                 ),
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
                       onPressed: () async {
@@ -380,9 +529,7 @@ class _OtherTourState extends State<OtherTour> {
 
       context.read<TourProvider>().addImageListSceneOther(
           floorKey: floorKey, sceneKey: sceneKey, imageList: imageFileList);
-      setState(() {
-
-      });
+      setState(() {});
     }
   }
 }

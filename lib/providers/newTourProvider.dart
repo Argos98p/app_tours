@@ -57,6 +57,7 @@ class TourProvider with ChangeNotifier{
       print('error al insertar las imagenes:asdadfad' +e.toString());
     }
   }
+
   //inserta la lista de imagenes a una escena del tour 'otro'
   Future<void> addImageListSceneOther({required String floorKey, required String sceneKey, required List<XFile> imageList})async {
     //try{
@@ -119,7 +120,28 @@ class TourProvider with ChangeNotifier{
     return auxTour;
   }
 
-  /*
+  Future<void> updateInfoTourInput({required String keyInput, required String newValue}) async{
+
+    try{
+      _newTour.infoTour!['keyInput']=newValue;
+      notifyListeners();
+    }catch(e){
+      print('Error al actualizar input de infoTour '+e.toString());
+    }
+  }
+
+  Future<void> renameFloor({required String newName, required String oldName}) async{
+    Floor bkFloor=_newTour.floors![oldName]!;
+    bkFloor.slug=slugify(newName);
+    bkFloor.name=newName;
+    _newTour.floors!.remove(oldName);
+    _newTour.floors![newName]=bkFloor;
+    notifyListeners();
+  }
+  Future<String> getFirstFloorKey() async{
+    return _newTour.floors!.keys.first;
+  }
+/*
     Future<void> mapToOtherTour({required Map<String, dynamic> tourSaved}) async {
       Floor floor = Floor();
       floor.slug=floorKey;
