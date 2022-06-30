@@ -22,12 +22,6 @@ class Tour {
                   slug: 'default', scenes: {}, others: {}, name: 'default'),
             };
 
-/*
-  List<String> floorsNames (){
-    List<String> nombres=[];
-    floors!.forEach((element) {nombres.add(element.name!); });
-    return nombres;
-  }*/
 
   Future<Map<String, dynamic>> toMap() async {
     final Map<String, dynamic> data = <String, dynamic>{};

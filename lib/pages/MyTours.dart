@@ -1,7 +1,11 @@
 import 'package:app_tours/models/Tour.dart';
+import 'package:app_tours/pages/search_tour_delegate.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
+import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:app_tours/utils/SharedPreferences.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:provider/provider.dart';
 
 class ToursPage extends StatefulWidget {
@@ -12,80 +16,217 @@ class ToursPage extends StatefulWidget {
 }
 
 class _ToursPageState extends State<ToursPage> {
+  String busqueda = '';
   SharedPref sharedPref = SharedPref();
+  TextEditingController textControllerSearch = TextEditingController();
   List<dynamic> tours = [];
+  List<dynamic> allTours = [];
+  List<String> typeListAvaliables = [];
+
   @override
   void initState() {
     getTours().then((response) {
       //calling setState will refresh your build method.
       setState(() {
+        allTours=response;
         tours = response;
+        typeListAvaliables = typeListAvaliable(tours: tours);
+        print('essdf tours'+tours.toString());
+        //tours=getTourOfType( type: 'Todos',);
         // print(tours.toString());
       });
     });
     super.initState();
   }
 
-  @override
+  List<String> typeFilter = [];
+  String typeFilterSelected = 'Todos';
+
+  List<String> typeListAvaliable({required List<dynamic> tours}) {
+    List<String> typeList = ['Todos'];
+    tours.forEach((element) {
+      if (element['type'] != 'otro') {
+        if (!typeList.contains(element['type'])) {
+          typeList.add(element['type']);
+        }
+      } else {
+        if (!typeList.contains(element['infoTour']['tipo_aux'])) {
+          typeList.add(element['infoTour']['tipo_aux']);
+        }
+      }
+    });
+    return typeList;
+  }
+
+  //Devuelve los tours de un determinado tipo
+  List<dynamic> getTourOfType({required String type}) {
+    print(type);
+    List<dynamic> toursOfType = [];
+    if(type=='Todos'){
+      return allTours;
+    }
+    allTours.forEach((element) {
+      if(element['type']!='otro'){
+        if(element['type']==type){
+          toursOfType.add(element);
+        }
+      }else{
+        if(element['infoTour']['tipo_aux']==type){
+          toursOfType.add(element);
+        }
+      }
+    });
+    return toursOfType;
+  }
+
+    @override
   Widget build(BuildContext context) {
+    //typeListAvaliables=typeListAvaliable(tours: tours);
     return Scaffold(
-      body: Center(
+      body: Container(
         child: Column(
           children: [
-            
-                FutureBuilder(
-              future: getTours(),
-              builder: (BuildContext context,AsyncSnapshot<List<dynamic>> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                } else if (snapshot.connectionState == ConnectionState.done) {
-                  //print(snapshot.data);
-                  List aux = snapshot.data!;
-                  return Expanded(
-                    child: ListView.builder( itemCount:aux.length ,itemBuilder: (BuildContext context, int index){
-                      return Card(
-                        child: ListTile(
-                          onTap: () async{
-                            Tour tourSaved= await context.read<TourProvider>().mapToTour(tourSaved: snapshot.data![index]);
-                            if(tourSaved.type!= 'other'){
-                              context.read<TourProvider>().newTour=tourSaved;
-                              Navigator.pushNamed(context, '/toursDisponibles/${tourSaved.type}',arguments:{'formData':tourSaved.infoTour, 'case':true,'index':index});
-                            }
-                            //print(snapshot.data![index]);
-                          },
-                            leading: const Icon(Icons.threesixty),
-                            trailing:
-                            MaterialButton(
-                              onPressed: () {
-                                sharedPref.remove('nuevo_tour', index);
-                                setState(() {
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    showSearch(
+                      context: context,
+                      delegate: SearchTourDelegate(tours),
+                    );
+                  },
+                  child: Container(
+                    height: 40,
+                    width: MediaQuery.maybeOf(context)!.size.width * 0.5,
+                    margin: const EdgeInsets.only(
+                        left: 3, right: 2, top: 6, bottom: 3),
+                    decoration: BoxDecoration(
+                        color: colorsApp['primaryColor'],
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 15, right: 10),
+                          child: Icon(
+                            FontAwesome5.search,
+                            color: Colors.grey[400],
+                          ),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(left: 15),
+                            child: Text(
+                              'Buscar',
+                              style: TextStyle(
+                                  color: Colors.grey[400], fontSize: 18),
+                            ))
+                      ],
+                    ),
+                  ),
+                ),
+                DropdownButton<String>(
+                  value: typeFilterSelected,
+                  items: List.generate(
+                      typeListAvaliables.length,
+                      (index) => DropdownMenuItem(
+                            child: Text(typeListAvaliables[index]),
+                            value: typeListAvaliables[index],
+                          )),
+                  onChanged: (value) {
+                    setState(() {
+                      typeFilterSelected=value!;
+                      tours=getTourOfType(type: value);
+                    });
+                  },
+                ),
+                /*GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                        left: 3, right: 2, top: 6, bottom: 3),
+                    decoration: BoxDecoration(
+                      color: colorsApp['primaryColor'],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(FontAwesome5.filter),
+                    ),
+                  ),
+                ),*/
+              ],
+            ),
+            Container(
+              child: FutureBuilder(
+                future: getTours(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<dynamic>> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.connectionState == ConnectionState.done) {
+                    //print(snapshot.data);
+                    List aux = tours;
 
-                                });
-                              },
-                              color: Colors.redAccent,
-                              textColor: Colors.white,
-                              child: const Icon(
-                                Icons.delete,
-                                size: 20,
-                              ),
-                              padding: const EdgeInsets.all(1),
-                              shape: const CircleBorder(),
-                            ),
+                    return Expanded(
+                      child: ListView.builder(
+                          itemCount: aux.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Card(
+                              child: ListTile(
+                                  onTap: () async {
+                                    Tour tourSaved = await context
+                                        .read<TourProvider>()
+                                        .mapToTour(
+                                            tourSaved: snapshot.data![index]);
+                                    context.read<TourProvider>().newTour =
+                                        tourSaved;
 
+                                    Navigator.pushNamed(context,
+                                        '/toursDisponibles/${tourSaved.type}',
+                                        arguments: {
+                                          'formData': tourSaved.infoTour,
+                                          'case': true,
+                                          'index': index
+                                        });
 
-                            subtitle:Text(aux[index]['type'],
-                              style: const TextStyle(color: Colors.green, fontSize: 15),
-                            ),
-                            title: Text(aux[index]['title'])),
-                      );
-                    }),
-                  );
-                } else {
-                  return Text('State: ${snapshot.connectionState}');
-                }
-
-
-              },
+                                    //print(snapshot.data![index]);
+                                  },
+                                  leading: const Icon(Icons.threesixty),
+                                  trailing: MaterialButton(
+                                    onPressed: () {
+                                      sharedPref.remove('nuevo_tour', index);
+                                      setState(() {});
+                                    },
+                                    color: Colors.redAccent,
+                                    textColor: Colors.white,
+                                    child: const Icon(
+                                      Icons.delete,
+                                      size: 20,
+                                    ),
+                                    padding: const EdgeInsets.all(1),
+                                    shape: const CircleBorder(),
+                                  ),
+                                  subtitle: (aux[index]['type'] != "otro")
+                                      ? Text(
+                                          aux[index]['type'],
+                                          style: const TextStyle(
+                                              color: Colors.green,
+                                              fontSize: 15),
+                                        )
+                                      : Text(
+                                          aux[index]['infoTour']['tipo_aux'],
+                                          style: const TextStyle(
+                                              color: Colors.green,
+                                              fontSize: 15),
+                                        ),
+                                  title: Text(aux[index]['title'])),
+                            );
+                          }),
+                    );
+                  } else {
+                    return Text('State: ${snapshot.connectionState}');
+                  }
+                },
+              ),
             ),
 /*
                 ListView.builder(
@@ -109,9 +250,19 @@ class _ToursPageState extends State<ToursPage> {
 
   Future<List<dynamic>> getTours() async {
     var tour = await sharedPref.read("nuevo_tour");
-    if(tour == null){
+    if (tour == null) {
       return [];
     }
     return tour;
+  }
+
+  List<dynamic> searchResult(
+      {required List<dynamic> tours, required String nameTour}) {
+    List<dynamic> toursFound = [];
+    tours.forEach((element) {
+      element['title'].contains(nameTour);
+      toursFound.add(element);
+    });
+    return toursFound;
   }
 }

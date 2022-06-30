@@ -508,8 +508,8 @@ class _OtherTourState extends State<OtherTour> {
   Future _navigateAddImageAndReturn(
       BuildContext context, String sceneKey, String floorKey) async {
     //TourProvider watch = context.watch<TourProvider>();
-    Object? imageFileList;
-    try {
+    var imageFileList;
+    //try {
       Scene scene = context
           .read<TourProvider>()
           .newTour
@@ -517,12 +517,14 @@ class _OtherTourState extends State<OtherTour> {
           .scenes![sceneKey]!;
       imageFileList = await Navigator.pushNamed(
           context, '/toursDisponibles/agregarEscena',
-          arguments: {"sceneName": scene.name, 'imageList': scene.imageList});
+          arguments: {"sceneName": scene.name,
+            'imageList': scene.imageList});
+
       print('esto es el tamaño de la imagelist ' +
           scene.imageList.length.toString());
-    } catch (e) {
+   /* } catch (e) {
       print('error al recuperar las escenas de "otros" ' + e.toString());
-    }
+    }*/
 
     if (imageFileList != null) {
       imageFileList as List<XFile>;

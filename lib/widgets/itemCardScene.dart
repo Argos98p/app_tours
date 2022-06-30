@@ -134,6 +134,7 @@ class _ItemCardScenesState extends State<ItemCardScene> {
       "sceneName": widget.sceneInTour.title,
       'imageList': scene.imageList
     });
+
     if (imageFileList != null) {
       imageFileList as List<XFile>;
       //numScenes=imageFileList.length;
