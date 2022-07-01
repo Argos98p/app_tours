@@ -15,6 +15,7 @@ class TourProvider with ChangeNotifier{
     _newTour = value;
   }
 
+
   Future<void> cancelTour() async{
     _newTour = Tour(infoTour: {},title: '' ,type: '');
   }

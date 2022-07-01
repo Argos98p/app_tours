@@ -1,8 +1,11 @@
 import 'package:app_tours/pages/AddImagePage.dart';
+import 'package:app_tours/pages/Home.dart';
 import 'package:app_tours/pages/LoginPage.dart';
 import 'package:app_tours/pages/OtherTourPage.dart';
 import 'package:app_tours/pages/ScenesInTour.dart';
 import 'package:app_tours/pages/VirtualToursPage.dart';
+import 'package:app_tours/pages/pruebas_page.dart';
+import 'package:app_tours/providers/auxProvider.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -21,6 +24,7 @@ class MyApp extends StatelessWidget {
     return  MultiProvider(
       providers: [
         ChangeNotifierProvider<TourProvider>(create: (_)=>TourProvider()),
+        ChangeNotifierProvider<PisosProviders>(create: (_)=>PisosProviders()),
       ],
       builder: (context,_) {
         return MaterialApp(
@@ -31,7 +35,7 @@ class MyApp extends StatelessWidget {
           ),
           //darkTheme: ThemeData(brightness: Brightness.dark),
           //themeMode: ThemeMode.dark,
-          home:/* Home(index:0),*/const Login(),
+          home: Home(index:0),/*const PruebasPage(),*/
           debugShowCheckedModeBanner: false,
           onGenerateRoute: (RouteSettings settings) {
             WidgetBuilder builder;

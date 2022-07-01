@@ -38,7 +38,9 @@ class _OtherTourState extends State<OtherTour> {
 
   @override
   Widget build(BuildContext context) {
-    pisoSelec=context.read<TourProvider>().newTour.floors!.keys.first;
+    if(pisoSelec==''){
+      pisoSelec=context.read<TourProvider>().newTour.floors!.keys.first;
+    }
     context.read<TourProvider>().setInfoTour(infoTour: widget.infoTour);
     context.read<TourProvider>().setType(typeTour: widget.typeTour);
     Map<String, Floor> pisos = context.read<TourProvider>().newTour.floors!;
@@ -150,7 +152,12 @@ class _OtherTourState extends State<OtherTour> {
                       (index) => index < pisos.keys.length
                           ? DropdownMenuItem(
                               child: Row(
-                                children: [IconButton(onPressed: (){
+                                children: [
+                                  (pisoSelec==pisos.keys
+                                      .toList()
+                                      .elementAt(index))
+                                      ?
+                                  IconButton(onPressed: (){
                                   TextEditingController newNameController = TextEditingController();
                                   showDialog(
                                       context: context,
@@ -215,7 +222,7 @@ class _OtherTourState extends State<OtherTour> {
                                               ),
                                             ));
                                       });
-                                }, icon: Icon(Icons.edit)),
+                                }, icon: Icon(Icons.edit)):SizedBox(width: 0,height: 0),
                                   Text(pisos.keys.toList().elementAt(index))],
                               )
                           ,
@@ -294,6 +301,9 @@ class _OtherTourState extends State<OtherTour> {
                                                             Navigator.of(
                                                                     context)
                                                                 .pop();
+                                                            Navigator.of(
+                                                                context)
+                                                                .pop();
                                                           } catch (e) {
                                                             Fluttertoast.showToast(
                                                                 msg: 'Error ' +
@@ -309,6 +319,7 @@ class _OtherTourState extends State<OtherTour> {
                                           ),
                                         );
                                       });
+                                  //Navigator.pop(context);
                                 },
                               ),
                             ),
