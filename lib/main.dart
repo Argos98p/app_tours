@@ -5,6 +5,7 @@ import 'package:app_tours/pages/OtherTourPage.dart';
 import 'package:app_tours/pages/ScenesInTour.dart';
 import 'package:app_tours/pages/VirtualToursPage.dart';
 import 'package:app_tours/pages/pruebas_page.dart';
+import 'package:app_tours/pages/visualizer_page.dart';
 import 'package:app_tours/providers/auxProvider.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
           ),
           //darkTheme: ThemeData(brightness: Brightness.dark),
           //themeMode: ThemeMode.dark,
-          home: Home(index:0),/*const PruebasPage(),*/
+          home: /*Home(),*//*const PruebasPage(),*/VisualizerPage(),
           debugShowCheckedModeBanner: false,
           onGenerateRoute: (RouteSettings settings) {
             WidgetBuilder builder;

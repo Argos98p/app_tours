@@ -1,12 +1,16 @@
 import 'package:app_tours/pages/Profile.dart';
 import 'package:app_tours/pages/MyTours.dart';
 import 'package:app_tours/pages/VirtualToursPage.dart';
+import 'package:app_tours/pages/visualizer_page.dart';
+import 'package:app_tours/utils/ColorsTheme.dart';
+import 'package:app_tours/utils/Style.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 
 class Home extends StatefulWidget {
-  int index;
-  Home({Key? key,required this.index}) : super(key: key);
+
+  Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -14,57 +18,49 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int selectedpage = 0;
+  bool homeSelected=true;
 
   @override
   void initState(){
     super.initState();
-    selectedpage=widget.index;
+    selectedpage=0;
   }
   @override
   Widget build(BuildContext context) {
     List<Widget> _pages = [
-      homeWidget(),
-      const ToursPage(),
       const VirtualTourPage(),
-      const ProfilePage()
+      const ToursPage(),
+      const VisualizerPage()
+      //const ProfilePage(),
     ];
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: appBarSpace(),
-      body: _pages[selectedpage],
+      body:(homeSelected)
+        ?homeWidget()
+      :_pages[selectedpage],
+      /*_pages[selectedpage],*/
       bottomNavigationBar: ConvexAppBar(
+        curveSize: 0,
+        style: TabStyle.react,
+        activeColor: Colors.grey,
+        color: Colors.grey,
+        top: 0,
         backgroundColor: const Color.fromARGB(255, 66, 66, 66),
         items: const [
-          TabItem(icon: Icons.home, title: ''),
-          TabItem(icon: Icons.apps, title: ''),
           TabItem(icon: Icons.add, title: ''),
-          TabItem(icon: Icons.person, title: ''),
+          TabItem(icon: Icons.edit, title: ''),
+          TabItem(icon: FontAwesome5.eye, title: ''),
         ],
         initialActiveIndex: selectedpage,
         onTap: (int index) {
           setState(() {
+            homeSelected=false;
             selectedpage = index;
           });
         },
       ),
-    );
-  }
-
-  Widget bottomBar(int selectedpage) {
-    return ConvexAppBar(
-      backgroundColor: const Color.fromARGB(255, 66, 66, 66),
-      items: const [
-        TabItem(icon: Icons.apps, title: ''),
-        TabItem(icon: Icons.add, title: ''),
-        TabItem(icon: Icons.person, title: ''),
-      ],
-      initialActiveIndex: selectedpage,
-      onTap: (int index) {
-        setState(() {
-          selectedpage = index;
-        });
-      },
     );
   }
 
@@ -132,12 +128,15 @@ class _HomeState extends State<Home> {
     return AppBar(
       title: const Text('Virtual Space '),
       actions: <Widget>[
-        /*IconButton(
+        IconButton(
           icon: Icon(Icons.home_outlined),
           onPressed: () {
-            // do something
+            setState(() {
+              homeSelected=true;
+            });
+
           },
-        ),*/
+        ),
         IconButton(
           icon: const Icon(Icons.menu),
           onPressed: () {},

@@ -183,7 +183,7 @@ class _LoginState extends State<Login> {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
                 builder: (context) => Home(
-                      index: 0,
+
                     )),
             (Route<dynamic> route) => false);
       }
