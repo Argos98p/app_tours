@@ -114,19 +114,38 @@ class SearchTourDelegate extends SearchDelegate<List<dynamic>>{
                   //print(snapshot.data![index]);
                 },
                 leading: const Icon(Icons.threesixty),
-                trailing: MaterialButton(
-                  onPressed: () {
-                    //sharedPref.remove('nuevo_tour', index);
-                    //setState(() {});
-                  },
-                  color: Colors.redAccent,
-                  textColor: Colors.white,
-                  child: const Icon(
-                    Icons.delete,
-                    size: 20,
-                  ),
-                  padding: const EdgeInsets.all(1),
-                  shape: const CircleBorder(),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    MaterialButton(
+                      onPressed: () {
+                        //setState(() {});
+                      },
+                      color: Colors.redAccent,
+                      textColor: Colors.white,
+                      child: const Icon(
+                        Icons.remove_red_eye,
+                        size: 20,
+                      ),
+                      padding: const EdgeInsets.all(1),
+                      shape: const CircleBorder(),
+                    ),
+                    MaterialButton(
+                      onPressed: () {
+                       /* sharedPref.remove(
+                            'nuevo_tour', index);
+                        setState(() {});*/
+                      },
+                      color: Colors.redAccent,
+                      textColor: Colors.white,
+                      child: const Icon(
+                        Icons.delete,
+                        size: 20,
+                      ),
+                      padding: const EdgeInsets.all(1),
+                      shape: const CircleBorder(),
+                    ),
+                  ],
                 ),
                 subtitle: (_filter[index]['type'] != "otro")
                     ? Text(

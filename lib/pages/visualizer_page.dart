@@ -1,6 +1,10 @@
+import 'dart:io';
+
+import 'package:app_tours/models/Floor.dart';
+import 'package:app_tours/models/Scene.dart';
+import 'package:app_tours/models/Tour.dart';
 import 'package:app_tours/models/Vescena.dart';
 import 'package:app_tours/models/Vfloor.dart';
-import 'package:app_tours/models/Vescena.dart';
 import 'package:app_tours/models/Vtour.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:app_tours/widgets/fancy_fab.dart';
@@ -10,7 +14,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:panorama/panorama.dart';
 
 class VisualizerPage extends StatefulWidget {
-  const VisualizerPage({Key? key}) : super(key: key);
+  Tour? tourSaved;
+  VisualizerPage({Key? key, this.tourSaved}) : super(key: key);
 
   @override
   State<VisualizerPage> createState() => _VisualizerPageState();
@@ -21,504 +26,526 @@ class _VisualizerPageState extends State<VisualizerPage> {
   bool reelVisible = false;
   bool floorsVisible = false;
   String imageInVisualizator = '';
-  int scenaIndexSelected=0;
-
+  int scenaIndexSelected = 0;
   int floorIndexSelect = 0;
 
   @override
   void initState() {
-    tourPrueba = Vtour('tour prueba', [
-      Vfloor('1fl', [
-        Vescena('assets/images/0.jpg', 'fachada', [
-          Hotspot(
-            name: 'hola',
-            latitude: 0.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
+    if (widget.tourSaved == null) {
+      Fluttertoast.showToast(msg: 'Mostrando tour de prueba');
+      tourPrueba = Vtour('tour prueba', [
+        Vfloor('1fl', [
+          Vescena('assets/images/0.jpg', 'fachada', [
+            Hotspot(
+              name: 'hola',
+              latitude: 0.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
             ),
-          ),
-          Hotspot(
-            name: 'hola',
-            latitude: 20.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                print('hola');
-              },
+            Hotspot(
+              name: 'hola',
+              latitude: 20.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
             ),
-          ),
+          ]),
+          Vescena('assets/images/2.jpg', 'fachada', [
+            Hotspot(
+              name: 'hola',
+              latitude: 0.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.remove),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+            Hotspot(
+              name: 'hola',
+              latitude: 20.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.app_registration),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+          ]),
+          Vescena('assets/images/3.jpg', 'comedor', [
+            Hotspot(
+              name: 'hola',
+              latitude: 0.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+            Hotspot(
+              name: 'hola',
+              latitude: 20.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+          ]),
+          Vescena('assets/images/4.jpg', 'comedor', [
+            Hotspot(
+              name: 'hola',
+              latitude: 0.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+            Hotspot(
+              name: 'hola',
+              latitude: 20.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+          ]),
         ]),
-        Vescena('assets/images/2.jpg', 'fachada', [
-          Hotspot(
-            name: 'hola',
-            latitude: 0.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.remove),
-              onPressed: () {
-                print('hola');
-              },
+        Vfloor('2fl', [
+          Vescena('assets/images/3.jpg', 'sala', [
+            Hotspot(
+              name: 'hola',
+              latitude: 0.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
             ),
-          ),
-          Hotspot(
-            name: 'hola',
-            latitude: 20.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.app_registration),
-              onPressed: () {
-                print('hola');
-              },
+            Hotspot(
+              name: 'hola',
+              latitude: 20.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
             ),
-          ),
+          ]),
+          Vescena('assets/images/4.jpg', 'sala', [
+            Hotspot(
+              name: 'hola',
+              latitude: 0.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+            Hotspot(
+              name: 'hola',
+              latitude: 20.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+          ]),
+          Vescena('assets/images/5.jpg', 'estar', [
+            Hotspot(
+              name: 'hola',
+              latitude: 0.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+            Hotspot(
+              name: 'hola',
+              latitude: 20.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+          ]),
+          Vescena('assets/images/6.jpg', 'estar', [
+            Hotspot(
+              name: 'hola',
+              latitude: 0.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+            Hotspot(
+              name: 'hola',
+              latitude: 20.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+          ]),
+          Vescena('assets/images/3.jpg', 'dormitorio', [
+            Hotspot(
+              name: 'hola',
+              latitude: 0.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+            Hotspot(
+              name: 'hola',
+              latitude: 20.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+          ]),
+          Vescena('assets/images/4.jpg', 'dormitorio', [
+            Hotspot(
+              name: 'hola',
+              latitude: 0.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+            Hotspot(
+              name: 'hola',
+              latitude: 20.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+          ]),
         ]),
-        Vescena('assets/images/3.jpg', 'comedor', [
-          Hotspot(
-            name: 'hola',
-            latitude: 0.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
+        Vfloor('3fl', [
+          Vescena('assets/images/7.jpg', 'cocina', [
+            Hotspot(
+              name: 'hola',
+              latitude: 0.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
             ),
-          ),
-          Hotspot(
-            name: 'hola',
-            latitude: 20.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
+            Hotspot(
+              name: 'hola',
+              latitude: 20.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
             ),
-          ),
+          ]),
+          Vescena('assets/images/8.jpg', 'cocina', [
+            Hotspot(
+              name: 'hola',
+              latitude: 0.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+            Hotspot(
+              name: 'hola',
+              latitude: 20.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+          ]),
+          Vescena('assets/images/9.jpg', 'pasillo', [
+            Hotspot(
+              name: 'hola',
+              latitude: 0.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+            Hotspot(
+              name: 'hola',
+              latitude: 20.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+          ]),
+          Vescena('assets/images/13.jpg', 'pasillo', [
+            Hotspot(
+              name: 'hola',
+              latitude: 0.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+            Hotspot(
+              name: 'hola',
+              latitude: 20.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+          ]),
+          Vescena('assets/images/11.jpg', 'dormitorio', [
+            Hotspot(
+              name: 'hola',
+              latitude: 0.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+            Hotspot(
+              name: 'hola',
+              latitude: 20.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+          ]),
+          Vescena('assets/images/12.jpg', 'dormitorio', [
+            Hotspot(
+              name: 'hola',
+              latitude: 0.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+            Hotspot(
+              name: 'hola',
+              latitude: 20.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+          ]),
         ]),
-        Vescena('assets/images/4.jpg', 'comedor', [
-          Hotspot(
-            name: 'hola',
-            latitude: 0.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
+        Vfloor('4fl', [
+          Vescena('assets/images/13.jpg', 'cocina', [
+            Hotspot(
+              name: 'hola',
+              latitude: 0.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
             ),
-          ),
-          Hotspot(
-            name: 'hola',
-            latitude: 20.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
+            Hotspot(
+              name: 'hola',
+              latitude: 20.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
             ),
-          ),
+          ]),
+          Vescena('assets/images/2.jpg', 'cocina', [
+            Hotspot(
+              name: 'hola',
+              latitude: 0.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+            Hotspot(
+              name: 'hola',
+              latitude: 20.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+          ]),
+          Vescena('assets/images/4.jpg', 'dormitorio', [
+            Hotspot(
+              name: 'hola',
+              latitude: 0.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+            Hotspot(
+              name: 'hola',
+              latitude: 20.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+          ]),
+          Vescena('assets/images/6.jpg', 'dormitorio', [
+            Hotspot(
+              name: 'hola',
+              latitude: 0.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+            Hotspot(
+              name: 'hola',
+              latitude: 20.0,
+              longitude: 0.0,
+              widget: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: () {
+                  print('hola');
+                },
+              ),
+            ),
+          ]),
         ]),
-      ]),
-      Vfloor('2fl', [
-        Vescena('assets/images/3.jpg', 'sala', [
-          Hotspot(
-            name: 'hola',
-            latitude: 0.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-          Hotspot(
-            name: 'hola',
-            latitude: 20.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-        ]),
-        Vescena('assets/images/4.jpg', 'sala', [
-          Hotspot(
-            name: 'hola',
-            latitude: 0.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-          Hotspot(
-            name: 'hola',
-            latitude: 20.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-        ]),
-        Vescena('assets/images/5.jpg', 'estar', [
-          Hotspot(
-            name: 'hola',
-            latitude: 0.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-          Hotspot(
-            name: 'hola',
-            latitude: 20.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-        ]),
-        Vescena('assets/images/6.jpg', 'estar', [
-          Hotspot(
-            name: 'hola',
-            latitude: 0.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-          Hotspot(
-            name: 'hola',
-            latitude: 20.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-        ]),
-        Vescena('assets/images/3.jpg', 'dormitorio', [
-          Hotspot(
-            name: 'hola',
-            latitude: 0.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-          Hotspot(
-            name: 'hola',
-            latitude: 20.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-        ]),
-        Vescena('assets/images/4.jpg', 'dormitorio', [
-          Hotspot(
-            name: 'hola',
-            latitude: 0.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-          Hotspot(
-            name: 'hola',
-            latitude: 20.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-        ]),
-      ]),
-      Vfloor('3fl', [
-        Vescena('assets/images/7.jpg', 'cocina', [
-          Hotspot(
-            name: 'hola',
-            latitude: 0.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-          Hotspot(
-            name: 'hola',
-            latitude: 20.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-        ]),
-        Vescena('assets/images/8.jpg', 'cocina', [
-          Hotspot(
-            name: 'hola',
-            latitude: 0.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-          Hotspot(
-            name: 'hola',
-            latitude: 20.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-        ]),
-        Vescena('assets/images/9.jpg', 'pasillo', [
-          Hotspot(
-            name: 'hola',
-            latitude: 0.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-          Hotspot(
-            name: 'hola',
-            latitude: 20.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-        ]),
-        Vescena('assets/images/13.jpg', 'pasillo', [
-          Hotspot(
-            name: 'hola',
-            latitude: 0.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-          Hotspot(
-            name: 'hola',
-            latitude: 20.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-        ]),
-        Vescena('assets/images/11.jpg', 'dormitorio', [
-          Hotspot(
-            name: 'hola',
-            latitude: 0.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-          Hotspot(
-            name: 'hola',
-            latitude: 20.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-        ]),
-        Vescena('assets/images/12.jpg', 'dormitorio', [
-          Hotspot(
-            name: 'hola',
-            latitude: 0.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-          Hotspot(
-            name: 'hola',
-            latitude: 20.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-        ]),
-      ]),
-      Vfloor('4fl', [
-        Vescena('assets/images/13.jpg', 'cocina', [
-          Hotspot(
-            name: 'hola',
-            latitude: 0.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-          Hotspot(
-            name: 'hola',
-            latitude: 20.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-        ]),
-        Vescena('assets/images/2.jpg', 'cocina', [
-          Hotspot(
-            name: 'hola',
-            latitude: 0.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-          Hotspot(
-            name: 'hola',
-            latitude: 20.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-        ]),
-        Vescena('assets/images/4.jpg', 'dormitorio', [
-          Hotspot(
-            name: 'hola',
-            latitude: 0.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-          Hotspot(
-            name: 'hola',
-            latitude: 20.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-        ]),
-        Vescena('assets/images/6.jpg', 'dormitorio', [
-          Hotspot(
-            name: 'hola',
-            latitude: 0.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-          Hotspot(
-            name: 'hola',
-            latitude: 20.0,
-            longitude: 0.0,
-            widget: IconButton(
-              icon: Icon(Icons.login),
-              onPressed: () {
-                print('hola');
-              },
-            ),
-          ),
-        ]),
-      ]),
-    ]);
+      ]);
+    } else {
+      print('entra');
+      tourPrueba = Vtour('pr', []);
+      widget.tourSaved!.floors!.forEach((keyFloor, Floor floor) {
+        Vfloor vpiso = Vfloor(keyFloor, []);
+        floor.scenes!.forEach((key, Scene scene) {
+          scene.imageList.forEach((imagen) {
+            Vescena vescena = Vescena(imagen.path, scene.slug, []);
+            vpiso.scenas.add(vescena);
+          });
+        });
+        tourPrueba.pisos.add(vpiso);
+      });
+    }
 
-    //pisos=tourPrueba.pisos;
+    try{
+      setState(() {
+        imageInVisualizator=tourPrueba.pisos[0].scenas[0].path;
+      });
+    }catch(e){
+      print('Error cargando la imagen en el visualizador');
+    }
+
 
     super.initState();
   }
@@ -541,21 +568,29 @@ class _VisualizerPageState extends State<VisualizerPage> {
                       print(tilt.toString());
                       Hotspot newHotspot = Hotspot(
                           name: 'new hotspot',
-                        latitude: latitude,
-                        longitude: longitude,
-                        widget: IconButton(
-                          icon: Icon(Icons.link),
-                          onPressed: (){
-                            Fluttertoast.showToast(msg: 'soy un hotspot');
-                          },
-                        )
-                      );
+                          latitude: latitude,
+                          longitude: longitude,
+                          widget: IconButton(
+                            icon: Icon(Icons.link),
+                            onPressed: () {
+                              Fluttertoast.showToast(msg: 'soy un hotspot');
+                            },
+                          ));
                       setState(() {
-                        tourPrueba.pisos[floorIndexSelect].scenas[scenaIndexSelected].hotspots.add(newHotspot);
+                        tourPrueba.pisos[floorIndexSelect]
+                            .scenas[scenaIndexSelected].hotspots
+                            .add(newHotspot);
                       });
                     },
-                    hotspots: tourPrueba.pisos[floorIndexSelect].scenas[scenaIndexSelected].hotspots,
-                    child: Image.asset(imageInVisualizator),
+                    hotspots: tourPrueba.pisos[floorIndexSelect]
+                        .scenas[scenaIndexSelected].hotspots,
+                    child: (widget.tourSaved == null)
+                        ? Image.asset(imageInVisualizator)
+                        : Image.file(
+                            File(imageInVisualizator),
+                            filterQuality: FilterQuality.high,
+                            fit: BoxFit.cover,
+                          ),
                   )
                 : SizedBox(),
             Center(
@@ -575,9 +610,11 @@ class _VisualizerPageState extends State<VisualizerPage> {
                           mainAxisSpacing: 2.0,
                           children: tourPrueba.pisos[floorIndexSelect].scenas
                               .map((Vescena escena) {
-                                int index=tourPrueba.pisos[floorIndexSelect].scenas.indexOf(escena);
+                            int index = tourPrueba
+                                .pisos[floorIndexSelect].scenas
+                                .indexOf(escena);
 
-                            return cardImage(escena: escena, index:index);
+                            return cardImage(escena: escena, index: index);
                           }).toList(),
                         )),
                   ),
@@ -706,16 +743,22 @@ class _VisualizerPageState extends State<VisualizerPage> {
                     onTap: () {
                       setState(() {
                         imageInVisualizator = escena.path;
-                        scenaIndexSelected=index;
-
+                        scenaIndexSelected = index;
                       });
                     },
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8), // Image border
                       child: SizedBox.fromSize(
                         size: Size.fromRadius(16), // Image radius
-                        child: Image.asset(escena.path, fit: BoxFit.cover,
-                            filterQuality: FilterQuality.high),
+                        child: (widget.tourSaved == null)
+                            ? Image.asset(escena.path,
+                                fit: BoxFit.cover,
+                                filterQuality: FilterQuality.high)
+                            : Image.file(
+                                File(escena.path),
+                                filterQuality: FilterQuality.high,
+                                fit: BoxFit.cover,
+                              ),
                       ),
                     ))),
           ),
@@ -733,16 +776,22 @@ class _VisualizerPageState extends State<VisualizerPage> {
                     onTap: () {
                       setState(() {
                         imageInVisualizator = escena.path;
-                        scenaIndexSelected=index;
-
+                        scenaIndexSelected = index;
                       });
                     },
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8), // Image border
                       child: SizedBox.fromSize(
                         size: Size.fromRadius(16), // Image radius
-                        child: Image.asset(escena.path, fit: BoxFit.cover,
-                        filterQuality: FilterQuality.high),
+                        child: (widget.tourSaved == null)
+                            ? Image.asset(escena.path,
+                                fit: BoxFit.cover,
+                                filterQuality: FilterQuality.high)
+                            : Image.file(
+                                File(escena.path),
+                                filterQuality: FilterQuality.high,
+                                fit: BoxFit.cover,
+                              ),
                       ),
                     ))),
           ),

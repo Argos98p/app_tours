@@ -131,6 +131,7 @@ class _FancyFabState extends State<FancyFab>
   Widget link() {
     return Container(
       child: FloatingActionButton(
+        heroTag: "btn2",
         backgroundColor: Colors.blueAccent,
         foregroundColor: Colors.grey[300],
         onPressed: null,
@@ -143,6 +144,7 @@ class _FancyFabState extends State<FancyFab>
   Widget hotspot() {
     return Container(
       child: FloatingActionButton(
+        heroTag: "btn3",
         backgroundColor: Colors.blueAccent,
         foregroundColor: Colors.grey[300],
         onPressed: null,
@@ -154,6 +156,7 @@ class _FancyFabState extends State<FancyFab>
   Widget inicio() {
     return Container(
       child: FloatingActionButton(
+        heroTag: "btn4",
         backgroundColor: Colors.blueAccent,
         foregroundColor: Colors.grey[300],
         onPressed: null,
@@ -166,6 +169,7 @@ class _FancyFabState extends State<FancyFab>
   Widget video() {
     return Container(
       child: FloatingActionButton(
+        heroTag: "btn5",
         backgroundColor: Colors.blueAccent,
         foregroundColor: Colors.grey[300],
         onPressed: null,
@@ -178,6 +182,7 @@ class _FancyFabState extends State<FancyFab>
   Widget sonido() {
     return Container(
       child: FloatingActionButton(
+        heroTag: "btn6",
         backgroundColor: Colors.blueAccent,
         foregroundColor: Colors.grey[300],
         onPressed: null,
@@ -192,7 +197,7 @@ class _FancyFabState extends State<FancyFab>
 
     return Container(
       child: FloatingActionButton(
-
+          heroTag: "btn1",
         backgroundColor: _buttonColor.value,
         onPressed: animate,
         tooltip: 'Toggle',

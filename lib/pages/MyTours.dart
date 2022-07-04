@@ -1,5 +1,6 @@
 import 'package:app_tours/models/Tour.dart';
 import 'package:app_tours/pages/search_tour_delegate.dart';
+import 'package:app_tours/pages/visualizer_page.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:app_tours/utils/SharedPreferences.dart';
@@ -27,10 +28,10 @@ class _ToursPageState extends State<ToursPage> {
     getTours().then((response) {
       //calling setState will refresh your build method.
       setState(() {
-        allTours=response;
+        allTours = response;
         tours = response;
         typeListAvaliables = typeListAvaliable(tours: tours);
-        print('essdf tours'+tours.toString());
+        print('essdf tours' + tours.toString());
         //tours=getTourOfType( type: 'Todos',);
         // print(tours.toString());
       });
@@ -61,16 +62,16 @@ class _ToursPageState extends State<ToursPage> {
   List<dynamic> getTourOfType({required String type}) {
     print(type);
     List<dynamic> toursOfType = [];
-    if(type=='Todos'){
+    if (type == 'Todos') {
       return allTours;
     }
     allTours.forEach((element) {
-      if(element['type']!='otro'){
-        if(element['type']==type){
+      if (element['type'] != 'otro') {
+        if (element['type'] == type) {
           toursOfType.add(element);
         }
-      }else{
-        if(element['infoTour']['tipo_aux']==type){
+      } else {
+        if (element['infoTour']['tipo_aux'] == type) {
           toursOfType.add(element);
         }
       }
@@ -78,7 +79,7 @@ class _ToursPageState extends State<ToursPage> {
     return toursOfType;
   }
 
-    @override
+  @override
   Widget build(BuildContext context) {
     //typeListAvaliables=typeListAvaliable(tours: tours);
     return Scaffold(
@@ -86,6 +87,7 @@ class _ToursPageState extends State<ToursPage> {
         child: Column(
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
                   onTap: () {
@@ -96,7 +98,7 @@ class _ToursPageState extends State<ToursPage> {
                   },
                   child: Container(
                     height: 40,
-                    width: MediaQuery.maybeOf(context)!.size.width * 0.5,
+                    width: MediaQuery.maybeOf(context)!.size.width * 0.7,
                     margin: const EdgeInsets.only(
                         left: 3, right: 2, top: 6, bottom: 3),
                     decoration: BoxDecoration(
@@ -123,6 +125,7 @@ class _ToursPageState extends State<ToursPage> {
                   ),
                 ),
                 DropdownButton<String>(
+                  underline: SizedBox(),
                   value: typeFilterSelected,
                   items: List.generate(
                       typeListAvaliables.length,
@@ -132,26 +135,11 @@ class _ToursPageState extends State<ToursPage> {
                           )),
                   onChanged: (value) {
                     setState(() {
-                      typeFilterSelected=value!;
-                      tours=getTourOfType(type: value);
+                      typeFilterSelected = value!;
+                      tours = getTourOfType(type: value);
                     });
                   },
                 ),
-                /*GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                        left: 3, right: 2, top: 6, bottom: 3),
-                    decoration: BoxDecoration(
-                      color: colorsApp['primaryColor'],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(FontAwesome5.filter),
-                    ),
-                  ),
-                ),*/
               ],
             ),
             Container(
@@ -164,7 +152,6 @@ class _ToursPageState extends State<ToursPage> {
                   } else if (snapshot.connectionState == ConnectionState.done) {
                     //print(snapshot.data);
                     List aux = tours;
-
                     return Expanded(
                       child: ListView.builder(
                           itemCount: aux.length,
@@ -190,19 +177,46 @@ class _ToursPageState extends State<ToursPage> {
                                     //print(snapshot.data![index]);
                                   },
                                   leading: const Icon(Icons.threesixty),
-                                  trailing: MaterialButton(
-                                    onPressed: () {
-                                      sharedPref.remove('nuevo_tour', index);
-                                      setState(() {});
-                                    },
-                                    color: Colors.redAccent,
-                                    textColor: Colors.white,
-                                    child: const Icon(
-                                      Icons.delete,
-                                      size: 20,
-                                    ),
-                                    padding: const EdgeInsets.all(1),
-                                    shape: const CircleBorder(),
+                                  trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      MaterialButton(
+                                        onPressed: () async {
+                                          Tour tourSaved = await context
+                                              .read<TourProvider>()
+                                              .mapToTour(
+                                              tourSaved: snapshot.data![index]);
+                                          setState(() {
+                                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => VisualizerPage(tourSaved: tourSaved)));
+
+                                          });
+                                          
+                                        },
+                                        color: Colors.redAccent,
+                                        textColor: Colors.white,
+                                        child: const Icon(
+                                          Icons.remove_red_eye,
+                                          size: 20,
+                                        ),
+                                        padding: const EdgeInsets.all(1),
+                                        shape: const CircleBorder(),
+                                      ),
+                                      MaterialButton(
+                                        onPressed: () {
+                                          sharedPref.remove(
+                                              'nuevo_tour', index);
+                                          setState(() {});
+                                        },
+                                        color: Colors.redAccent,
+                                        textColor: Colors.white,
+                                        child: const Icon(
+                                          Icons.delete,
+                                          size: 20,
+                                        ),
+                                        padding: const EdgeInsets.all(1),
+                                        shape: const CircleBorder(),
+                                      ),
+                                    ],
                                   ),
                                   subtitle: (aux[index]['type'] != "otro")
                                       ? Text(

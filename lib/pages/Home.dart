@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
     List<Widget> _pages = [
       const VirtualTourPage(),
       const ToursPage(),
-      const VisualizerPage()
+      VisualizerPage()
       //const ProfilePage(),
     ];
 

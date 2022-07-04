@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           ),
           //darkTheme: ThemeData(brightness: Brightness.dark),
           //themeMode: ThemeMode.dark,
-          home: /*Home(),*//*const PruebasPage(),*/VisualizerPage(),
+          home: Home(),/*const PruebasPage(),*//*VisualizerPage(),*/
           debugShowCheckedModeBanner: false,
           onGenerateRoute: (RouteSettings settings) {
             WidgetBuilder builder;
