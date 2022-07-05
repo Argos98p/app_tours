@@ -23,7 +23,7 @@ class VisualizerPage extends StatefulWidget {
 
 class _VisualizerPageState extends State<VisualizerPage> {
   late Vtour tourPrueba;
-  bool reelVisible = false;
+  bool reelVisible = true;
   bool floorsVisible = false;
   String imageInVisualizator = '';
   int scenaIndexSelected = 0;
@@ -538,14 +538,13 @@ class _VisualizerPageState extends State<VisualizerPage> {
       });
     }
 
-    try{
+    try {
       setState(() {
-        imageInVisualizator=tourPrueba.pisos[0].scenas[0].path;
+        imageInVisualizator = tourPrueba.pisos[0].scenas[0].path;
       });
-    }catch(e){
+    } catch (e) {
       print('Error cargando la imagen en el visualizador');
     }
-
 
     super.initState();
   }
@@ -736,6 +735,10 @@ class _VisualizerPageState extends State<VisualizerPage> {
                 semanticContainer: true,
                 //shadowColor: palletFuchsia,
                 shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                      //width: 10,
+                      //color: Colors.greenAccent,
+                      ),
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 child: InkWell(
@@ -770,6 +773,14 @@ class _VisualizerPageState extends State<VisualizerPage> {
                 //shadowColor: palletFuchsia,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
+                  side: (escena.path == imageInVisualizator)
+                      ? const BorderSide(
+                          width: 2,
+                          color: Colors.blueAccent,
+                        )
+                      : BorderSide(
+                    color: Colors.transparent
+                  ),
                 ),
                 child: InkWell(
                     borderRadius: BorderRadius.circular(30),

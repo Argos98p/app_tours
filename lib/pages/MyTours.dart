@@ -82,6 +82,8 @@ class _ToursPageState extends State<ToursPage> {
   @override
   Widget build(BuildContext context) {
     //typeListAvaliables=typeListAvaliable(tours: tours);
+
+
     return Scaffold(
       body: Container(
         child: Column(
@@ -90,11 +92,22 @@ class _ToursPageState extends State<ToursPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
-                  onTap: () {
-                    showSearch(
+                  onTap: ()  {
+                     showSearch(
                       context: context,
                       delegate: SearchTourDelegate(tours),
                     );
+
+                      getTours().then((response) {
+                        //calling setState will refresh your build method.
+                        setState(() {
+                          allTours = response;
+                          tours = response;
+                          typeListAvaliables = typeListAvaliable(tours: tours);
+                          tours = getTourOfType(type: typeFilterSelected);
+                        });
+
+                    });
                   },
                   child: Container(
                     height: 40,
@@ -151,6 +164,8 @@ class _ToursPageState extends State<ToursPage> {
                     return const CircularProgressIndicator();
                   } else if (snapshot.connectionState == ConnectionState.done) {
                     //print(snapshot.data);
+                    allTours=snapshot.data!;
+                    tours=getTourOfType(type: typeFilterSelected);
                     List aux = tours;
                     return Expanded(
                       child: ListView.builder(
@@ -190,7 +205,7 @@ class _ToursPageState extends State<ToursPage> {
                                             Navigator.of(context).push(MaterialPageRoute(builder: (context) => VisualizerPage(tourSaved: tourSaved)));
 
                                           });
-                                          
+
                                         },
                                         color: Colors.redAccent,
                                         textColor: Colors.white,
@@ -203,9 +218,12 @@ class _ToursPageState extends State<ToursPage> {
                                       ),
                                       MaterialButton(
                                         onPressed: () {
-                                          sharedPref.remove(
-                                              'nuevo_tour', index);
-                                          setState(() {});
+                                          setState(()  {
+                                            print('entra');
+                                            sharedPref.remove(
+                                                'nuevo_tour', index);
+
+                                          });
                                         },
                                         color: Colors.redAccent,
                                         textColor: Colors.white,
