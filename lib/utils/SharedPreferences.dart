@@ -10,12 +10,25 @@ class SharedPref {
     } catch (e) {
       return null;
     }
+  }
+
+   nextId(String key) async{
+    try{
+      List tour = await read(key);
+      int lastID=tour.last['idTour'];
+
+      return lastID+1;
+    }catch(e){
+      print('Error al generar el id: '+e.toString());
+      return 0;
+    }
 
   }
 
 
   save(String key, value) async {
     final prefs = await SharedPreferences.getInstance();
+
    var aux = await read(key);
 
     if(aux != null){
@@ -25,7 +38,6 @@ class SharedPref {
       List aux2= [value];
       prefs.setString(key, json.encode(aux2));
     }
-
   }
 
   update(String key, value,int index) async {

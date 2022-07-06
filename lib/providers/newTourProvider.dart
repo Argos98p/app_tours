@@ -71,6 +71,7 @@ class TourProvider with ChangeNotifier{
   }
   Future<Tour> mapToTour({required Map<String, dynamic> tourSaved}) async {
     Tour auxTour = Tour(infoTour: {},title: tourSaved['title'] ,type: tourSaved['type']);
+    auxTour.idTour=tourSaved['idTour'];
     auxTour.floors={};
     auxTour.infoTour={};
 
@@ -143,13 +144,6 @@ class TourProvider with ChangeNotifier{
   Future<String> getFirstFloorKey() async{
     return _newTour.floors!.keys.first;
   }
-/*
-    Future<void> mapToOtherTour({required Map<String, dynamic> tourSaved}) async {
-      Floor floor = Floor();
-      floor.slug=floorKey;
-      floor.name=floorKey;
-      floor.scenes={};
-      floor.others={};
-    }*/
+
 
   }

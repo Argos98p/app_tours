@@ -7,9 +7,11 @@ import 'package:app_tours/models/Vescena.dart';
 import 'package:app_tours/models/Vfloor.dart';
 import 'package:app_tours/models/Vtour.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
+import 'package:app_tours/utils/local_coords_to_lat_long.dart';
 import 'package:app_tours/widgets/fancy_fab.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:panorama/panorama.dart';
 
@@ -556,100 +558,112 @@ class _VisualizerPageState extends State<VisualizerPage> {
         onPressed: () {},
         tooltip: '',
       ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            (imageInVisualizator != '')
-                ? Panorama(
-                    onTap: (double longitude, double latitude, double tilt) {
-                      print(longitude.toString());
-                      print(latitude.toString());
-                      print(tilt.toString());
-                      Hotspot newHotspot = Hotspot(
-                          name: 'new hotspot',
-                          latitude: latitude,
-                          longitude: longitude,
-                          widget: IconButton(
-                            icon: Icon(Icons.link),
-                            onPressed: () {
-                              Fluttertoast.showToast(msg: 'soy un hotspot');
-                            },
-                          ));
-                      setState(() {
-                        tourPrueba.pisos[floorIndexSelect]
-                            .scenas[scenaIndexSelected].hotspots
-                            .add(newHotspot);
-                      });
-                    },
-                    hotspots: tourPrueba.pisos[floorIndexSelect]
-                        .scenas[scenaIndexSelected].hotspots,
-                    child: (widget.tourSaved == null)
-                        ? Image.asset(imageInVisualizator)
-                        : Image.file(
-                            File(imageInVisualizator),
-                            filterQuality: FilterQuality.high,
-                            fit: BoxFit.cover,
-                          ),
-                  )
-                : SizedBox(),
-            Center(
-              child: Column(
-                children: [
-                  Visibility(
-                    visible: reelVisible,
-                    child: Container(
-                        //width: double.infinity,
-                        height: MediaQuery.maybeOf(context)!.size.height * 0.3,
-                        color: AppColors.primaryColorTransparency,
-                        child: GridView.count(
-                          childAspectRatio: 2 / 4,
-                          scrollDirection: Axis.horizontal,
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 2.0,
-                          mainAxisSpacing: 2.0,
-                          children: tourPrueba.pisos[floorIndexSelect].scenas
-                              .map((Vescena escena) {
-                            int index = tourPrueba
-                                .pisos[floorIndexSelect].scenas
-                                .indexOf(escena);
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light
+            .copyWith(statusBarColor: AppColors.primaryColor),
+        child: SafeArea(
+          child: Stack(
+            children: [
+              (imageInVisualizator != '')
+                  ? Panorama(
+                      onTap: (double longitude, double latitude, double tilt) {
+                        //print(longitude.toString());
+                        //print(latitude.toString());
+                        //print(tilt.toString());
+                        Hotspot newHotspot = Hotspot(
+                            name: 'new hotspot',
+                            latitude: latitude,
+                            longitude: longitude,
+                            widget: IconButton(
+                              icon: Icon(Icons.link),
+                              onPressed: () {
+                                Fluttertoast.showToast(msg: 'soy un hotspot');
+                              },
+                            ));
+                        setState(() {
+                          tourPrueba.pisos[floorIndexSelect]
+                              .scenas[scenaIndexSelected].hotspots
+                              .add(newHotspot);
+                        });
+                      },
+                      hotspots: tourPrueba.pisos[floorIndexSelect]
+                          .scenas[scenaIndexSelected].hotspots,
+                      child: (widget.tourSaved == null)
+                          ? Image.asset(imageInVisualizator)
+                          : Image.file(
+                              File(imageInVisualizator),
+                              filterQuality: FilterQuality.high,
+                              fit: BoxFit.cover,
+                            ),
+                    )
+                  : SizedBox(),
+              Center(
+                child: Column(
+                  children: [
+                    Visibility(
+                      visible: reelVisible,
+                      child: Container(
+                          //width: double.infinity,
+                          height:
+                              MediaQuery.maybeOf(context)!.size.height * 0.3,
+                          color: AppColors.primaryColorTransparency,
+                          child: GridView.count(
+                            childAspectRatio: 2 / 4,
+                            scrollDirection: Axis.horizontal,
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 2.0,
+                            mainAxisSpacing: 2.0,
+                            children: tourPrueba.pisos[floorIndexSelect].scenas
+                                .map((Vescena escena) {
+                              int index = tourPrueba
+                                  .pisos[floorIndexSelect].scenas
+                                  .indexOf(escena);
 
-                            return cardImage(escena: escena, index: index);
-                          }).toList(),
-                        )),
-                  ),
-                  Container(
-                    decoration: ShapeDecoration(
-                      color: AppColors.primaryColorTransparency,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4)),
+                              return cardImage(escena: escena, index: index);
+                            }).toList(),
+                          )),
                     ),
-                    child: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            reelVisible = !reelVisible;
-                          });
-                        },
-                        icon: Icon(Icons.apps)),
-                  )
-                ],
+                    Container(
+                      decoration: ShapeDecoration(
+                        color: AppColors.primaryColorTransparency,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4)),
+                      ),
+                      child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              reelVisible = !reelVisible;
+                            });
+                          },
+                          icon: Icon(Icons.apps)),
+                    )
+                  ],
+                ),
               ),
-            ),
-            floorsList(),
-            Positioned(
-              top: 200,
-              child: Draggable(
-                  child: Container(
-                    color: Colors.redAccent,
-                    width: 40,
-                    height: 40,
-                  ),
-                  feedback: Container(
-                    color: Colors.blueAccent,
-                    width: 40,
-                    height: 40,
-                  )),
-            )
-          ],
+              floorsList(),
+              Positioned(
+                top: 200,
+                child: Draggable(
+                  onDragEnd: (details){
+                    print(details.offset.dx);
+                    print(details.offset.dy);
+                    //VPanoramaState aux = VPanoramaState();
+                    //print(aux.handleTapUp(details.offset.dx, details.offset.dy));
+
+                  },
+                    child: Container(
+                      color: Colors.redAccent,
+                      width: 40,
+                      height: 40,
+                    ),
+                    feedback: Container(
+                      color: Colors.blueAccent,
+                      width: 40,
+                      height: 40,
+                    )),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -778,9 +792,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
                           width: 2,
                           color: Colors.blueAccent,
                         )
-                      : BorderSide(
-                    color: Colors.transparent
-                  ),
+                      : BorderSide(color: Colors.transparent),
                 ),
                 child: InkWell(
                     borderRadius: BorderRadius.circular(30),

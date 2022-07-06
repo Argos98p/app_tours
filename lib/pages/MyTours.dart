@@ -181,13 +181,15 @@ class _ToursPageState extends State<ToursPage> {
                                     context.read<TourProvider>().newTour =
                                         tourSaved;
 
-                                    Navigator.pushNamed(context,
+                                    Navigator.pushNamed(context,'/tourGuardado', arguments: tourSaved);
+
+                                    /*Navigator.pushNamed(context,
                                         '/toursDisponibles/${tourSaved.type}',
                                         arguments: {
                                           'formData': tourSaved.infoTour,
                                           'case': true,
                                           'index': index
-                                        });
+                                        });*/
 
                                     //print(snapshot.data![index]);
                                   },

@@ -1,13 +1,16 @@
 import 'dart:io';
 
 import 'package:app_tours/models/Floor.dart';
+import 'package:app_tours/utils/SharedPreferences.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as Path;
 
 class Tour {
   String? title;
+  int? idTour;
   String? type;
+  String? savedServer;
   Map<String, String>? infoTour;
   Map<String, Floor>? floors;
 
@@ -15,6 +18,8 @@ class Tour {
       {this.title,
       this.infoTour,
       required this.type,
+        this.idTour,
+        this.savedServer,
       Map<String, Floor>? floors})
       : floors = floors ??
             {
@@ -25,6 +30,11 @@ class Tour {
 
   Future<Map<String, dynamic>> toMap() async {
     final Map<String, dynamic> data = <String, dynamic>{};
+    SharedPref sharedPref = SharedPref();
+
+    idTour= await sharedPref.nextId('nuevo_tour');
+    data['idTour']=idTour;
+    print('idtour='+idTour.toString());
     data['title'] = infoTour!['titulo'];
     data['type'] = type;
     data['infoTour'] = infoTour;

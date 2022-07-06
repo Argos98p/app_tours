@@ -1,3 +1,4 @@
+import 'package:app_tours/models/Tour.dart';
 import 'package:app_tours/pages/AddImagePage.dart';
 import 'package:app_tours/pages/Home.dart';
 import 'package:app_tours/pages/LoginPage.dart';
@@ -5,6 +6,7 @@ import 'package:app_tours/pages/OtherTourPage.dart';
 import 'package:app_tours/pages/ScenesInTour.dart';
 import 'package:app_tours/pages/VirtualToursPage.dart';
 import 'package:app_tours/pages/pruebas_page.dart';
+import 'package:app_tours/pages/specific_tour.dart';
 import 'package:app_tours/pages/visualizer_page.dart';
 import 'package:app_tours/providers/auxProvider.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
@@ -36,12 +38,14 @@ class MyApp extends StatelessWidget {
           ),
           //darkTheme: ThemeData(brightness: Brightness.dark),
           //themeMode: ThemeMode.dark,
-          home: Home(),/*const PruebasPage(),*//*VisualizerPage(),*/
+          home: /*Home()*/Login(),/*const PruebasPage(),*//*VisualizerPage(),*/
           debugShowCheckedModeBanner: false,
           onGenerateRoute: (RouteSettings settings) {
             WidgetBuilder builder;
-
             switch (settings.name) {
+              case '/tourGuardado':
+                builder=(BuildContext context) => SpecificTour(tour: settings.arguments as Tour);
+                break;
               case '/toursDisponibles':
                 builder = (BuildContext context) => const VirtualTourPage();
                 break;
