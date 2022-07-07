@@ -1,8 +1,9 @@
 import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
 import 'package:app_tours/models/Floor.dart';
 import 'package:app_tours/initalConfigurations/TourAvaliable.dart';
+import 'package:app_tours/pages/add_tour/add_tour_main_page.dart';
 import 'package:basic_utils/basic_utils.dart';
-import 'package:app_tours/pages/FloorScenesPage.dart';
+import 'package:app_tours/pages/add_tour/FloorScenesPage.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:app_tours/utils/SharedPreferences.dart';
@@ -296,8 +297,8 @@ class _ScenesInTourState extends State<ScenesInTour> {
                         }
                         context.read<TourProvider>().cancelTour();
 
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, '/', (route) => false);
+                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>AddTourMainPage()), (route) => false);
+                        
                       },
                       child: (widget.updateTour)
                           ? const Text('Actualizar')

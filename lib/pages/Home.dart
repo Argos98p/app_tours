@@ -1,9 +1,11 @@
-import 'package:app_tours/pages/Profile.dart';
-import 'package:app_tours/pages/MyTours.dart';
-import 'package:app_tours/pages/VirtualToursPage.dart';
+import 'package:app_tours/pages/add_tour/Profile.dart';
+import 'package:app_tours/pages/add_tour/MyTours.dart';
+import 'package:app_tours/pages/add_tour/VirtualToursPage.dart';
+import 'package:app_tours/pages/add_tour/add_tour_main_page.dart';
 import 'package:app_tours/pages/visualizer_page.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:app_tours/utils/Style.dart';
+import 'package:app_tours/widgets/app_bar.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
@@ -28,15 +30,15 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     List<Widget> _pages = [
-      const VirtualTourPage(),
-      const ToursPage(),
-      VisualizerPage()
+      homeWidget(),
+      ToursPage(),
+      ToursPage()
       //const ProfilePage(),
     ];
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: appBarSpace(),
+      appBar: appBarSpace(context),
       body:(homeSelected)
         ?homeWidget()
       :_pages[selectedpage],
@@ -56,8 +58,25 @@ class _HomeState extends State<Home> {
         initialActiveIndex: selectedpage,
         onTap: (int index) {
           setState(() {
-            homeSelected=false;
-            selectedpage = index;
+            //homeSelected=true;
+            //selectedpage = index;
+            if(index==0){
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>AddTourMainPage()));
+              homeSelected=true;
+
+            }
+            else if(index == 1){
+              //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>ToursPage()));
+              homeSelected=false;
+              selectedpage=index;
+
+            }
+            else if(index == 2){
+              //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>VisualizerPage()));
+              homeSelected=false;
+              selectedpage=index;
+            }
+
           });
         },
       ),
@@ -124,24 +143,4 @@ class _HomeState extends State<Home> {
     );
   }
 
-  AppBar appBarSpace() {
-    return AppBar(
-      title: const Text('Virtual Space '),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.home_outlined),
-          onPressed: () {
-            setState(() {
-              homeSelected=true;
-            });
-
-          },
-        ),
-        IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () {},
-        ),
-      ],
-    );
-  }
 }

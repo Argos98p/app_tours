@@ -1,12 +1,13 @@
 import 'package:app_tours/models/Tour.dart';
-import 'package:app_tours/pages/AddImagePage.dart';
+import 'package:app_tours/pages/add_tour/AddImagePage.dart';
 import 'package:app_tours/pages/Home.dart';
-import 'package:app_tours/pages/LoginPage.dart';
-import 'package:app_tours/pages/OtherTourPage.dart';
-import 'package:app_tours/pages/ScenesInTour.dart';
-import 'package:app_tours/pages/VirtualToursPage.dart';
+
+import 'package:app_tours/pages/add_tour/OtherTourPage.dart';
+import 'package:app_tours/pages/add_tour/ScenesInTour.dart';
+import 'package:app_tours/pages/add_tour/VirtualToursPage.dart';
+import 'package:app_tours/pages/login/LoginPage.dart';
 import 'package:app_tours/pages/pruebas_page.dart';
-import 'package:app_tours/pages/specific_tour.dart';
+import 'package:app_tours/pages/add_tour/specific_tour.dart';
 import 'package:app_tours/pages/visualizer_page.dart';
 import 'package:app_tours/providers/auxProvider.dart';
 import 'package:app_tours/providers/newTourProvider.dart';

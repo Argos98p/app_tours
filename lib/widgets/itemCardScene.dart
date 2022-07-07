@@ -1,7 +1,7 @@
 import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
 import 'package:app_tours/models/Floor.dart';
 import 'package:app_tours/models/Scene.dart';
-import 'package:app_tours/pages/ScenesInOthers.dart';
+import 'package:app_tours/pages/add_tour/ScenesInOthers.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:flutter/material.dart';

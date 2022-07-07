@@ -26,14 +26,11 @@ class _ToursPageState extends State<ToursPage> {
   @override
   void initState() {
     getTours().then((response) {
-      //calling setState will refresh your build method.
       setState(() {
         allTours = response;
         tours = response;
         typeListAvaliables = typeListAvaliable(tours: tours);
-        print('essdf tours' + tours.toString());
-        //tours=getTourOfType( type: 'Todos',);
-        // print(tours.toString());
+
       });
     });
     super.initState();
@@ -183,20 +180,14 @@ class _ToursPageState extends State<ToursPage> {
 
                                     Navigator.pushNamed(context,'/tourGuardado', arguments: tourSaved);
 
-                                    /*Navigator.pushNamed(context,
-                                        '/toursDisponibles/${tourSaved.type}',
-                                        arguments: {
-                                          'formData': tourSaved.infoTour,
-                                          'case': true,
-                                          'index': index
-                                        });*/
 
-                                    //print(snapshot.data![index]);
                                   },
                                   leading: const Icon(Icons.threesixty),
+
                                   trailing: Row(
                                       mainAxisSize: MainAxisSize.min,
                                     children: [
+                                      /*
                                       MaterialButton(
                                         onPressed: () async {
                                           Tour tourSaved = await context
@@ -217,7 +208,7 @@ class _ToursPageState extends State<ToursPage> {
                                         ),
                                         padding: const EdgeInsets.all(1),
                                         shape: const CircleBorder(),
-                                      ),
+                                      ),*/
                                       MaterialButton(
                                         onPressed: () {
                                           setState(()  {

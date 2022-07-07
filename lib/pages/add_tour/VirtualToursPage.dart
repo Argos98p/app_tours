@@ -1,5 +1,8 @@
 import 'package:app_tours/initalConfigurations/TourAvaliable.dart';
+import 'package:app_tours/utils/ColorsTheme.dart';
+import 'package:app_tours/widgets/app_bar.dart';
 import 'package:app_tours/widgets/itemCard.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 class VirtualTourPage extends StatefulWidget {
@@ -10,10 +13,12 @@ class VirtualTourPage extends StatefulWidget {
 }
 
 class _VirtualTourPageState extends State<VirtualTourPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      //appBar: appBarSpace(context),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -28,7 +33,9 @@ class _VirtualTourPageState extends State<VirtualTourPage> {
             gridTours()
           ],
         ),
+
       ),
+
     );
   }
 

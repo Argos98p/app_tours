@@ -103,7 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future getUserInfo() async {
     try {
       await _readFromStorage();
-      var url = "http://redpanda.sytes.net:8081/api/auth/signin";
+      var url = "http://redpanda.sytes.net:81/api/auth/signin";
       var bodyData = jsonEncode({"username": username, "password": password});
 
       var response = await http.post(Uri.parse(url),
