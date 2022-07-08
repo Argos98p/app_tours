@@ -19,7 +19,7 @@ class _AddTourMainPageState extends State<AddTourMainPage> {
   @override
   void initState() {
     pages=[
-      ToursPage(),
+      ToursPage(isEditor: false),
       VirtualTourPage(),
       ProfilePage(),
     ];
@@ -31,7 +31,7 @@ class _AddTourMainPageState extends State<AddTourMainPage> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: appBarSpace(context),
+      appBar: appBarSpace(context, false),
       body: pages[indexSelected],
       bottomNavigationBar: ConvexAppBar(
         backgroundColor: AppColors.primaryColor,

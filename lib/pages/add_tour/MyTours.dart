@@ -1,4 +1,5 @@
 import 'package:app_tours/models/Tour.dart';
+import 'package:app_tours/pages/on_work.dart';
 import 'package:app_tours/pages/search_tour_delegate.dart';
 import 'package:app_tours/pages/visualizer_page.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
@@ -9,7 +10,8 @@ import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:provider/provider.dart';
 
 class ToursPage extends StatefulWidget {
-  const ToursPage({Key? key}) : super(key: key);
+  bool isEditor;
+  ToursPage({Key? key, required this.isEditor}) : super(key: key);
 
   @override
   State<ToursPage> createState() => _ToursPageState();
@@ -171,15 +173,21 @@ class _ToursPageState extends State<ToursPage> {
                             return Card(
                               child: ListTile(
                                   onTap: () async {
-                                    Tour tourSaved = await context
-                                        .read<TourProvider>()
-                                        .mapToTour(
-                                            tourSaved: snapshot.data![index]);
-                                    context.read<TourProvider>().newTour =
-                                        tourSaved;
+                                    if(widget.isEditor){
+                                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext)=>OnWork()));
 
-                                    Navigator.pushNamed(context,'/tourGuardado', arguments: tourSaved);
+                                    }else{
+                                      Tour tourSaved = await context
+                                          .read<TourProvider>()
+                                          .mapToTour(
+                                          tourSaved: snapshot.data![index]);
+                                      context.read<TourProvider>().newTour =
+                                          tourSaved;
 
+                                      Navigator.pushNamed(context,'/tourGuardado', arguments: {'tour':tourSaved, 'indexTour':index});
+
+
+                                    }
 
                                   },
                                   leading: const Icon(Icons.threesixty),

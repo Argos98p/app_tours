@@ -10,13 +10,15 @@ class Tour {
   String? title;
   int? idTour;
   String? type;
-  String? savedServer;
+  bool? savedServer;
+  int? id_server;
   Map<String, String>? infoTour;
   Map<String, Floor>? floors;
 
   Tour(
       {this.title,
       this.infoTour,
+        this.id_server,
       required this.type,
         this.idTour,
         this.savedServer,

@@ -1,17 +1,23 @@
 import 'package:app_tours/models/Floor.dart';
 import 'package:app_tours/models/Scene.dart';
 import 'package:app_tours/models/Tour.dart';
+import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/utils/SharedPreferences.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class SpecificTour extends StatefulWidget {
   Tour tour;
-  SpecificTour({Key? key, required this.tour}) : super(key: key);
+  int indexTour;
+  SpecificTour({Key? key, required this.tour, required this.indexTour}) : super(key: key);
 
   @override
   State<SpecificTour> createState() => _SpecificTourState();
+
+  SharedPref sharedPref = SharedPref();
 }
 
 class _SpecificTourState extends State<SpecificTour> {
@@ -21,9 +27,12 @@ class _SpecificTourState extends State<SpecificTour> {
       'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyaWNhcmRvLmphcnJvIiwiaWF0IjoxNjU3MTQzNDQ1LCJleHAiOjE2NTcyMjk4NDV9.7hTAjZDj5MnQghXNXCA_J2l6PyvZXi3Ji9kskO_2fhhpcsOKIdt02gcNsF0B_Cr3V8LmrN-QoI0DivP_M_VgJg';
 
   SharedPref sharedPref = SharedPref();
+
+
   @override
   Widget build(BuildContext context) {
 
+    Fluttertoast.showToast(msg: 'pagina para pruebas');
     return Scaffold(
       appBar: AppBar(),
       body: Center(
@@ -41,18 +50,18 @@ class _SpecificTourState extends State<SpecificTour> {
               },
               child: Text('Enviar al server')),
           ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.deepPurpleAccent)
-            ),
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.deepPurpleAccent)),
               onPressed: () {
-
+                Navigator.pushNamed(context, '/toursDisponibles/${widget.tour.type}',arguments:{"formData":widget.tour.infoTour, "case":true, "index":widget.indexTour} );
               },
               child: Text('Editar')),
           ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.redAccent)
-            ),
-              onPressed: (){}, child: Text('Borrar'))
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.redAccent)),
+              onPressed: () {},
+              child: Text('Borrar'))
         ]),
       ),
     );
@@ -60,8 +69,13 @@ class _SpecificTourState extends State<SpecificTour> {
 
   Future<void> sendTourToServer(Tour tour) async {
     String id = await createTour(tour);
-    print(id);
-    await createScenes(tour, id);
+    if (id != '') {
+      print('ID TOUR CREADO: ' + id);
+      await createScenes(tour, id);
+      tour.savedServer=true;
+      tour.id_server=int.parse(id);
+      sharedPref.update('nuevo_tour', tour.toMap(),widget.indexTour);
+    }
   }
 
   Future<void> createScenes(Tour tour, id) async {
@@ -78,7 +92,7 @@ class _SpecificTourState extends State<SpecificTour> {
         print(response.body);
 
         if (response.body == "0") {
-          print('Escena creada');
+          print('ESCENA CREADA');
 
           int aux = 0;
 
@@ -94,21 +108,22 @@ class _SpecificTourState extends State<SpecificTour> {
             var url = baseUrlApi +
                 '/newimagescene/?token=$token&idusuario=$idusuario&idtour=$id&nombreescena=$nombreescena&nombreimagen=$nombreimagen';
             print('url imagen escena ' + nombreimagen);
-            var response = await http.post(Uri.parse(url));
-            print('Creando scena de imagen: ' + response.body.toString());
-
-            String urlImageUpload = baseUrlApi +
-                "/save360/?token=$token&idusuario=$idusuario&idtour=$id&nombreescena=$nombreescena&imagen=$nombreimagen";
-            print("url imagen archivo " + urlImageUpload);
-            var request =
-                http.MultipartRequest('POST', Uri.parse(urlImageUpload));
-            request.files
-                .add(await http.MultipartFile.fromPath('file', image.path));
-            var uploadImageStatus = await request.send();
-            final respStr = await uploadImageStatus.stream.bytesToString();
-            print('codigo de la subida de imagenes: ' +
-                respStr);
-            aux++;
+            var responseEscena = await http.post(Uri.parse(url));
+            if (responseEscena.statusCode == 200) {
+              print(
+                  'Creando scena de imagen: ' + responseEscena.body.toString());
+              String urlImageUpload = baseUrlApi +
+                  "/save360/?token=$token&idusuario=$idusuario&idtour=$id&nombreescena=$nombreescena&imagen=$nombreimagen";
+              print("url imagen archivo " + urlImageUpload);
+              var request =
+                  http.MultipartRequest('POST', Uri.parse(urlImageUpload));
+              request.files
+                  .add(await http.MultipartFile.fromPath('file', image.path));
+              var uploadImageStatus = await request.send();
+              final respStr = await uploadImageStatus.stream.bytesToString();
+              print('codigo de la subida de imagenes: ' + respStr);
+              aux++;
+            }
           });
         } else {}
       });
@@ -116,11 +131,27 @@ class _SpecificTourState extends State<SpecificTour> {
   }
 
   Future<String> createTour(Tour tour) async {
-    var url = baseUrlApi +
-        "/addtour/?token=$token&titulo=${tour.title}&ciudad=${tour.infoTour!['ciudad']}&direccion=${tour.infoTour!['direccion']}&idusuario=$idusuario";
+    var response;
+    try {
+      var url = baseUrlApi +
+          "/addtour/?token=$token&titulo=${tour.title}&ciudad=${tour.infoTour!['ciudad']}&direccion=${tour.infoTour!['direccion']}&idusuario=$idusuario";
 
-    var response = await http.post(Uri.parse(url));
-    var idSavedTour = response.body.split('=').last;
-    return idSavedTour;
+      var response = await http.post(Uri.parse(url));
+      var idSavedTour = response.body.split('=').last;
+
+      if(response.statusCode==200){
+        return idSavedTour;
+      }else{
+        print(response.body);
+        return '';
+      }
+
+    } catch (e) {
+      print('¡Error al crear el tour!\ncode recived:' +
+          response.statusCode +
+          '\nError: ' +
+          e.toString());
+      return '';
+    }
   }
 }

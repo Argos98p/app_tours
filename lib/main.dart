@@ -45,14 +45,14 @@ class MyApp extends StatelessWidget {
             WidgetBuilder builder;
             switch (settings.name) {
               case '/tourGuardado':
-                builder=(BuildContext context) => SpecificTour(tour: settings.arguments as Tour);
+                Map<String, dynamic> argumentos= settings.arguments as Map<String, dynamic>;
+
+                builder=(BuildContext context) => SpecificTour(tour: argumentos['tour'] as Tour,indexTour: argumentos['indexTour'] as int);
                 break;
               case '/toursDisponibles':
                 builder = (BuildContext context) => const VirtualTourPage();
                 break;
-             /* case '/toursDisponibles/informationTour':
-                builder=(BuildContext context) => TourInformationPage();
-                break;*/
+
               case '/toursDisponibles/casa':
                 Map<String,dynamic> aux= settings.arguments as Map<String,dynamic>;
                 builder = (BuildContext context) => ScenesInTour(
