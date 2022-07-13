@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 class PisosProviders with ChangeNotifier{
 
-  List<String> pisos=['default','agregar'];
+  List<String> pisos=['Planta 1','agregar'];
 
   //PisosProviders(this.pisos);
 

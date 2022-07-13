@@ -11,7 +11,7 @@ class PruebasPage extends StatefulWidget {
 
 class _PruebasPageState extends State<PruebasPage> {
   TextEditingController floorNameController = TextEditingController();
-  String defaultValue = 'default';
+  String defaultValue = 'Planta 1';
   List<String> pisos=[];
   @override
   Widget build(BuildContext context) {

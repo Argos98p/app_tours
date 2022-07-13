@@ -304,15 +304,15 @@ class _OthersScenesState extends State<OthersScenes> {
 
   Future _navigateAddImageAndReturn(BuildContext context, String sceneKey, String floorKey) async {
     //TourProvider watch = context.watch<TourProvider>();
-    Object? imageFileList;
-    try{
+    var imageFileList;
+    //try{
       Scene scene= context.read<TourProvider>().newTour.floors![floorKey]!.others![sceneKey]!;
       imageFileList = await Navigator.pushNamed(context, '/toursDisponibles/agregarEscena',arguments:{"sceneName":scene.name, 'imageList':scene.imageList});
       print(scene.imageList.length.toString());
-    }
-    catch(e){
-      print('error al recuperar las escenas de "otros" '+e.toString());
-    }
+    //}
+    //catch(e){
+     // print('error al recuperar las escenas de "otros" '+e.toString());
+    //}
 
     if(imageFileList != null){
       imageFileList as List<XFile>;

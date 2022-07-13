@@ -25,8 +25,8 @@ class Tour {
       Map<String, Floor>? floors})
       : floors = floors ??
             {
-              'default': Floor(
-                  slug: 'default', scenes: {}, others: {}, name: 'default'),
+              'Planta_1': Floor(
+                  slug: 'Planta_1', scenes: {}, others: {}, name: 'Planta 1'),
             };
 
 

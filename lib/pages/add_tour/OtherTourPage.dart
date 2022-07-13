@@ -205,7 +205,7 @@ class _OtherTourState extends State<OtherTour> {
                                                           onPressed: () {
                                                             print( newNameController.text);
                                                             setState(() {
-                                                              pisoSelec=slugify(newNameController.text);
+                                                              pisoSelec=slugify(newNameController.text, lowercase: false);
                                                               context.read<TourProvider>().renameFloor(newName: newNameController.text, oldName:pisos.keys.toList().elementAt(index) );
                                                               Fluttertoast.showToast(msg: 'Nivel renombrado');
                                                               Navigator.pop(context);

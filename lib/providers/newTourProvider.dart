@@ -44,8 +44,8 @@ class TourProvider with ChangeNotifier{
   }
 
   Future<void> addFloor({required String nameFloor}) async {
-    Floor newFloor=Floor(scenes: {},slug: slugify(nameFloor),name:nameFloor );
-    _newTour.floors![slugify(nameFloor)]=newFloor;
+    Floor newFloor=Floor(scenes: {},slug: slugify(nameFloor, lowercase: false, delimiter: '_'),name:nameFloor );
+    _newTour.floors![slugify(nameFloor,lowercase: false, delimiter: '_')]=newFloor;
     notifyListeners();
   }
 
@@ -134,10 +134,10 @@ class TourProvider with ChangeNotifier{
 
   Future<void> renameFloor({required String newName, required String oldName}) async{
     Floor bkFloor=_newTour.floors![oldName]!;
-    bkFloor.slug=slugify(newName);
+    bkFloor.slug=slugify(newName,delimiter: '_',lowercase: false);
     bkFloor.name=newName;
     _newTour.floors!.remove(oldName);
-    _newTour.floors![newName]=bkFloor;
+    _newTour.floors![slugify(newName,delimiter: '_',lowercase: false)]=bkFloor;
     notifyListeners();
   }
 

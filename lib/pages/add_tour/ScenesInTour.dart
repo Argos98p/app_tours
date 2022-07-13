@@ -114,6 +114,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15, right: 10),
+
                         child: DropdownButton<String>(
                           focusNode: dropDownFocus,
                           underline: Container(),
@@ -213,16 +214,10 @@ class _ScenesInTourState extends State<ScenesInTour> {
                                                                         .text);
                                                                     setState(
                                                                         () {
-                                                                      pisoSelec =
-                                                                          slugify(
-                                                                              newNameController.text);
-                                                                      context.read<TourProvider>().renameFloor(
-                                                                          newName: newNameController
-                                                                              .text,
-                                                                          oldName: pisos
-                                                                              .keys
-                                                                              .toList()
-                                                                              .elementAt(index));
+
+                                                                      context.read<TourProvider>().renameFloor(newName: newNameController.text, oldName: pisos.keys.toList().elementAt(index));
+                                                                      pisos = context.read<TourProvider>().newTour.floors!;
+                                                                      print(pisos);
                                                                       Fluttertoast
                                                                           .showToast(
                                                                               msg: 'Nivel renombrado');
@@ -232,6 +227,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
                                                                       /*context.read<TourProvider>().updateInfoTourInput(keyInput: 'tipo_aux', newValue: newNameController.text);
                                                               Navigator.pop(context);
                                                               widget.infoTour['tipo_aux']=newNameController.text;*/
+                                                                      pisoSelec =slugify(newNameController.text,delimiter: '_',lowercase: false);
                                                                     });
                                                                   },
                                                                   child:
@@ -248,7 +244,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
                                         :const SizedBox(width: 0,height: 0,),
                                         Text(pisos.keys
                                             .toList()
-                                            .elementAt(index))
+                                            .elementAt(index).replaceAll('_', ' '))
                                       ],
                                     ),
                                     value: pisos.keys.toList().elementAt(index))
@@ -351,7 +347,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
                     onPressed: () {
                       setState(() {
                         floorName = floorNameController.text;
-                        floorNameSlug = slugify(floorName, delimiter: '_');
+                        floorNameSlug = slugify(floorName, delimiter: '_',lowercase: false);
                         floorNameController.text = '';
                         print(floorName + '   ' + floorNameSlug);
 

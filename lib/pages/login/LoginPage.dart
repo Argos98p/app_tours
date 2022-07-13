@@ -26,7 +26,7 @@ class _LoginState extends State<Login> {
     if (usernameController.text.isNotEmpty &&
         passwordController.text.isNotEmpty) {
       Fluttertoast.showToast(msg: 'recuperando credenciales');
-      login();
+      //login();
     }
   }
 
@@ -165,9 +165,18 @@ class _LoginState extends State<Login> {
         "username": usernameController.text,
         "password": passwordController.text
       });
+
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+              builder: (context) => Home(
+
+              )),
+              (Route<dynamic> route) => false);
+      /*
       var response = await http.post(Uri.parse(url),
           body: bodyData, headers: {"Content-Type": "application/json"});
-      var data = json.decode(response.body);
+      var data = json.decode(response.body);*/
+/*
 
       if (response.statusCode == 200) {
         await _storage.write(key: "username", value: usernameController.text);
@@ -186,11 +195,11 @@ class _LoginState extends State<Login> {
 
                     )),
             (Route<dynamic> route) => false);
-      }
+      }*/
 
-      if (response.statusCode != 200) {
+      /*if (response.statusCode != 200) {
         Fluttertoast.showToast(msg: 'Invalid Credentials');
-      }
+      }*/
     } catch (e) {
       print(e);
       Fluttertoast.showToast(msg: 'Server error');
