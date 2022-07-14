@@ -1,7 +1,10 @@
 import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
 import 'package:app_tours/models/Floor.dart';
+import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/widgets/itemCardScene.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class FloorScenesPage extends StatefulWidget {
   Floor floor;
@@ -29,9 +32,25 @@ class _FloorScenesPageState extends State<FloorScenesPage> {
               slug: widget.scenes[index].slug);*/
           //newTour.floors![widget.index].scenes!.add(newScene);
           return Center(
-              child: ItemCardScene(
-                  sceneInTour: widget.scenes[index], floor: widget.floor));
+              child: DragTarget(
+            onWillAccept: (data) {
+              return true;
+            },
+            onAccept: (String data) {
+              print('adfadsf');
+              print(widget.scenes[index].slug);
+              print(widget.floor.slug);
+              context.read<TourProvider>().newTour.floors![widget.floor.slug]!.scenes![widget.scenes[index].slug]!.imageList.add(XFile(data));
+            },
+            builder: (
+              BuildContext context,
+              List<dynamic> accepted,
+              List<dynamic> rejected,
+            ) {
+              return ItemCardScene(
+                  sceneInTour: widget.scenes[index], floor: widget.floor);
+            },
+          ));
         }));
   }
-
 }

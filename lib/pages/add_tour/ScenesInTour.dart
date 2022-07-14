@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
 import 'package:app_tours/models/Floor.dart';
 import 'package:app_tours/initalConfigurations/TourAvaliable.dart';
@@ -8,6 +10,7 @@ import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:app_tours/utils/SharedPreferences.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:slugify/slugify.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -17,13 +20,15 @@ class ScenesInTour extends StatefulWidget {
   String typeTour;
   bool updateTour;
   int indexTour;
+  List<XFile> imagesSelectedPreviously;
   Map<String, String> infoTour;
   ScenesInTour(
       {Key? key,
       required this.typeTour,
       required this.infoTour,
       required this.updateTour,
-      required this.indexTour})
+      required this.indexTour,
+        required this.imagesSelectedPreviously})
       : super(key: key);
   @override
   State<ScenesInTour> createState() => _ScenesInTourState();
@@ -71,7 +76,6 @@ class _ScenesInTourState extends State<ScenesInTour> {
       case 'comercio':
         scenes = toursAvaliables['comercio']!.scenes;
         break;
-
       case 'otro':
         scenes = toursAvaliables['otro']!.scenes;
         break;
@@ -273,8 +277,69 @@ class _ScenesInTourState extends State<ScenesInTour> {
                   ],
                 ),
               ),
-              Expanded(child: floorScafold[pisoSelec]!),
+              Container(
+                height: MediaQuery.maybeOf(context)!.size.height*0.15,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: widget.imagesSelectedPreviously.length+1,
+                    itemBuilder: (BuildContext context, index){
+                      if (index<widget.imagesSelectedPreviously.length){
+                        return LongPressDraggable(
+                          onDragCompleted: (){
+                            print(widget.imagesSelectedPreviously[index].path);
 
+                          },
+                          data: widget.imagesSelectedPreviously[index].path,
+                          feedback: Container(
+                            //height: MediaQuery.maybeOf(context)!.size.height*0.1,
+                            width: 100,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8), // Image border
+                              child: SizedBox.fromSize(
+                                  size: Size.fromRadius(16), // Image radius
+                                  child: Image.file(
+                                    File(widget.imagesSelectedPreviously[index].path),
+                                    filterQuality: FilterQuality.high,
+                                    fit: BoxFit.fill,
+                                  )
+
+                              ),
+                            ),
+                          ),
+                          child: Container(
+                            //height: MediaQuery.maybeOf(context)!.size.height*0.1,
+                            width: 200,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8), // Image border
+                              child: SizedBox.fromSize(
+                                  size: Size.fromRadius(16), // Image radius
+                                  child: Image.file(
+                                    File(widget.imagesSelectedPreviously[index].path),
+                                    filterQuality: FilterQuality.high,
+                                    fit: BoxFit.fill,
+                                  )
+
+                              ),
+                            ),
+                          ),
+                        );
+
+                      }else{
+                        return Container(
+                          margin: EdgeInsets.symmetric(vertical: 35,horizontal: 15),
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.all(Radius.circular(100))
+                          ),
+                            child: IconButton(onPressed: (){}, icon: Icon(Icons.add)));
+                      }
+                    }, separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(width: 10,);
+                  },
+                  ),
+
+              ),
+              Expanded(child: floorScafold[pisoSelec]!),
               //Expanded(child: gridScenes(scenes)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

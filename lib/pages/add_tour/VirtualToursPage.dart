@@ -5,6 +5,7 @@ import 'package:app_tours/widgets/itemCard.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
+
 class VirtualTourPage extends StatefulWidget {
   const VirtualTourPage({Key? key}) : super(key: key);
 
@@ -70,6 +71,7 @@ class SelectCard extends StatelessWidget {
 
     //final TextStyle textStyle = Theme.of(context).textTheme.display1;
     const TextStyle textStyle = TextStyle(fontSize: 20);
+
     return itemCard(context, tourDisponibleApp, '/toursDisponibles/informationTour',type_slug);
   }
 }

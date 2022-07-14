@@ -5,6 +5,7 @@ import 'package:app_tours/pages/Home.dart';
 import 'package:app_tours/pages/add_tour/OtherTourPage.dart';
 import 'package:app_tours/pages/add_tour/ScenesInTour.dart';
 import 'package:app_tours/pages/add_tour/VirtualToursPage.dart';
+import 'package:app_tours/pages/add_tour/select_images.dart';
 import 'package:app_tours/pages/login/LoginPage.dart';
 import 'package:app_tours/pages/pruebas_page.dart';
 import 'package:app_tours/pages/add_tour/specific_tour.dart';
@@ -47,7 +48,17 @@ class MyApp extends StatelessWidget {
               case '/tourGuardado':
                 Map<String, dynamic> argumentos= settings.arguments as Map<String, dynamic>;
 
+
                 builder=(BuildContext context) => SpecificTour(tour: argumentos['tour'] as Tour,indexTour: argumentos['indexTour'] as int);
+                break;
+              case '/agregarImagenesInicio':
+                Map<String,dynamic> aux=settings.arguments as Map<String, dynamic>;
+                builder=(BuildContext context) => SelectImages(
+                  typeTour: aux['type'] as String,
+                  infoTour: aux['formData'] as Map<String,String>,
+                  updateTour: aux['case'] as bool,
+                  indexTour: aux['index'] as int,
+                );
                 break;
               case '/toursDisponibles':
                 builder = (BuildContext context) => const VirtualTourPage();
@@ -56,16 +67,19 @@ class MyApp extends StatelessWidget {
               case '/toursDisponibles/casa':
                 Map<String,dynamic> aux= settings.arguments as Map<String,dynamic>;
                 builder = (BuildContext context) => ScenesInTour(
-                      typeTour: 'casa',
+                  imagesSelectedPreviously: aux['imageList'],
+                  typeTour: 'casa',
                   infoTour: aux['formData'] as Map<String,String>,
                   updateTour: aux['case'] as bool,
                   indexTour: aux['index'] as int,
+
                     );
                 break;
               case '/toursDisponibles/restaurant':
                 Map<String,dynamic> aux= settings.arguments as Map<String,dynamic>;
 
                 builder = (BuildContext context) => ScenesInTour(
+                  imagesSelectedPreviously: aux['imageList'],
                       typeTour: 'restaurant',
                   infoTour: aux['formData'] as Map<String,String>,
                   updateTour: aux['case'] as bool,
@@ -76,6 +90,7 @@ class MyApp extends StatelessWidget {
                 Map<String,dynamic> aux= settings.arguments as Map<String,dynamic>;
 
                 builder = (BuildContext context) => ScenesInTour(
+                  imagesSelectedPreviously: aux['imageList'],
                       typeTour: 'comercio',
                   infoTour: aux['formData'] as Map<String,String>,
                   updateTour: aux['case'] as bool,
@@ -99,6 +114,7 @@ class MyApp extends StatelessWidget {
               default:
                 Map<String,dynamic> aux= settings.arguments as Map<String,dynamic>;
                 builder = (BuildContext context) => ScenesInTour(
+                  imagesSelectedPreviously: aux['imageList'],
                   typeTour: 'otro',
                   infoTour: aux['formData'] as Map<String,String>,
                   updateTour: aux['case'] as bool,
