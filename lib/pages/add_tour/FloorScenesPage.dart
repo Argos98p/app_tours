@@ -1,8 +1,10 @@
 import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
 import 'package:app_tours/models/Floor.dart';
+import 'package:app_tours/models/ReelImage.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/widgets/itemCardScene.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -34,13 +36,23 @@ class _FloorScenesPageState extends State<FloorScenesPage> {
           return Center(
               child: DragTarget(
             onWillAccept: (data) {
+              if(widget.scenes[index].slug=='otros'){
+                Fluttertoast.showToast(msg: 'Ingrese a esta seccion para añadir escenas');
+                return false;
+              }
               return true;
             },
-            onAccept: (String data) {
-              print('adfadsf');
-              print(widget.scenes[index].slug);
-              print(widget.floor.slug);
-              context.read<TourProvider>().newTour.floors![widget.floor.slug]!.scenes![widget.scenes[index].slug]!.imageList.add(XFile(data));
+            onAccept: (dynamic data) {
+              print(data.runtimeType);
+              if(data.runtimeType == List<ReelImage>){
+                data.map((e) =>
+                    context.read<TourProvider>().newTour.floors![widget.floor.slug]!.scenes![widget.scenes[index].slug]!.imageList.add(e.image)
+                ).toList();
+              }else{
+                context.read<TourProvider>().newTour.floors![widget.floor.slug]!.scenes![widget.scenes[index].slug]!.imageList.add(data.image);
+              }
+
+
             },
             builder: (
               BuildContext context,

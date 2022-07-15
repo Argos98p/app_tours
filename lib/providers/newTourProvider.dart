@@ -62,7 +62,7 @@ class TourProvider with ChangeNotifier{
   //inserta la lista de imagenes a una escena del tour 'otro'
   Future<void> addImageListSceneOther({required String floorKey, required String sceneKey, required List<XFile> imageList})async {
     //try{
-      print(_newTour.floors![floorKey]!.scenes![sceneKey]!.imageList);
+
       _newTour.floors![floorKey]!.scenes![sceneKey]!.imageList=imageList;
       notifyListeners();
     /*}catch(e){

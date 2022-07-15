@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:app_tours/initalConfigurations/ScenesTourModel.dart';
 import 'package:app_tours/models/Floor.dart';
 import 'package:app_tours/initalConfigurations/TourAvaliable.dart';
+import 'package:app_tours/models/ReelImage.dart';
 import 'package:app_tours/pages/add_tour/add_tour_main_page.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:app_tours/pages/add_tour/FloorScenesPage.dart';
@@ -41,13 +43,17 @@ class _ScenesInTourState extends State<ScenesInTour> {
   String floorNameSlug = '';
   String pisoSelec = '';
   Map<String, Floor> pisos = {};
+  late List<ReelImage> imagesInReel;
   final FocusNode dropDownFocus = FocusNode();
+  //List<XFile>? imagesToSort;
+  List<XFile>? imageFileListSelect = [];
+  final ImagePicker imagePicker = ImagePicker();
 
   @override
   void initState() {
-
-
     super.initState();
+    imagesInReel=[];
+    //imagesToSort=[];
   }
 
   List<ScenesInTourModel> scenes = [];
@@ -55,13 +61,10 @@ class _ScenesInTourState extends State<ScenesInTour> {
 
   @override
   Widget build(BuildContext context) {
-
-    //
     context.read<TourProvider>().setInfoTour(infoTour: widget.infoTour);
     context.read<TourProvider>().setType(typeTour: widget.typeTour);
     //pisos = context.read<TourProvider>().newTour.floors ?? [];
     pisos = context.read<TourProvider>().newTour.floors!;
-
     if(pisoSelec==''){
       pisoSelec= context.read<TourProvider>().newTour.floors!.keys.first;
     }
@@ -214,14 +217,13 @@ class _ScenesInTourState extends State<ScenesInTour> {
                                                               ElevatedButton(
                                                                   onPressed:
                                                                       () {
-                                                                    print(newNameController
-                                                                        .text);
+
                                                                     setState(
                                                                         () {
 
                                                                       context.read<TourProvider>().renameFloor(newName: newNameController.text, oldName: pisos.keys.toList().elementAt(index));
                                                                       pisos = context.read<TourProvider>().newTour.floors!;
-                                                                      print(pisos);
+
                                                                       Fluttertoast
                                                                           .showToast(
                                                                               msg: 'Nivel renombrado');
@@ -258,7 +260,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
                                       onPressed: () {
                                         setState(() {});
                                         _dialogAddFloor();
-                                        print('click crear');
+
                                       },
                                     ),
                                   ),
@@ -281,44 +283,78 @@ class _ScenesInTourState extends State<ScenesInTour> {
                 height: MediaQuery.maybeOf(context)!.size.height*0.15,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    itemCount: widget.imagesSelectedPreviously.length+1,
+                    itemCount: imagesInReel.length+1,
                     itemBuilder: (BuildContext context, index){
-                      if (index<widget.imagesSelectedPreviously.length){
+                      if (index<imagesInReel.length){
                         return LongPressDraggable(
                           onDragCompleted: (){
-                            print(widget.imagesSelectedPreviously[index].path);
-
+                            //print(imagesInReel[index].image.path);
+                            setState(() {
+                              if(getSelectedImages().length>0){
+                                imagesInReel.removeWhere((ReelImage element) => (element.selected));
+                              }else{
+                                imagesInReel.removeAt(index);
+                              }
+                              
+                            });
                           },
-                          data: widget.imagesSelectedPreviously[index].path,
-                          feedback: Container(
-                            //height: MediaQuery.maybeOf(context)!.size.height*0.1,
-                            width: 100,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8), // Image border
-                              child: SizedBox.fromSize(
+                          data: (getSelectedImages().length>0)
+                          ?getSelectedImages()
+                          :imagesInReel[index],
+                          feedback: (getSelectedImages().length>0)
+                            ?CircleAvatar(
+                            child: Text(getSelectedImages().length.toString()),)
+                              :Container(
+                            width: 80,
+                                child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8), // Image border
+                            child: SizedBox.fromSize(
                                   size: Size.fromRadius(16), // Image radius
                                   child: Image.file(
-                                    File(widget.imagesSelectedPreviously[index].path),
+                                    File(imagesInReel[index].image.path),
                                     filterQuality: FilterQuality.high,
                                     fit: BoxFit.fill,
                                   )
 
-                              ),
                             ),
                           ),
+                              )
+                          ,
                           child: Container(
                             //height: MediaQuery.maybeOf(context)!.size.height*0.1,
                             width: 200,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8), // Image border
-                              child: SizedBox.fromSize(
-                                  size: Size.fromRadius(16), // Image radius
-                                  child: Image.file(
-                                    File(widget.imagesSelectedPreviously[index].path),
-                                    filterQuality: FilterQuality.high,
-                                    fit: BoxFit.fill,
-                                  )
+                            decoration: (imagesInReel[index].selected)
+                            ?BoxDecoration(
+                              border: Border.all(
+                                width: 2,
+                                color: Colors.green,
+                              ), borderRadius: BorderRadius.all(Radius.circular(8))
+                            )
+                            :BoxDecoration(
+                            border: Border.all(
+                              width: 2,
+                              color: Colors.transparent,
+                            ), borderRadius: BorderRadius.all(Radius.circular(8))
+                        ),
 
+                            child: InkWell(
+
+                              onTap: (){
+                                setState(() {
+                                  imagesInReel[index].selected=!imagesInReel[index].selected;
+                                });
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8), // Image border
+                                child: SizedBox.fromSize(
+                                    size: Size.fromRadius(16), // Image radius
+                                    child: Image.file(
+                                      File(imagesInReel[index].image.path),
+                                      filterQuality: FilterQuality.high,
+                                      fit: BoxFit.fill,
+                                    )
+
+                                ),
                               ),
                             ),
                           ),
@@ -331,7 +367,9 @@ class _ScenesInTourState extends State<ScenesInTour> {
                             color: Colors.grey,
                             borderRadius: BorderRadius.all(Radius.circular(100))
                           ),
-                            child: IconButton(onPressed: (){}, icon: Icon(Icons.add)));
+                            child: IconButton(onPressed: (){
+                              selectImages();
+                            }, icon: Icon(Icons.add)));
                       }
                     }, separatorBuilder: (BuildContext context, int index) {
                       return SizedBox(width: 10,);
@@ -414,7 +452,6 @@ class _ScenesInTourState extends State<ScenesInTour> {
                         floorName = floorNameController.text;
                         floorNameSlug = slugify(floorName, delimiter: '_',lowercase: false);
                         floorNameController.text = '';
-                        print(floorName + '   ' + floorNameSlug);
 
                         Floor nuevoFloor = Floor(
                             slug: floorNameSlug,
@@ -452,5 +489,54 @@ class _ScenesInTourState extends State<ScenesInTour> {
         builder: (BuildContext context) {
           return myDialog;
         });
+  }
+
+  void selectImages() async {
+    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+    Completer<Size> completer = Completer();
+    List<XFile> validImages=[];
+    if (selectedImages != null)  {
+      await Future.forEach(selectedImages, (XFile imageInList) async {
+        Image image = Image.file(File(imageInList.path));
+        var size= await _calculateImageDimension(image);
+        if(size.width==size.height*2){
+          validImages.add(imageInList);
+        }else{
+          Fluttertoast.showToast(msg: 'La imagen debe ser de realacion 2:1');
+        }
+      });
+      imageFileListSelect!.addAll(validImages);
+    }
+    setState(() {
+      if(imageFileListSelect!=null){
+        for (var element in imageFileListSelect!) {imagesInReel.add(ReelImage(image: element, selected: false));}
+        imageFileListSelect=[];
+
+      }
+    });
+
+  }
+
+  Future<Size> _calculateImageDimension(Image image) {
+    Completer<Size> completer = Completer();
+    image.image.resolve(const ImageConfiguration()).addListener(
+      ImageStreamListener(
+            (ImageInfo image, bool synchronousCall) {
+          var myImage = image.image;
+          Size size = Size(myImage.width.toDouble(), myImage.height.toDouble());
+          completer.complete(size);
+        },
+      ),
+    );
+    return completer.future;
+  }
+
+  List<ReelImage> getSelectedImages(){
+    return imagesInReel.map(
+            (ReelImage image){
+          if(image.selected)
+          {return image;}
+        }
+    ).toList().whereType<ReelImage>().toList();
   }
 }

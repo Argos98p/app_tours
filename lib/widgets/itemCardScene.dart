@@ -28,7 +28,6 @@ class _ItemCardScenesState extends State<ItemCardScene> {
 
   @override
   Widget build(BuildContext context) {
-    print('SLUG : '+widget.floor.slug!);
     Scene scene = Scene(
         imageList: [],
         name: widget.sceneInTour.title,
