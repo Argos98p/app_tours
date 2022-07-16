@@ -11,10 +11,16 @@ class ImagesInReelProvider with ChangeNotifier{
     notifyListeners();
   }
 
+  void setImagesInReel(List<ReelImage> value) {
+    _imagesInReel = value;
+    notifyListeners();
+  }
+
   void addImage(ReelImage image){
     _imagesInReel.add(image);
     notifyListeners();
   }
+
 
   void removeImageWithIndex(int index){
     _imagesInReel.removeAt(index);

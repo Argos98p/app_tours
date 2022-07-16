@@ -11,6 +11,7 @@ import 'package:app_tours/pages/pruebas_page.dart';
 import 'package:app_tours/pages/add_tour/specific_tour.dart';
 import 'package:app_tours/pages/visualizer_page.dart';
 import 'package:app_tours/providers/auxProvider.dart';
+import 'package:app_tours/providers/imagesInReelProvider.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<TourProvider>(create: (_)=>TourProvider()),
         ChangeNotifierProvider<PisosProviders>(create: (_)=>PisosProviders()),
+        ChangeNotifierProvider<ImagesInReelProvider>(create: (_)=>ImagesInReelProvider()),
       ],
       builder: (context,_) {
         return MaterialApp(
@@ -51,7 +53,7 @@ class MyApp extends StatelessWidget {
 
                 builder=(BuildContext context) => SpecificTour(tour: argumentos['tour'] as Tour,indexTour: argumentos['indexTour'] as int);
                 break;
-              case '/agregarImagenesInicio':
+              /*case '/agregarImagenesInicio':
                 Map<String,dynamic> aux=settings.arguments as Map<String, dynamic>;
                 builder=(BuildContext context) => SelectImages(
                   typeTour: aux['type'] as String,
@@ -59,7 +61,7 @@ class MyApp extends StatelessWidget {
                   updateTour: aux['case'] as bool,
                   indexTour: aux['index'] as int,
                 );
-                break;
+                break;*/
               case '/toursDisponibles':
                 builder = (BuildContext context) => const VirtualTourPage();
                 break;
@@ -67,7 +69,7 @@ class MyApp extends StatelessWidget {
               case '/toursDisponibles/casa':
                 Map<String,dynamic> aux= settings.arguments as Map<String,dynamic>;
                 builder = (BuildContext context) => ScenesInTour(
-                  imagesSelectedPreviously: aux['imageList'],
+
                   typeTour: 'casa',
                   infoTour: aux['formData'] as Map<String,String>,
                   updateTour: aux['case'] as bool,
@@ -79,7 +81,7 @@ class MyApp extends StatelessWidget {
                 Map<String,dynamic> aux= settings.arguments as Map<String,dynamic>;
 
                 builder = (BuildContext context) => ScenesInTour(
-                  imagesSelectedPreviously: aux['imageList'],
+
                       typeTour: 'restaurant',
                   infoTour: aux['formData'] as Map<String,String>,
                   updateTour: aux['case'] as bool,
@@ -90,7 +92,7 @@ class MyApp extends StatelessWidget {
                 Map<String,dynamic> aux= settings.arguments as Map<String,dynamic>;
 
                 builder = (BuildContext context) => ScenesInTour(
-                  imagesSelectedPreviously: aux['imageList'],
+
                       typeTour: 'comercio',
                   infoTour: aux['formData'] as Map<String,String>,
                   updateTour: aux['case'] as bool,
@@ -114,7 +116,7 @@ class MyApp extends StatelessWidget {
               default:
                 Map<String,dynamic> aux= settings.arguments as Map<String,dynamic>;
                 builder = (BuildContext context) => ScenesInTour(
-                  imagesSelectedPreviously: aux['imageList'],
+
                   typeTour: 'otro',
                   infoTour: aux['formData'] as Map<String,String>,
                   updateTour: aux['case'] as bool,

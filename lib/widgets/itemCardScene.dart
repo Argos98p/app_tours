@@ -60,6 +60,7 @@ class _ItemCardScenesState extends State<ItemCardScene> {
         child: InkWell(
           onTap: () {
             if (widget.sceneInTour.slug == 'otros') {
+
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -67,11 +68,12 @@ class _ItemCardScenesState extends State<ItemCardScene> {
                       OthersScenes(floorSlug: widget.floor.slug!),
                 ),
               );
+
             } else {
               _navigateAddImageAndReturn(
                   context, widget.sceneInTour, scene, widget.floor);
-              setState(() {});
             }
+
           },
           child: Stack(children: [
             Positioned(

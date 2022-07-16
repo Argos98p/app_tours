@@ -1,11 +1,18 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:app_tours/models/Floor.dart';
+import 'package:app_tours/models/ReelImage.dart';
 import 'package:app_tours/models/Scene.dart';
+import 'package:app_tours/providers/imagesInReelProvider.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:slugify/slugify.dart';
+
 
 class OthersScenes extends StatefulWidget {
 
@@ -19,17 +26,22 @@ class OthersScenes extends StatefulWidget {
 
 class _OthersScenesState extends State<OthersScenes> {
   late String pisoSelec;
+  late List<ReelImage> imagesInReel;
   @override
   void initState(){
     super.initState();
     pisoSelec = widget.floorSlug;
+    imagesInReel=[];
   }
+
+  List<XFile>? imageFileListSelect = [];
+  final ImagePicker imagePicker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
     TourProvider watch = context.watch<TourProvider>();
     Map<String, Floor> pisos = context.read<TourProvider>().newTour.floors!;
-
+    imagesInReel=context.read<ImagesInReelProvider>().imagesInReel;
     Map<String, Scene> scenes =
         context.read<TourProvider>().newTour.floors![pisoSelec]!.others!;
 
@@ -38,7 +50,7 @@ class _OthersScenesState extends State<OthersScenes> {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, ),
-          onPressed: (){ Navigator.of(context).pop();
+          onPressed: (){ Navigator.of(context).pop('j');
             setState(() {
 
             });},
@@ -214,6 +226,108 @@ class _OthersScenesState extends State<OthersScenes> {
                   ),
                 ],
               ),
+              Container(
+                height: MediaQuery.maybeOf(context)!.size.height*0.15,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: imagesInReel.length+1,
+                  itemBuilder: (BuildContext context, index){
+                    if (index<imagesInReel.length){
+                      return LongPressDraggable(
+                        onDragCompleted: (){
+                          //print(imagesInReel[index].image.path);
+                          setState(() {
+                            if(getSelectedImages().length>0){
+                              imagesInReel.removeWhere((ReelImage element) => (element.selected));
+                            }else{
+                              imagesInReel.removeAt(index);
+                            }
+                            context.read<ImagesInReelProvider>().setImagesInReel(imagesInReel);
+                            //context.read<ImagesInReelProvider>().imagesInReel=imagesInReel;
+
+
+                          });
+                        },
+                        data: (getSelectedImages().length>0)
+                            ?getSelectedImages()
+                            :imagesInReel[index],
+                        feedback: (getSelectedImages().length>0)
+                            ?CircleAvatar(
+                          child: Text(getSelectedImages().length.toString()),)
+                            :Container(
+                          width: 80,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8), // Image border
+                            child: SizedBox.fromSize(
+                                size: Size.fromRadius(16), // Image radius
+                                child: Image.file(
+                                  File(imagesInReel[index].image.path),
+                                  filterQuality: FilterQuality.high,
+                                  fit: BoxFit.fill,
+                                )
+
+                            ),
+                          ),
+                        )
+                        ,
+                        child: Container(
+                          //height: MediaQuery.maybeOf(context)!.size.height*0.1,
+                          width: 200,
+                          decoration: (imagesInReel[index].selected)
+                              ?BoxDecoration(
+                              border: Border.all(
+                                width: 2,
+                                color: Colors.green,
+                              ), borderRadius: BorderRadius.all(Radius.circular(8))
+                          )
+                              :BoxDecoration(
+                              border: Border.all(
+                                width: 2,
+                                color: Colors.transparent,
+                              ), borderRadius: BorderRadius.all(Radius.circular(8))
+                          ),
+
+                          child: InkWell(
+
+                            onTap: (){
+
+                                imagesInReel[index].selected=!imagesInReel[index].selected;
+
+
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8), // Image border
+                              child: SizedBox.fromSize(
+                                  size: Size.fromRadius(16), // Image radius
+                                  child: Image.file(
+                                    File(imagesInReel[index].image.path),
+                                    filterQuality: FilterQuality.high,
+                                    fit: BoxFit.fill,
+                                  )
+
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+
+                    }else{
+                      return Container(
+                          margin: EdgeInsets.symmetric(vertical: 35,horizontal: 15),
+                          decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.all(Radius.circular(100))
+                          ),
+                          child: IconButton(onPressed: (){
+                            selectImages();
+                          }, icon: Icon(Icons.add)));
+                    }
+                  }, separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(width: 10,);
+                },
+                ),
+
+              ),
               Expanded(
                 child: GridView.count(
                   shrinkWrap: true,
@@ -222,46 +336,26 @@ class _OthersScenesState extends State<OthersScenes> {
                   mainAxisSpacing: 5,
                   padding: const EdgeInsets.all(10),
                   children: List.generate(scenes.keys.length, (index) {
-                    return Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        color: colorsApp['primaryColor'],
-                        child: InkWell(
-                          onTap: () {
+                    return DragTarget(
+                      onWillAccept: (data)=>true,
+                      onAccept: (dynamic data){
+                        if(data.runtimeType == List<ReelImage>){
+                          data.map((e) =>
+                              context.read<TourProvider>().newTour.floors![widget.floorSlug]!.others!.values.toList()[index].imageList.add(e.image)
+                          ).toList();
+                        }else{
+                          context.read<TourProvider>().newTour.floors![widget.floorSlug]!.others!.values.toList()[index].imageList.add(data.image);
+                        }
 
-                            _navigateAddImageAndReturn(context,scenes.keys.toList()[index],widget.floorSlug);
-                            setState(() {
-                            });
-                          },
-                          child: Stack(
 
-                            children: [
-                              Positioned(
-                                right: 0,
-                                top: 0,
-                                child:numScenesButton(scenes.values.toList()[index].imageList.length),
+                      },
+                      builder: (BuildContext context,
+                          List<Object?> candidateData,
+                          List<dynamic> rejectedData) {
+                        return CardItem(scenes, index);
+                      },
 
-                              ),
-                              Center(
-                                child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      /*Expanded(*/
-                                      Icon(Icons.dashboard,
-                                          size: 30, color: colorsApp['iconColor']),
-                                      /*),*/
-                                      Padding(
-                                          padding:
-                                              const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                                          child: Text(
-                                              scenes.values.toList()[index].name,
-                                              style: const TextStyle(fontSize: 16))),
-                                    ]),
-                              ),
-                            ],
-                          ),
-                        ));
+                    );
                   }),
                 ),
               ),
@@ -272,12 +366,52 @@ class _OthersScenesState extends State<OthersScenes> {
     );
   }
 
+  Widget CardItem(scenes, index){
+    return Card(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20)),
+        color: colorsApp['primaryColor'],
+        child: InkWell(
+          onTap: () {
+            _navigateAddImageAndReturn(context,scenes.keys.toList()[index],widget.floorSlug);
+            setState(() {
+
+            });
+          },
+          child: Stack(
+
+            children: [
+              Positioned(
+                right: 0,
+                top: 0,
+                child:numScenesButton(scenes.values.toList()[index].imageList.length),
+
+              ),
+              Center(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      /*Expanded(*/
+                      Icon(Icons.dashboard,
+                          size: 30, color: colorsApp['iconColor']),
+                      /*),*/
+                      Padding(
+                          padding:
+                          const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                          child: Text(
+                              scenes.values.toList()[index].name,
+                              style: const TextStyle(fontSize: 16))),
+                    ]),
+              ),
+            ],
+          ),
+        ));
+  }
   Widget numScenesButton(int n){
     //print('numero de escenas en '+widget.floor.slug! +'en la escena '+widget.sceneInTour.slug+' es :'+n.toString());
     if(n>0){
-      setState(() {
 
-      });
       return  Container(
           width: 20,
           height: 20,
@@ -287,9 +421,7 @@ class _OthersScenesState extends State<OthersScenes> {
           ),
           child: Center(child: Text(n.toString())));
     }else{
-      setState(() {
 
-      });
       return Container(
           width: 20,
           height: 20,
@@ -318,9 +450,61 @@ class _OthersScenesState extends State<OthersScenes> {
       imageFileList as List<XFile>;
       context.read<TourProvider>().addImageListOthers(floorKey: floorKey, sceneKey: sceneKey, imageList: imageFileList);
       setState(() {
-
       });
 
     }
+  }
+
+
+
+
+
+  void selectImages() async {
+    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+    Completer<Size> completer = Completer();
+    List<XFile> validImages=[];
+    if (selectedImages != null)  {
+      await Future.forEach(selectedImages, (XFile imageInList) async {
+        Image image = Image.file(File(imageInList.path));
+        var size= await _calculateImageDimension(image);
+        if(size.width==size.height*2){
+          validImages.add(imageInList);
+        }else{
+          Fluttertoast.showToast(msg: 'La imagen debe ser de realacion 2:1');
+        }
+      });
+      imageFileListSelect!.addAll(validImages);
+    }
+    setState(() {
+      if(imageFileListSelect!=null){
+        for (var element in imageFileListSelect!) {imagesInReel.add(ReelImage(image: element, selected: false));}
+        imageFileListSelect=[];
+        context.read<ImagesInReelProvider>().imagesInReel = imagesInReel;
+      }
+    });
+
+  }
+
+  Future<Size> _calculateImageDimension(Image image) {
+    Completer<Size> completer = Completer();
+    image.image.resolve(const ImageConfiguration()).addListener(
+      ImageStreamListener(
+            (ImageInfo image, bool synchronousCall) {
+          var myImage = image.image;
+          Size size = Size(myImage.width.toDouble(), myImage.height.toDouble());
+          completer.complete(size);
+        },
+      ),
+    );
+    return completer.future;
+  }
+
+  List<ReelImage> getSelectedImages(){
+    return imagesInReel.map(
+            (ReelImage image){
+          if(image.selected)
+          {return image;}
+        }
+    ).toList().whereType<ReelImage>().toList();
   }
 }

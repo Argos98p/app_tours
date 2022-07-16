@@ -28,11 +28,7 @@ class _FloorScenesPageState extends State<FloorScenesPage> {
         mainAxisSpacing: 5,
         padding: const EdgeInsets.all(10),
         children: List.generate(widget.scenes.length, (index) {
-          /*Scene newScene = Scene(
-              imageList: [],
-              name: widget.scenes[index].title,
-              slug: widget.scenes[index].slug);*/
-          //newTour.floors![widget.index].scenes!.add(newScene);
+
           return Center(
               child: DragTarget(
             onWillAccept: (data) {
@@ -43,7 +39,7 @@ class _FloorScenesPageState extends State<FloorScenesPage> {
               return true;
             },
             onAccept: (dynamic data) {
-              print(data.runtimeType);
+
               if(data.runtimeType == List<ReelImage>){
                 data.map((e) =>
                     context.read<TourProvider>().newTour.floors![widget.floor.slug]!.scenes![widget.scenes[index].slug]!.imageList.add(e.image)
@@ -51,7 +47,6 @@ class _FloorScenesPageState extends State<FloorScenesPage> {
               }else{
                 context.read<TourProvider>().newTour.floors![widget.floor.slug]!.scenes![widget.scenes[index].slug]!.imageList.add(data.image);
               }
-
 
             },
             builder: (

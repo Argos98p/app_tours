@@ -149,9 +149,9 @@ Widget itemCard(
 
                                                   print('slug:' + typeSlug);
                                                   context.read<TourProvider>().cancelTour();
-                                                  Navigator.pushNamed(context, '/agregarImagenesInicio',arguments: {'type':typeSlug, 'formData':formData,'case':false,'index':999});
-                                                  /*Navigator.pushNamed(context,'/toursDisponibles/$typeSlug',arguments: { 'formData': formData,'case': false,'index': 999
-                                                      });*/
+                                                  //Navigator.pushNamed(context, '/agregarImagenesInicio',arguments: {'type':typeSlug, 'formData':formData,'case':false,'index':999});
+                                                  Navigator.pushNamed(context,'/toursDisponibles/$typeSlug',arguments: { 'formData': formData,'case': false,'index': 999
+                                                      });
                                                 }
                                               },
                                               child: const Text("Continuar"))
