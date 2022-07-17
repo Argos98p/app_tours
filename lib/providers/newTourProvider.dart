@@ -44,7 +44,7 @@ class TourProvider with ChangeNotifier{
   }
 
   Future<void> addFloor({required String nameFloor}) async {
-    Floor newFloor=Floor(scenes: {},slug: slugify(nameFloor, lowercase: false, delimiter: '_'),name:nameFloor );
+    Floor newFloor=Floor(scenes: {},others:{},slug: slugify(nameFloor, lowercase: false, delimiter: '_'),name:nameFloor );
     _newTour.floors![slugify(nameFloor,lowercase: false, delimiter: '_')]=newFloor;
     notifyListeners();
   }

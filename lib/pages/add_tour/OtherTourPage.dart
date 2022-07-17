@@ -1,5 +1,11 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:basic_utils/basic_utils.dart' as utils;
 import 'package:app_tours/models/Floor.dart';
+import 'package:app_tours/models/ReelImage.dart';
 import 'package:app_tours/models/Scene.dart';
+import 'package:app_tours/providers/imagesInReelProvider.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:app_tours/utils/SharedPreferences.dart';
@@ -28,6 +34,8 @@ class OtherTour extends StatefulWidget {
 
 class _OtherTourState extends State<OtherTour> {
   late String pisoSelec;
+  List<XFile>? imageFileListSelect = [];
+  final ImagePicker imagePicker = ImagePicker();
   TextEditingController newSceneController = TextEditingController();
   SharedPref sharedPref = SharedPref();
   @override
@@ -223,7 +231,11 @@ class _OtherTourState extends State<OtherTour> {
                                             ));
                                       });
                                 }, icon: Icon(Icons.edit)):SizedBox(width: 0,height: 0),
-                                  Text(pisos.keys.toList().elementAt(index))],
+                                  Text(pisos.keys
+                                      .toList()
+                                      .elementAt(index).replaceAll('_', ' '))
+                                  /*Text(pisos.keys.toList().elementAt(index))*/
+                                ],
                               )
                           ,
                               value: pisos.keys.toList().elementAt(index))
@@ -288,12 +300,7 @@ class _OtherTourState extends State<OtherTour> {
                                                         onPressed: () {
                                                           setState(() {});
                                                           try {
-                                                            context
-                                                                .read<
-                                                                    TourProvider>()
-                                                                .addFloor(
-                                                                    nameFloor:
-                                                                        newSceneController
+                                                            context.read< TourProvider>().addFloor(nameFloor: newSceneController
                                                                             .text);
                                                             Fluttertoast.showToast(
                                                                 msg:
@@ -341,6 +348,107 @@ class _OtherTourState extends State<OtherTour> {
                   )
                 ],
               ),
+
+              Consumer<ImagesInReelProvider>(builder: (context, pop,_){
+                return  Container(
+                  height: MediaQuery.maybeOf(context)!.size.height*0.15,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: pop.imagesInReel.length+1,
+                    itemBuilder: (BuildContext context, index){
+                      if (index<pop.imagesInReel.length){
+                        return LongPressDraggable(
+                          onDragCompleted: (){
+                            //print(imagesInReel[index].image.path);
+                            setState(() {
+                              if(getSelectedImages().length>0){
+                                context.read<ImagesInReelProvider>().imagesInReel.removeWhere((ReelImage element) => (element.selected));
+                              }else{
+                                context.read<ImagesInReelProvider>().imagesInReel.removeAt(index);
+                              }
+                              //context.read<ImagesInReelProvider>().imagesInReel=imagesInReel;
+                            });
+                          },
+                          data: (getSelectedImages().length>0)
+                              ?getSelectedImages()
+                              :context.read<ImagesInReelProvider>().imagesInReel[index],
+                          feedback: (getSelectedImages().length>0)
+                              ?CircleAvatar(
+                            child: Text(getSelectedImages().length.toString()),)
+                              :Container(
+                            width: 80,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8), // Image border
+                              child: SizedBox.fromSize(
+                                  size: Size.fromRadius(16), // Image radius
+                                  child: Image.file(
+                                    File(context.read<ImagesInReelProvider>().imagesInReel[index].image.path),
+                                    filterQuality: FilterQuality.high,
+                                    fit: BoxFit.fill,
+                                  )
+
+                              ),
+                            ),
+                          )
+                          ,
+                          child: Container(
+                            //height: MediaQuery.maybeOf(context)!.size.height*0.1,
+                            width: 200,
+                            decoration: (pop.imagesInReel[index].selected)
+                                ?BoxDecoration(
+                                border: Border.all(
+                                  width: 2,
+                                  color: Colors.green,
+                                ), borderRadius: BorderRadius.all(Radius.circular(8))
+                            )
+                                :BoxDecoration(
+                                border: Border.all(
+                                  width: 2,
+                                  color: Colors.transparent,
+                                ), borderRadius: BorderRadius.all(Radius.circular(8))
+                            ),
+
+                            child: InkWell(
+
+                              onTap: (){
+                                setState(() {
+                                  pop.imagesInReel[index].selected=!context.read<ImagesInReelProvider>().imagesInReel[index].selected;
+                                });
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8), // Image border
+                                child: SizedBox.fromSize(
+                                    size: Size.fromRadius(16), // Image radius
+                                    child: Image.file(
+                                      File(pop.imagesInReel[index].image.path),
+                                      filterQuality: FilterQuality.high,
+                                      fit: BoxFit.fill,
+                                    )
+
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+
+                      }else{
+                        return Container(
+                            margin: EdgeInsets.symmetric(vertical: 35,horizontal: 15),
+                            decoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius: BorderRadius.all(Radius.circular(100))
+                            ),
+                            child: IconButton(onPressed: (){
+                              selectImages();
+                            }, icon: Icon(Icons.add)));
+                      }
+                    }, separatorBuilder: (BuildContext context, int index) {
+                    return SizedBox(width: 10,);
+                  },
+                  ),
+
+                );
+              }),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -405,53 +513,28 @@ class _OtherTourState extends State<OtherTour> {
                   mainAxisSpacing: 5,
                   padding: const EdgeInsets.all(10),
                   children: List.generate(scenes.keys.length, (index) {
-                    return Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        color: colorsApp['primaryColor'],
-                        child: InkWell(
-                          onTap: () {
-                            _navigateAddImageAndReturn(
-                                context,
-                                scenes.keys.toList()[index],
-                                pisos[pisoSelec]!.slug!);
-                            setState(() {});
-                          },
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                right: 0,
-                                top: 0,
-                                child: numScenesButton(scenes.values
-                                    .toList()[index]
-                                    .imageList
-                                    .length),
-                              ),
-                              Center(
-                                child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      /*Expanded(*/
-                                      Icon(Icons.dashboard,
-                                          size: 30,
-                                          color: colorsApp['iconColor']),
-                                      /*),*/
-                                      Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              0, 10, 0, 10),
-                                          child: Text(
-                                              scenes.values
-                                                  .toList()[index]
-                                                  .name,
-                                              style: const TextStyle(
-                                                  fontSize: 16))),
-                                    ]),
-                              ),
-                            ],
-                          ),
-                        ));
+                    return DragTarget(
+
+                      onWillAccept: (data){
+                        return true;
+                      },
+                      onAccept: (dynamic data){
+                        if(data.runtimeType == List<ReelImage>){
+                          data.map((e) =>
+                              context.read<TourProvider>().newTour.floors![pisoSelec]!.scenes![scenes.values.toList()[index].slug]!.imageList.add(e.image)
+                          ).toList();
+                        }else{
+                          context.read<TourProvider>().newTour.floors![pisoSelec]!.scenes![scenes.values.toList()[index].slug]!.imageList.add(data.image);
+                        }
+                      },
+                      builder: (
+                          BuildContext context,
+                          List<Object?> candidateData,
+                          List<dynamic> rejectedData) {
+                          return cardItem(scenes, index, pisos);
+                      },
+
+                    );
                   }),
                 ),
               ),
@@ -491,10 +574,60 @@ class _OtherTourState extends State<OtherTour> {
     );
   }
 
+  Widget cardItem(scenes, index,pisos){
+    return Card(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20)),
+        color: colorsApp['primaryColor'],
+        child: InkWell(
+          onTap: () {
+            _navigateAddImageAndReturn(
+                context,
+                scenes.keys.toList()[index],
+                pisos[pisoSelec]!.slug!);
+
+          },
+          child: Stack(
+            children: [
+              Positioned(
+                right: 0,
+                top: 0,
+                child: numScenesButton(scenes.values
+                    .toList()[index]
+                    .imageList
+                    .length),
+              ),
+              Center(
+                child: Column(
+                    crossAxisAlignment:
+                    CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      /*Expanded(*/
+                      Icon(Icons.dashboard,
+                          size: 30,
+                          color: colorsApp['iconColor']),
+                      /*),*/
+                      Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                              0, 10, 0, 10),
+                          child: Text(
+                              scenes.values
+                                  .toList()[index]
+                                  .name,
+                              style: const TextStyle(
+                                  fontSize: 16))),
+                    ]),
+              ),
+            ],
+          ),
+        ));
+  }
+
   Widget numScenesButton(int n) {
     //print('numero de escenas en '+widget.floor.slug! +'en la escena '+widget.sceneInTour.slug+' es :'+n.toString());
     if (n > 0) {
-      setState(() {});
+
       return Container(
           width: 20,
           height: 20,
@@ -504,7 +637,7 @@ class _OtherTourState extends State<OtherTour> {
           ),
           child: Center(child: Text(n.toString())));
     } else {
-      setState(() {});
+
       return Container(
           width: 20,
           height: 20,
@@ -516,6 +649,55 @@ class _OtherTourState extends State<OtherTour> {
     }
   }
 
+  void selectImages() async {
+    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+    Completer<Size> completer = Completer();
+    List<XFile> validImages=[];
+    if (selectedImages != null)  {
+      await Future.forEach(selectedImages, (XFile imageInList) async {
+        Image image = Image.file(File(imageInList.path));
+        var size= await _calculateImageDimension(image);
+        if(size.width==size.height*2){
+          validImages.add(imageInList);
+        }else{
+          Fluttertoast.showToast(msg: 'La imagen debe ser de realacion 2:1');
+        }
+      });
+      imageFileListSelect!.addAll(validImages);
+    }
+    setState(() {
+      if(imageFileListSelect!=null){
+        for (var element in imageFileListSelect!) {context.read<ImagesInReelProvider>().imagesInReel.add(ReelImage(image: element, selected: false));}
+        imageFileListSelect=[];
+        //context.read<ImagesInReelProvider>().imagesInReel = context.read<ImagesInReelProvider>().imagesInReel;
+
+      }
+    });
+
+  }
+
+  Future<Size> _calculateImageDimension(Image image) {
+    Completer<Size> completer = Completer();
+    image.image.resolve(const ImageConfiguration()).addListener(
+      ImageStreamListener(
+            (ImageInfo image, bool synchronousCall) {
+          var myImage = image.image;
+          Size size = Size(myImage.width.toDouble(), myImage.height.toDouble());
+          completer.complete(size);
+        },
+      ),
+    );
+    return completer.future;
+  }
+
+  List<ReelImage> getSelectedImages(){
+    return context.read<ImagesInReelProvider>().imagesInReel.map(
+            (ReelImage image){
+          if(image.selected)
+          {return image;}
+        }
+    ).toList().whereType<ReelImage>().toList();
+  }
   Future _navigateAddImageAndReturn(
       BuildContext context, String sceneKey, String floorKey) async {
     //TourProvider watch = context.watch<TourProvider>();

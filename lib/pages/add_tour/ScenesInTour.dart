@@ -382,9 +382,6 @@ class _ScenesInTourState extends State<ScenesInTour> {
       );
               }),
 
-
-
-
               Expanded(child: floorScafold[pisoSelec]!),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
