@@ -10,11 +10,11 @@ AppBar appBarSpace(context, bool isEditor) {
       :const Text('Virtual Space '),
     actions: <Widget>[
       IconButton(
-        icon: Icon(Icons.home_outlined),
+        icon: const Icon(Icons.home_outlined),
         onPressed: () {
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => Home()),
+            MaterialPageRoute(builder: (context) => const Home()),
             ModalRoute.withName("/"),
           );
         },

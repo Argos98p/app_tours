@@ -1,11 +1,6 @@
-import 'package:app_tours/pages/add_tour/Profile.dart';
 import 'package:app_tours/pages/add_tour/MyTours.dart';
-import 'package:app_tours/pages/add_tour/VirtualToursPage.dart';
 import 'package:app_tours/pages/add_tour/add_tour_main_page.dart';
 import 'package:app_tours/pages/on_work.dart';
-import 'package:app_tours/pages/visualizer_page.dart';
-import 'package:app_tours/utils/ColorsTheme.dart';
-import 'package:app_tours/utils/Style.dart';
 import 'package:app_tours/widgets/app_bar.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +8,7 @@ import 'package:fluttericon/font_awesome5_icons.dart';
 
 class Home extends StatefulWidget {
 
-  Home({Key? key}) : super(key: key);
+  const Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -35,7 +30,7 @@ class _HomeState extends State<Home> {
     List<Widget> _pages = [
       homeWidget(),
       ToursPage(isEditor: true),
-      OnWork(),
+      const OnWork(),
 
       //const ProfilePage(),
     ];
@@ -65,7 +60,7 @@ class _HomeState extends State<Home> {
             //homeSelected=true;
             //selectedpage = index;
             if(index==0){
-              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>AddTourMainPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>const AddTourMainPage()));
               homeSelected=true;
               isEditor=false;
             }

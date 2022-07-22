@@ -20,8 +20,8 @@ class _AddTourMainPageState extends State<AddTourMainPage> {
   void initState() {
     pages=[
       ToursPage(isEditor: false),
-      VirtualTourPage(),
-      ProfilePage(),
+      const VirtualTourPage(),
+      const ProfilePage(),
     ];
     super.initState();
   }
@@ -36,7 +36,7 @@ class _AddTourMainPageState extends State<AddTourMainPage> {
       bottomNavigationBar: ConvexAppBar(
         backgroundColor: AppColors.primaryColor,
         initialActiveIndex: 1,
-        items: [
+        items: const [
           TabItem(icon: Icons.apps, title: ''),
           TabItem(icon: Icons.add, title: ''),
           TabItem(icon: Icons.person, title: ''),

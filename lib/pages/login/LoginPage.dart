@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:app_tours/pages/Home.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Login extends StatefulWidget {
@@ -17,6 +17,7 @@ class _LoginState extends State<Login> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final _storage = const FlutterSecureStorage();
+  late bool is_loading;
 
   Future<void> _readFromStorage() async {
     usernameController.text =
@@ -40,6 +41,7 @@ class _LoginState extends State<Login> {
 
   @override
   void initState() {
+    is_loading=false;
     super.initState();
     _readFromStorage();
   }
@@ -113,13 +115,14 @@ class _LoginState extends State<Login> {
                         barrierDismissible: false,
                         context: context,
                         builder: (BuildContext context) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
+                          return  Center(
+                            child:is_loading ?CircularProgressIndicator()
+                            :SizedBox(width: 0,height: 0,),
                           );
                         });
                     await login();
+                    //Navigator.pop(context);
 
-                    setState(() {});
                   },
                   color: const Color(0xff03a9f4),
                   shape: RoundedRectangleBorder(
@@ -159,24 +162,18 @@ class _LoginState extends State<Login> {
   }
 
   Future login() async {
+    setState(() {
+      is_loading = true;
+    });
     try {
       var url = "http://redpanda.sytes.net:81/api/auth/signin";
       var bodyData = jsonEncode({
         "username": usernameController.text,
         "password": passwordController.text
       });
-
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-              builder: (context) => Home(
-
-              )),
-              (Route<dynamic> route) => false);
-      /*
       var response = await http.post(Uri.parse(url),
           body: bodyData, headers: {"Content-Type": "application/json"});
-      var data = json.decode(response.body);*/
-/*
+      var data = json.decode(response.body);
 
       if (response.statusCode == 200) {
         await _storage.write(key: "username", value: usernameController.text);
@@ -188,24 +185,34 @@ class _LoginState extends State<Login> {
         print(data['accessToken']);
 
         Fluttertoast.showToast(msg: "Successful access");
-        Navigator.pop(context);
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-                builder: (context) => Home(
+                builder: (context) => const Home(
 
-                    )),
-            (Route<dynamic> route) => false);
-      }*/
+                )),
+                (Route<dynamic> route) => false);
 
-      /*if (response.statusCode != 200) {
-        Fluttertoast.showToast(msg: 'Invalid Credentials');
-      }*/
+      }
+      else if(response.statusCode == 401){
+        Fluttertoast.showToast(msg: 'Credenciaes incorrectas');
+        Navigator.pop(context);
+      }
+      else {
+        Fluttertoast.showToast(msg: 'Error al momento de ingresar');
+        Navigator.pop(context);
+      }
+
+      setState(() {
+        is_loading = false;
+      });
+
     } catch (e) {
       print(e);
       Fluttertoast.showToast(msg: 'Server error');
-      //Navigator.pop(context);
-      /* Navigator.of(context)
-          .pushNamedAndRemoveUntil('/menuOptions', (route) => false);*/
+      setState(() {
+        is_loading = false;
+      });
+
     }
   }
 }

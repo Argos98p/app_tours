@@ -248,7 +248,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
                                                     ));
                                                   });
                                             },
-                                            icon: Icon(Icons.edit))
+                                            icon: const Icon(Icons.edit))
                                         :const SizedBox(width: 0,height: 0,),
                                         Text(pisos.keys
                                             .toList()
@@ -282,7 +282,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
                 ),
               ),
               Consumer<ImagesInReelProvider>(builder: (context, pop,_){
-     return  Container(
+     return  SizedBox(
         height: MediaQuery.maybeOf(context)!.size.height*0.15,
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
@@ -293,7 +293,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
                 onDragCompleted: (){
                   //print(imagesInReel[index].image.path);
                   setState(() {
-                    if(getSelectedImages().length>0){
+                    if(getSelectedImages().isNotEmpty){
                       context.read<ImagesInReelProvider>().imagesInReel.removeWhere((ReelImage element) => (element.selected));
                     }else{
                       context.read<ImagesInReelProvider>().imagesInReel.removeAt(index);
@@ -301,18 +301,18 @@ class _ScenesInTourState extends State<ScenesInTour> {
                     //context.read<ImagesInReelProvider>().imagesInReel=imagesInReel;
                   });
                 },
-                data: (getSelectedImages().length>0)
+                data: (getSelectedImages().isNotEmpty)
                     ?getSelectedImages()
                     :context.read<ImagesInReelProvider>().imagesInReel[index],
-                feedback: (getSelectedImages().length>0)
+                feedback: (getSelectedImages().isNotEmpty)
                     ?CircleAvatar(
                   child: Text(getSelectedImages().length.toString()),)
-                    :Container(
+                    :SizedBox(
                   width: 80,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8), // Image border
                     child: SizedBox.fromSize(
-                        size: Size.fromRadius(16), // Image radius
+                        size: const Size.fromRadius(16), // Image radius
                         child: Image.file(
                           File(context.read<ImagesInReelProvider>().imagesInReel[index].image.path),
                           filterQuality: FilterQuality.high,
@@ -331,13 +331,13 @@ class _ScenesInTourState extends State<ScenesInTour> {
                       border: Border.all(
                         width: 2,
                         color: Colors.green,
-                      ), borderRadius: BorderRadius.all(Radius.circular(8))
+                      ), borderRadius: const BorderRadius.all(Radius.circular(8))
                   )
                       :BoxDecoration(
                       border: Border.all(
                         width: 2,
                         color: Colors.transparent,
-                      ), borderRadius: BorderRadius.all(Radius.circular(8))
+                      ), borderRadius: const BorderRadius.all(Radius.circular(8))
                   ),
 
                   child: InkWell(
@@ -350,7 +350,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8), // Image border
                       child: SizedBox.fromSize(
-                          size: Size.fromRadius(16), // Image radius
+                          size: const Size.fromRadius(16), // Image radius
                           child: Image.file(
                             File(pop.imagesInReel[index].image.path),
                             filterQuality: FilterQuality.high,
@@ -365,17 +365,17 @@ class _ScenesInTourState extends State<ScenesInTour> {
 
             }else{
               return Container(
-                  margin: EdgeInsets.symmetric(vertical: 35,horizontal: 15),
-                  decoration: BoxDecoration(
+                  margin: const EdgeInsets.symmetric(vertical: 35,horizontal: 15),
+                  decoration: const BoxDecoration(
                       color: Colors.grey,
                       borderRadius: BorderRadius.all(Radius.circular(100))
                   ),
                   child: IconButton(onPressed: (){
                     selectImages();
-                  }, icon: Icon(Icons.add)));
+                  }, icon: const Icon(Icons.add)));
             }
           }, separatorBuilder: (BuildContext context, int index) {
-          return SizedBox(width: 10,);
+          return const SizedBox(width: 10,);
         },
         ),
 
@@ -400,7 +400,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
                         }
                         context.read<TourProvider>().cancelTour();
 
-                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>AddTourMainPage()), (route) => false);
+                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const AddTourMainPage()), (route) => false);
                         
                       },
                       child: (widget.updateTour)
@@ -424,7 +424,7 @@ class _ScenesInTourState extends State<ScenesInTour> {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
-              controller: this.floorNameController,
+              controller: floorNameController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Nombre del piso',

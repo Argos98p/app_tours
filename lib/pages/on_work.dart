@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 
 class OnWork extends StatefulWidget {
@@ -16,13 +15,13 @@ class _OnWorkState extends State<OnWork> {
       body: Center(
         child:Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 100,
             ),
-            Text('We work on this ', style: TextStyle(
+            const Text('We work on this ', style: TextStyle(
           fontSize: 30
         ),),
-            Container(
+            SizedBox(
               width: 300,
                 child: Lottie.asset('assets/lottie/working.json'))
 

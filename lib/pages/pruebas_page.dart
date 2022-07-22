@@ -32,7 +32,7 @@ class _PruebasPageState extends State<PruebasPage> {
                         defaultValue='hola';
                       });
                     },
-                    child: Text('touchme'),
+                    child: const Text('touchme'),
 
                   ),
               );
@@ -55,7 +55,7 @@ class _PruebasPageState extends State<PruebasPage> {
 
             }
             setState(() {
-              this.pisos = context.read<PisosProviders>().pisos;
+              pisos = context.read<PisosProviders>().pisos;
             });
             defaultValue = value!;
           },

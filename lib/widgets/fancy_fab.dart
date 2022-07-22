@@ -7,7 +7,7 @@ class FancyFab extends StatefulWidget {
   final String tooltip;
   final IconData icon;
 
-  FancyFab({required this.onPressed, required this.tooltip, required this.icon});
+  const FancyFab({required this.onPressed, required this.tooltip, required this.icon});
 
   @override
   _FancyFabState createState() => _FancyFabState();
@@ -21,14 +21,14 @@ class _FancyFabState extends State<FancyFab>
   late Animation<Color?> _buttonColor;
   late Animation<double> _animateIcon;
   late Animation<double> _translateButton;
-  Curve _curve = Curves.easeOut;
-  double _fabHeight = 56.0;
+  final Curve _curve = Curves.easeOut;
+  final double _fabHeight = 56.0;
   var _currIndex=0;
 
   @override
   initState() {
     _animationController =
-    AnimationController(vsync: this, duration: Duration(milliseconds: 500))
+    AnimationController(vsync: this, duration: const Duration(milliseconds: 500))
       ..addListener(() {
         setState(() {});
       });
@@ -39,7 +39,7 @@ class _FancyFabState extends State<FancyFab>
       end: Colors.red,
     ).animate(CurvedAnimation(
       parent: _animationController,
-      curve: Interval(
+      curve: const Interval(
         0.00,
         1.00,
         curve: Curves.linear,
@@ -136,7 +136,7 @@ class _FancyFabState extends State<FancyFab>
         foregroundColor: Colors.grey[300],
         onPressed: (){},
         tooltip: 'Link',
-        child: Icon(Icons.insert_link),
+        child: const Icon(Icons.insert_link),
       ),
     );
   }
@@ -149,7 +149,7 @@ class _FancyFabState extends State<FancyFab>
         foregroundColor: Colors.grey[300],
         onPressed: (){},
         tooltip: 'Hotspot',
-        child: Icon(FontAwesome5.tag),
+        child: const Icon(FontAwesome5.tag),
       ),
     );
   }
@@ -163,7 +163,7 @@ class _FancyFabState extends State<FancyFab>
           print('flag');
         },
         tooltip: 'Inicio',
-        child: Icon(FontAwesome.flag),
+        child: const Icon(FontAwesome.flag),
       ),
     );
   }
@@ -176,7 +176,7 @@ class _FancyFabState extends State<FancyFab>
         foregroundColor: Colors.grey[300],
         onPressed: (){},
         tooltip: 'Video',
-        child: Icon(FontAwesome5.film),
+        child: const Icon(FontAwesome5.film),
       ),
     );
   }
@@ -189,7 +189,7 @@ class _FancyFabState extends State<FancyFab>
         foregroundColor: Colors.grey[300],
         onPressed: (){},
         tooltip: 'Sonido',
-        child: Icon(Icons.volume_up),
+        child: const Icon(Icons.volume_up),
       ),
     );
   }
@@ -207,7 +207,7 @@ class _FancyFabState extends State<FancyFab>
           icon: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
               transitionBuilder: (child, anim) => RotationTransition(
-                turns: child.key == ValueKey('icon1')
+                turns: child.key == const ValueKey('icon1')
                     ? Tween<double>(begin: 1, end: 0.75).animate(anim)
                     : Tween<double>(begin: 0.75, end: 1).animate(anim),
                 child: FadeTransition(opacity: anim, child: child),

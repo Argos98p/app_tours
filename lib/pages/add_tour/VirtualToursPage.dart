@@ -1,8 +1,5 @@
 import 'package:app_tours/initalConfigurations/TourAvaliable.dart';
-import 'package:app_tours/utils/ColorsTheme.dart';
-import 'package:app_tours/widgets/app_bar.dart';
 import 'package:app_tours/widgets/itemCard.dart';
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 

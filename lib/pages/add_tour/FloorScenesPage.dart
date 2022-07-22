@@ -5,7 +5,6 @@ import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/widgets/itemCardScene.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class FloorScenesPage extends StatefulWidget {

@@ -7,9 +7,7 @@ import 'package:app_tours/models/Vescena.dart';
 import 'package:app_tours/models/Vfloor.dart';
 import 'package:app_tours/models/Vtour.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
-import 'package:app_tours/utils/local_coords_to_lat_long.dart';
 import 'package:app_tours/widgets/fancy_fab.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -43,7 +41,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 0.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -54,7 +52,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 20.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.add),
+                icon: const Icon(Icons.add),
                 onPressed: () {
                   print('hola');
                 },
@@ -67,7 +65,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 0.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.remove),
+                icon: const Icon(Icons.remove),
                 onPressed: () {
                   print('hola');
                 },
@@ -78,7 +76,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 20.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.app_registration),
+                icon: const Icon(Icons.app_registration),
                 onPressed: () {
                   print('hola');
                 },
@@ -91,7 +89,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 0.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -102,7 +100,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 20.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -115,7 +113,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 0.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -126,7 +124,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 20.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -141,7 +139,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 0.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -152,7 +150,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 20.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -165,7 +163,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 0.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -176,7 +174,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 20.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -189,7 +187,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 0.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -200,7 +198,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 20.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -213,7 +211,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 0.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -224,7 +222,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 20.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -237,7 +235,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 0.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -248,7 +246,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 20.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -261,7 +259,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 0.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -272,7 +270,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 20.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -287,7 +285,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 0.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -298,7 +296,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 20.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -311,7 +309,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 0.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -322,7 +320,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 20.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -335,7 +333,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 0.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -346,7 +344,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 20.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -359,7 +357,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 0.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -370,7 +368,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 20.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -383,7 +381,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 0.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -394,7 +392,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 20.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -407,7 +405,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 0.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -418,7 +416,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 20.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -433,7 +431,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 0.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -444,7 +442,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 20.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -457,7 +455,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 0.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -468,7 +466,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 20.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -481,7 +479,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 0.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -492,7 +490,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 20.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -505,7 +503,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 0.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -516,7 +514,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
               latitude: 20.0,
               longitude: 0.0,
               widget: IconButton(
-                icon: Icon(Icons.login),
+                icon: const Icon(Icons.login),
                 onPressed: () {
                   print('hola');
                 },
@@ -531,10 +529,10 @@ class _VisualizerPageState extends State<VisualizerPage> {
       widget.tourSaved!.floors!.forEach((keyFloor, Floor floor) {
         Vfloor vpiso = Vfloor(keyFloor, []);
         floor.scenes!.forEach((key, Scene scene) {
-          scene.imageList.forEach((imagen) {
+          for (var imagen in scene.imageList) {
             Vescena vescena = Vescena(imagen.path, scene.slug, []);
             vpiso.scenas.add(vescena);
-          });
+          }
         });
         tourPrueba.pisos.add(vpiso);
       });
@@ -551,6 +549,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FancyFab(
@@ -575,7 +574,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
                             latitude: latitude,
                             longitude: longitude,
                             widget: IconButton(
-                              icon: Icon(Icons.link),
+                              icon: const Icon(Icons.link),
                               onPressed: () {
                                 Fluttertoast.showToast(msg: 'soy un hotspot');
                               },
@@ -596,7 +595,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
                               fit: BoxFit.cover,
                             ),
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
               Center(
                 child: Column(
                   children: [
@@ -635,7 +634,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
                               reelVisible = !reelVisible;
                             });
                           },
-                          icon: Icon(Icons.apps)),
+                          icon: const Icon(Icons.apps)),
                     )
                   ],
                 ),
@@ -705,12 +704,12 @@ class _VisualizerPageState extends State<VisualizerPage> {
                           pisoNombre,
                           style: (pisoNombre ==
                                   tourPrueba.pisos[floorIndexSelect].nombre)
-                              ? TextStyle(fontSize: 16)
-                              : TextStyle(fontSize: 16, color: Colors.white),
+                              ? const TextStyle(fontSize: 16)
+                              : const TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       );
                     },
-                    separatorBuilder: (context, index) => SizedBox(
+                    separatorBuilder: (context, index) => const SizedBox(
                           height: 0,
                         )),
               ),
@@ -727,7 +726,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
                     floorsVisible = !floorsVisible;
                   });
                 },
-                child: Text(
+                child: const Text(
                   'Niveles',
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
@@ -749,7 +748,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
                 semanticContainer: true,
                 //shadowColor: palletFuchsia,
                 shape: RoundedRectangleBorder(
-                  side: BorderSide(
+                  side: const BorderSide(
                       //width: 10,
                       //color: Colors.greenAccent,
                       ),
@@ -766,7 +765,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8), // Image border
                       child: SizedBox.fromSize(
-                        size: Size.fromRadius(16), // Image radius
+                        size: const Size.fromRadius(16), // Image radius
                         child: (widget.tourSaved == null)
                             ? Image.asset(escena.path,
                                 fit: BoxFit.cover,
@@ -792,7 +791,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
                           width: 2,
                           color: Colors.blueAccent,
                         )
-                      : BorderSide(color: Colors.transparent),
+                      : const BorderSide(color: Colors.transparent),
                 ),
                 child: InkWell(
                     borderRadius: BorderRadius.circular(30),
@@ -805,7 +804,7 @@ class _VisualizerPageState extends State<VisualizerPage> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8), // Image border
                       child: SizedBox.fromSize(
-                        size: Size.fromRadius(16), // Image radius
+                        size: const Size.fromRadius(16), // Image radius
                         child: (widget.tourSaved == null)
                             ? Image.asset(escena.path,
                                 fit: BoxFit.cover,

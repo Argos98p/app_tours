@@ -1,5 +1,4 @@
 import 'package:app_tours/models/Vescena.dart';
-import 'package:app_tours/models/Vescena.dart';
 
 class Vfloor{
 String _nombre;

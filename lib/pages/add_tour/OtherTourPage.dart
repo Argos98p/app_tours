@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:basic_utils/basic_utils.dart' as utils;
 import 'package:app_tours/models/Floor.dart';
 import 'package:app_tours/models/ReelImage.dart';
 import 'package:app_tours/models/Scene.dart';
@@ -230,7 +229,7 @@ class _OtherTourState extends State<OtherTour> {
                                               ),
                                             ));
                                       });
-                                }, icon: Icon(Icons.edit)):SizedBox(width: 0,height: 0),
+                                }, icon: const Icon(Icons.edit)):const SizedBox(width: 0,height: 0),
                                   Text(pisos.keys
                                       .toList()
                                       .elementAt(index).replaceAll('_', ' '))
@@ -350,7 +349,7 @@ class _OtherTourState extends State<OtherTour> {
               ),
 
               Consumer<ImagesInReelProvider>(builder: (context, pop,_){
-                return  Container(
+                return  SizedBox(
                   height: MediaQuery.maybeOf(context)!.size.height*0.15,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
@@ -361,7 +360,7 @@ class _OtherTourState extends State<OtherTour> {
                           onDragCompleted: (){
                             //print(imagesInReel[index].image.path);
                             setState(() {
-                              if(getSelectedImages().length>0){
+                              if(getSelectedImages().isNotEmpty){
                                 context.read<ImagesInReelProvider>().imagesInReel.removeWhere((ReelImage element) => (element.selected));
                               }else{
                                 context.read<ImagesInReelProvider>().imagesInReel.removeAt(index);
@@ -369,18 +368,18 @@ class _OtherTourState extends State<OtherTour> {
                               //context.read<ImagesInReelProvider>().imagesInReel=imagesInReel;
                             });
                           },
-                          data: (getSelectedImages().length>0)
+                          data: (getSelectedImages().isNotEmpty)
                               ?getSelectedImages()
                               :context.read<ImagesInReelProvider>().imagesInReel[index],
-                          feedback: (getSelectedImages().length>0)
+                          feedback: (getSelectedImages().isNotEmpty)
                               ?CircleAvatar(
                             child: Text(getSelectedImages().length.toString()),)
-                              :Container(
+                              :SizedBox(
                             width: 80,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(8), // Image border
                               child: SizedBox.fromSize(
-                                  size: Size.fromRadius(16), // Image radius
+                                  size: const Size.fromRadius(16), // Image radius
                                   child: Image.file(
                                     File(context.read<ImagesInReelProvider>().imagesInReel[index].image.path),
                                     filterQuality: FilterQuality.high,
@@ -399,13 +398,13 @@ class _OtherTourState extends State<OtherTour> {
                                 border: Border.all(
                                   width: 2,
                                   color: Colors.green,
-                                ), borderRadius: BorderRadius.all(Radius.circular(8))
+                                ), borderRadius: const BorderRadius.all(Radius.circular(8))
                             )
                                 :BoxDecoration(
                                 border: Border.all(
                                   width: 2,
                                   color: Colors.transparent,
-                                ), borderRadius: BorderRadius.all(Radius.circular(8))
+                                ), borderRadius: const BorderRadius.all(Radius.circular(8))
                             ),
 
                             child: InkWell(
@@ -418,7 +417,7 @@ class _OtherTourState extends State<OtherTour> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8), // Image border
                                 child: SizedBox.fromSize(
-                                    size: Size.fromRadius(16), // Image radius
+                                    size: const Size.fromRadius(16), // Image radius
                                     child: Image.file(
                                       File(pop.imagesInReel[index].image.path),
                                       filterQuality: FilterQuality.high,
@@ -433,17 +432,17 @@ class _OtherTourState extends State<OtherTour> {
 
                       }else{
                         return Container(
-                            margin: EdgeInsets.symmetric(vertical: 35,horizontal: 15),
-                            decoration: BoxDecoration(
+                            margin: const EdgeInsets.symmetric(vertical: 35,horizontal: 15),
+                            decoration: const BoxDecoration(
                                 color: Colors.grey,
                                 borderRadius: BorderRadius.all(Radius.circular(100))
                             ),
                             child: IconButton(onPressed: (){
                               selectImages();
-                            }, icon: Icon(Icons.add)));
+                            }, icon: const Icon(Icons.add)));
                       }
                     }, separatorBuilder: (BuildContext context, int index) {
-                    return SizedBox(width: 10,);
+                    return const SizedBox(width: 10,);
                   },
                   ),
 
@@ -701,7 +700,7 @@ class _OtherTourState extends State<OtherTour> {
   Future _navigateAddImageAndReturn(
       BuildContext context, String sceneKey, String floorKey) async {
     //TourProvider watch = context.watch<TourProvider>();
-    var imageFileList;
+    Object? imageFileList;
     //try {
       Scene scene = context
           .read<TourProvider>()

@@ -33,10 +33,10 @@ class _SelectImagesState extends State<SelectImages> {
                 onPressed: (){
                   selectImages();
                 },
-                child: Text('Selecionar Imagen')),
+                child: const Text('Selecionar Imagen')),
             ElevatedButton(
                 onPressed: (){},
-                child: Text('Capturar')),
+                child: const Text('Capturar')),
             Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -88,7 +88,7 @@ class _SelectImagesState extends State<SelectImages> {
             ElevatedButton(onPressed: (){
               Navigator.pushNamed(context,'/toursDisponibles/${widget.typeTour}',arguments: { 'formData': widget.infoTour,'case': false,'index': 999, 'imageList':imageFileList
               });
-            }, child: Text('Clasificar fotos'))
+            }, child: const Text('Clasificar fotos'))
           ],
         ),
       ),

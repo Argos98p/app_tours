@@ -1,13 +1,13 @@
 import 'package:app_tours/models/Floor.dart';
 import 'package:app_tours/models/Scene.dart';
 import 'package:app_tours/models/Tour.dart';
-import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/utils/SharedPreferences.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 
 class SpecificTour extends StatefulWidget {
   Tour tour;
@@ -21,12 +21,14 @@ class SpecificTour extends StatefulWidget {
 }
 
 class _SpecificTourState extends State<SpecificTour> {
+
   String idusuario = '5';
   String baseUrlApi = 'http://redpanda.sytes.net:8083/api/tours';
   String token =
       'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyaWNhcmRvLmphcnJvIiwiaWF0IjoxNjU3MTQzNDQ1LCJleHAiOjE2NTcyMjk4NDV9.7hTAjZDj5MnQghXNXCA_J2l6PyvZXi3Ji9kskO_2fhhpcsOKIdt02gcNsF0B_Cr3V8LmrN-QoI0DivP_M_VgJg';
 
   SharedPref sharedPref = SharedPref();
+
 
 
   @override
@@ -41,14 +43,14 @@ class _SpecificTourState extends State<SpecificTour> {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               widget.tour.title!,
-              style: TextStyle(fontSize: 26),
+              style: const TextStyle(fontSize: 26),
             ),
           ),
           ElevatedButton(
               onPressed: () {
                 sendTourToServer(widget.tour);
               },
-              child: Text('Enviar al server')),
+              child: const Text('Enviar al server')),
           ElevatedButton(
               style: ButtonStyle(
                   backgroundColor:
@@ -56,12 +58,12 @@ class _SpecificTourState extends State<SpecificTour> {
               onPressed: () {
                 Navigator.pushNamed(context, '/toursDisponibles/${widget.tour.type}',arguments:{"formData":widget.tour.infoTour, "case":true, "index":widget.indexTour} );
               },
-              child: Text('Editar')),
+              child: const Text('Editar')),
           ElevatedButton(
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.redAccent)),
               onPressed: () {},
-              child: Text('Borrar'))
+              child: const Text('Borrar'))
         ]),
       ),
     );
@@ -75,6 +77,8 @@ class _SpecificTourState extends State<SpecificTour> {
       tour.savedServer=true;
       tour.id_server=int.parse(id);
       sharedPref.update('nuevo_tour', tour.toMap(),widget.indexTour);
+    }else{
+      Fluttertoast.showToast(msg: 'Error en el server');
     }
   }
 
@@ -86,7 +90,7 @@ class _SpecificTourState extends State<SpecificTour> {
         Scene scene = floor.scenes![sceneKey]!;
         String nombreescena = floor.name! + '_' + scene.name;
         var url = baseUrlApi +
-            "/newscene/?idtour=${id}&nombreescena=${nombreescena}&planta=${floor.name}&token=$token&idusuario=$idusuario";
+            "/newscene/?idtour=$id&nombreescena=$nombreescena&planta=${floor.name}&token=$token&idusuario=$idusuario";
 
         var response = await http.post(Uri.parse(url));
         print(response.body);
@@ -147,9 +151,7 @@ class _SpecificTourState extends State<SpecificTour> {
       }
 
     } catch (e) {
-      print('¡Error al crear el tour!\ncode recived:' +
-          response.statusCode +
-          '\nError: ' +
+      print('¡Error al crear el tour:' +
           e.toString());
       return '';
     }

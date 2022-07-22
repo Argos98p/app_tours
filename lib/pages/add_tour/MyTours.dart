@@ -1,7 +1,6 @@
 import 'package:app_tours/models/Tour.dart';
 import 'package:app_tours/pages/on_work.dart';
 import 'package:app_tours/pages/search_tour_delegate.dart';
-import 'package:app_tours/pages/visualizer_page.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:app_tours/utils/SharedPreferences.dart';
@@ -43,7 +42,7 @@ class _ToursPageState extends State<ToursPage> {
 
   List<String> typeListAvaliable({required List<dynamic> tours}) {
     List<String> typeList = ['Todos'];
-    tours.forEach((element) {
+    for (var element in tours) {
       if (element['type'] != 'otro') {
         if (!typeList.contains(element['type'])) {
           typeList.add(element['type']);
@@ -53,7 +52,7 @@ class _ToursPageState extends State<ToursPage> {
           typeList.add(element['infoTour']['tipo_aux']);
         }
       }
-    });
+    }
     return typeList;
   }
 
@@ -64,7 +63,7 @@ class _ToursPageState extends State<ToursPage> {
     if (type == 'Todos') {
       return allTours;
     }
-    allTours.forEach((element) {
+    for (var element in allTours) {
       if (element['type'] != 'otro') {
         if (element['type'] == type) {
           toursOfType.add(element);
@@ -74,7 +73,7 @@ class _ToursPageState extends State<ToursPage> {
           toursOfType.add(element);
         }
       }
-    });
+    }
     return toursOfType;
   }
 
@@ -119,14 +118,14 @@ class _ToursPageState extends State<ToursPage> {
                     child: Row(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 15, right: 10),
+                          padding: const EdgeInsets.only(left: 15, right: 10),
                           child: Icon(
                             FontAwesome5.search,
                             color: Colors.grey[400],
                           ),
                         ),
                         Padding(
-                            padding: EdgeInsets.only(left: 15),
+                            padding: const EdgeInsets.only(left: 15),
                             child: Text(
                               'Buscar',
                               style: TextStyle(
@@ -137,7 +136,7 @@ class _ToursPageState extends State<ToursPage> {
                   ),
                 ),
                 DropdownButton<String>(
-                  underline: SizedBox(),
+                  underline: const SizedBox(),
                   value: typeFilterSelected,
                   items: List.generate(
                       typeListAvaliables.length,
@@ -174,7 +173,7 @@ class _ToursPageState extends State<ToursPage> {
                               child: ListTile(
                                   onTap: () async {
                                     if(widget.isEditor){
-                                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext)=>OnWork()));
+                                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext)=>const OnWork()));
 
                                     }else{
                                       Tour tourSaved = await context
@@ -291,10 +290,10 @@ class _ToursPageState extends State<ToursPage> {
   List<dynamic> searchResult(
       {required List<dynamic> tours, required String nameTour}) {
     List<dynamic> toursFound = [];
-    tours.forEach((element) {
+    for (var element in tours) {
       element['title'].contains(nameTour);
       toursFound.add(element);
-    });
+    }
     return toursFound;
   }
 }

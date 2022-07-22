@@ -1,15 +1,11 @@
 import 'package:app_tours/models/Tour.dart';
 import 'package:app_tours/pages/add_tour/AddImagePage.dart';
-import 'package:app_tours/pages/Home.dart';
 
 import 'package:app_tours/pages/add_tour/OtherTourPage.dart';
 import 'package:app_tours/pages/add_tour/ScenesInTour.dart';
 import 'package:app_tours/pages/add_tour/VirtualToursPage.dart';
-import 'package:app_tours/pages/add_tour/select_images.dart';
 import 'package:app_tours/pages/login/LoginPage.dart';
-import 'package:app_tours/pages/pruebas_page.dart';
 import 'package:app_tours/pages/add_tour/specific_tour.dart';
-import 'package:app_tours/pages/visualizer_page.dart';
 import 'package:app_tours/providers/auxProvider.dart';
 import 'package:app_tours/providers/imagesInReelProvider.dart';
 import 'package:app_tours/providers/newTourProvider.dart';
@@ -42,7 +38,7 @@ class MyApp extends StatelessWidget {
           ),
           //darkTheme: ThemeData(brightness: Brightness.dark),
           //themeMode: ThemeMode.dark,
-          home: /*Home()*/Login(),/*const PruebasPage(),*//*VisualizerPage(),*/
+          home: /*Home()*/const Login(),/*const PruebasPage(),*//*VisualizerPage(),*/
           debugShowCheckedModeBanner: false,
           onGenerateRoute: (RouteSettings settings) {
             WidgetBuilder builder;
@@ -53,15 +49,7 @@ class MyApp extends StatelessWidget {
 
                 builder=(BuildContext context) => SpecificTour(tour: argumentos['tour'] as Tour,indexTour: argumentos['indexTour'] as int);
                 break;
-              /*case '/agregarImagenesInicio':
-                Map<String,dynamic> aux=settings.arguments as Map<String, dynamic>;
-                builder=(BuildContext context) => SelectImages(
-                  typeTour: aux['type'] as String,
-                  infoTour: aux['formData'] as Map<String,String>,
-                  updateTour: aux['case'] as bool,
-                  indexTour: aux['index'] as int,
-                );
-                break;*/
+
               case '/toursDisponibles':
                 builder = (BuildContext context) => const VirtualTourPage();
                 break;
