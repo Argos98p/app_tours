@@ -21,15 +21,25 @@ class SpecificTour extends StatefulWidget {
 }
 
 class _SpecificTourState extends State<SpecificTour> {
+  final _storage = const FlutterSecureStorage();
 
-  String idusuario = '5';
+
+  String idusuario = '';
   String baseUrlApi = 'http://redpanda.sytes.net:8083/api/tours';
-  String token =
-      'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyaWNhcmRvLmphcnJvIiwiaWF0IjoxNjU3MTQzNDQ1LCJleHAiOjE2NTcyMjk4NDV9.7hTAjZDj5MnQghXNXCA_J2l6PyvZXi3Ji9kskO_2fhhpcsOKIdt02gcNsF0B_Cr3V8LmrN-QoI0DivP_M_VgJg';
+  String token = '';
 
   SharedPref sharedPref = SharedPref();
 
+  Future<void> _readFromStorage() async {
+    idusuario=(await _storage.read(key: "user_id"))!;
+    token = (await _storage.read(key: "accessToken"))!;
+  }
+  @override
+  void initState(){
+    super.initState();
+    _readFromStorage();
 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,18 +81,20 @@ class _SpecificTourState extends State<SpecificTour> {
 
   Future<void> sendTourToServer(Tour tour) async {
     String id = await createTour(tour);
+
     if (id != '') {
-      print('ID TOUR CREADO: ' + id);
+      //print('ID TOUR CREADO: ' + id);
       await createScenes(tour, id);
-      tour.savedServer=true;
-      tour.id_server=int.parse(id);
-      sharedPref.update('nuevo_tour', tour.toMap(),widget.indexTour);
+      //print('TOUR CREADO CON EL ID: ${id}');
+      tour.id_server=id;
+      sharedPref.update('nuevo_tour', await tour.toMapForUpdate(),widget.indexTour);
     }else{
       Fluttertoast.showToast(msg: 'Error en el server');
     }
   }
 
   Future<void> createScenes(Tour tour, id) async {
+    try{
     await Future.forEach(tour.floors!.keys, (String floorKey) async {
       Floor floor = tour.floors![floorKey]!;
 
@@ -132,16 +144,22 @@ class _SpecificTourState extends State<SpecificTour> {
         } else {}
       });
     });
+    Fluttertoast.showToast(msg: 'Tour creado con el id:'+id);
+    }
+    catch (e){
+      Fluttertoast.showToast(msg: 'a ocurrido un problema '+e.toString());
+    }
   }
 
   Future<String> createTour(Tour tour) async {
-    var response;
+
     try {
       var url = baseUrlApi +
           "/addtour/?token=$token&titulo=${tour.title}&ciudad=${tour.infoTour!['ciudad']}&direccion=${tour.infoTour!['direccion']}&idusuario=$idusuario";
-
+      print(url);
       var response = await http.post(Uri.parse(url));
       var idSavedTour = response.body.split('=').last;
+      Fluttertoast.showToast(msg: 'Subiendo tour...');
 
       if(response.statusCode==200){
         return idSavedTour;

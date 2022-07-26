@@ -12,13 +12,14 @@ class SharedPref {
     }
   }
 
-   nextId(String key) async{
+    Future<int> nextId(String key) async{
     try{
       List tour = await read(key);
-      int lastID=tour.last['idTour'];
 
-      return lastID+1;
-    }catch(e){
+        int lastID=int.parse(tour.last['idTour']);
+        return lastID+1;
+
+          }catch(e){
       print('Error al generar el id: '+e.toString());
       return 0;
     }
@@ -46,7 +47,8 @@ class SharedPref {
 
     if(aux != null){
       aux[index]=value;
-      prefs.setString(key, jsonEncode(aux));
+      print(value);
+      prefs.setString(key, json.encode(aux));
     }else{
       List aux2= [value];
       prefs.setString(key, json.encode(aux2));

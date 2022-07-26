@@ -5,6 +5,7 @@ import 'package:app_tours/providers/newTourProvider.dart';
 import 'package:app_tours/utils/ColorsTheme.dart';
 import 'package:app_tours/utils/SharedPreferences.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:provider/provider.dart';
 
@@ -80,8 +81,6 @@ class _ToursPageState extends State<ToursPage> {
   @override
   Widget build(BuildContext context) {
     //typeListAvaliables=typeListAvaliable(tours: tours);
-
-
     return Scaffold(
       body: Container(
         child: Column(
@@ -184,8 +183,6 @@ class _ToursPageState extends State<ToursPage> {
                                           tourSaved;
 
                                       Navigator.pushNamed(context,'/tourGuardado', arguments: {'tour':tourSaved, 'indexTour':index});
-
-
                                     }
 
                                   },
@@ -194,28 +191,7 @@ class _ToursPageState extends State<ToursPage> {
                                   trailing: Row(
                                       mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      /*
-                                      MaterialButton(
-                                        onPressed: () async {
-                                          Tour tourSaved = await context
-                                              .read<TourProvider>()
-                                              .mapToTour(
-                                              tourSaved: snapshot.data![index]);
-                                          setState(() {
-                                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => VisualizerPage(tourSaved: tourSaved)));
-
-                                          });
-
-                                        },
-                                        color: Colors.redAccent,
-                                        textColor: Colors.white,
-                                        child: const Icon(
-                                          Icons.remove_red_eye,
-                                          size: 20,
-                                        ),
-                                        padding: const EdgeInsets.all(1),
-                                        shape: const CircleBorder(),
-                                      ),*/
+                                      
                                       MaterialButton(
                                         onPressed: () {
                                           setState(()  {
@@ -236,19 +212,28 @@ class _ToursPageState extends State<ToursPage> {
                                       ),
                                     ],
                                   ),
-                                  subtitle: (aux[index]['type'] != "otro")
-                                      ? Text(
-                                          aux[index]['type'],
-                                          style: const TextStyle(
-                                              color: Colors.green,
-                                              fontSize: 15),
-                                        )
-                                      : Text(
-                                          aux[index]['infoTour']['tipo_aux'],
-                                          style: const TextStyle(
-                                              color: Colors.green,
-                                              fontSize: 15),
-                                        ),
+                                  subtitle: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      (aux[index]['type'] != "otro")
+                                          ? Text(
+                                        aux[index]['type'],
+                                        style: const TextStyle(
+                                            color: Colors.green,
+                                            fontSize: 15),
+                                      )
+                                          : Text(
+                                        aux[index]['infoTour']['tipo_aux'],
+                                        style: const TextStyle(
+                                            color: Colors.green,
+                                            fontSize: 15),
+                                      ),
+                                      (aux[index]['idTourServer'].toString()=='9999')
+                                      ? SizedBox(width: 0,height: 0)
+                                      : Text('id server: '+aux[index]['idTourServer'].toString())
+                                    ],
+                                  ),
+                                  
                                   title: Text(aux[index]['title'])),
                             );
                           }),
