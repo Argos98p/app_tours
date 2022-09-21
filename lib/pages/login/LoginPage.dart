@@ -20,10 +20,8 @@ class _LoginState extends State<Login> {
   late bool is_loading;
 
   Future<void> _readFromStorage() async {
-    usernameController.text =
-        await _storage.read(key: "username") ?? 'ricardo.jarro';
-    passwordController.text =
-        await _storage.read(key: "password") ?? 'ricardo1234';
+    usernameController.text = await _storage.read(key: "username") ?? 'seaman2';
+    passwordController.text = await _storage.read(key: "password") ?? '123455';
     if (usernameController.text.isNotEmpty &&
         passwordController.text.isNotEmpty) {
       Fluttertoast.showToast(msg: 'recuperando credenciales');
@@ -41,7 +39,7 @@ class _LoginState extends State<Login> {
 
   @override
   void initState() {
-    is_loading=false;
+    is_loading = false;
     super.initState();
     _readFromStorage();
   }
@@ -115,14 +113,17 @@ class _LoginState extends State<Login> {
                         barrierDismissible: false,
                         context: context,
                         builder: (BuildContext context) {
-                          return  Center(
-                            child:is_loading ?CircularProgressIndicator()
-                            :SizedBox(width: 0,height: 0,),
+                          return Center(
+                            child: is_loading
+                                ? CircularProgressIndicator()
+                                : SizedBox(
+                                    width: 0,
+                                    height: 0,
+                                  ),
                           );
                         });
                     await login();
                     //Navigator.pop(context);
-
                   },
                   color: const Color(0xff03a9f4),
                   shape: RoundedRectangleBorder(
@@ -166,7 +167,7 @@ class _LoginState extends State<Login> {
       is_loading = true;
     });
     try {
-      var url = "http://redpanda.sytes.net:81/api/auth/signin";
+      var url = "http://173.255.114.112:8086/api/auth/signin";
       var bodyData = jsonEncode({
         "username": usernameController.text,
         "password": passwordController.text
@@ -186,18 +187,12 @@ class _LoginState extends State<Login> {
 
         Fluttertoast.showToast(msg: "Successful access");
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-                builder: (context) => const Home(
-
-                )),
-                (Route<dynamic> route) => false);
-
-      }
-      else if(response.statusCode == 401){
+            MaterialPageRoute(builder: (context) => const Home()),
+            (Route<dynamic> route) => false);
+      } else if (response.statusCode == 401) {
         Fluttertoast.showToast(msg: 'Credenciaes incorrectas');
         Navigator.pop(context);
-      }
-      else {
+      } else {
         Fluttertoast.showToast(msg: 'Error al momento de ingresar');
         Navigator.pop(context);
       }
@@ -205,14 +200,12 @@ class _LoginState extends State<Login> {
       setState(() {
         is_loading = false;
       });
-
     } catch (e) {
       print(e);
       Fluttertoast.showToast(msg: 'Server error');
       setState(() {
         is_loading = false;
       });
-
     }
   }
 }
